@@ -8,7 +8,7 @@ RUN go mod download
 COPY . ./
 
 # Build the command inside the container.
-RUN go build -o /backend cmd/app/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o /backend cmd/app/main.go
 
 # Use a minimal alpine image
 FROM alpine:latest
