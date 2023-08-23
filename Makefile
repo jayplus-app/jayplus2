@@ -1,3 +1,6 @@
+# Default target to run when just executing `make`
+.DEFAULT_GOAL := up
+
 # Start both frontend and backend services
 up:
 	@docker-compose up --build
