@@ -17,8 +17,6 @@ RUN npm run build
 # Use Nginx to serve the build
 FROM nginx:alpine
 
-# Copy the nginx configuration file
-COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy the build from builder stage to nginx HTML directory
 COPY --from=builder /app/build /usr/share/nginx/html
