@@ -4,7 +4,7 @@ function App() {
 	const [message, setMessage] = useState<string | null>(null)
 
 	useEffect(() => {
-		fetch('http://backend:8080/hello')
+		fetch('/hello')
 			.then((response) => response.text())
 			.then((data) => setMessage(data))
 			.catch((error) => console.error('Error fetching data: ', error))
