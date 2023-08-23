@@ -7,8 +7,11 @@ import (
 )
 
 func helloHandler(w http.ResponseWriter, r *http.Request) {
-	message := hello.SayHello()
-	fmt.Fprintf(w, message)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE")
+	
+    message := hello.SayHello()
+    fmt.Fprintf(w, message)
 }
 
 func main() {
