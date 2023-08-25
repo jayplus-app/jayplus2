@@ -26,11 +26,14 @@ jobs:
         run: |
           # Install SSH client
           sudo apt-get install -y openssh-client
+          # Create .ssh directory and known_hosts if they don't exist
+          mkdir -p ~/.ssh
+          touch ~/.ssh/known_hosts
+          # Add the VM to known hosts
+          ssh-keyscan 165.227.44.125 >> ~/.ssh/known_hosts
           # Write GitHub Actions SSH key to disk
           echo "${{ secrets.GH_ACTIONS_SSH_KEY }}" > gh-actions-ssh-key
           chmod 600 gh-actions-ssh-key
-          # Add the VM to known hosts
-          ssh-keyscan 165.227.44.125 >> ~/.ssh/known_hosts
           # SSH into the VM
           ssh -i gh-actions-ssh-key gh-actions@165.227.44.125 << 'EOF'
             # Clone the repository (Assuming the SSH key on the VM has read-access to the repo)
