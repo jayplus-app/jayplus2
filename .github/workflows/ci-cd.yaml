@@ -22,14 +22,20 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Copy Files to Droplet
+      - name: Deploy to DigitalOcean Droplet
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.GH_ACTIONS_SSH_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          # Install SSH client
+          sudo apt-get install -y openssh-client
+          # Write GitHub Actions SSH key to disk
+          echo "${{ secrets.GH_ACTIONS_SSH_KEY }}" > gh-actions-ssh-key
+          chmod 600 gh-actions-ssh-key
+          # Add the VM to known hosts
           ssh-keyscan 165.227.44.125 >> ~/.ssh/known_hosts
-          tar -czf project.tar.gz .
-          scp project.tar.gz gh-actions@165.227.44.125:~/jayplus/
-      - name: Deploy on Droplet
-        run: |
-          ssh gh-actions@165.227.44.125 "cd ~/jayplus && tar -xzf project.tar.gz && make up-detached"
+          # SSH into the VM
+          ssh -i gh-actions-ssh-key gh-actions@165.227.44.125 << 'EOF'
+            # Clone the repository (Assuming the SSH key on the VM has read-access to the repo)
+            git clone git@github.com:jayplus-app/jayplus.git ~/jayplus
+            cd ~/jayplus
+            # Build and start the services
+            make up-detached
+          EOF
