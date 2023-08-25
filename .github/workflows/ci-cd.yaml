@@ -32,9 +32,14 @@ jobs:
           eval $(ssh-agent -s)
           ssh-add <(echo "${{ secrets.GH_ACTIONS_SSH_KEY }}")
 
+      - name: Create .ssh directory and add remote host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          ssh-keyscan 165.227.44.125 >> ~/.ssh/known_hosts
+
       - name: Deploy to DigitalOcean
         run: |
-          ssh-keyscan 165.227.44.125 >> ~/.ssh/known_hosts
           ssh gh-actions@165.227.44.125 mkdir -p ~/jayplus
           scp -r ./* gh-actions@165.227.44.125:~/jayplus/
           ssh gh-actions@165.227.44.125 "cd ~/jayplus && make up-detached"
