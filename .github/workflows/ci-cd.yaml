@@ -29,8 +29,9 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: jayplus-artifact
-      - name: List current directory (After Download)
-        run: ls -la
+          path: /home/runner/work/jayplus/jayplus-artifact
+      - name: List downloaded directory
+        run: ls -la /home/runner/work/jayplus/jayplus-artifact
       - name: Setup SSH and Deploy
         run: |
           sudo apt-get install -y openssh-client
@@ -38,6 +39,5 @@ jobs:
           ssh-keyscan 165.227.44.125 >> ~/.ssh/known_hosts
           echo "${{ secrets.GH_ACTIONS_SSH_KEY }}" > gh-actions-ssh-key
           chmod 600 gh-actions-ssh-key
-          # SCP all contents of current directory
-          scp -r -i gh-actions-ssh-key ./ gh-actions@165.227.44.125:~/
+          scp -r -i gh-actions-ssh-key /home/runner/work/jayplus/jayplus-artifact/* gh-actions@165.227.44.125:~/
           ssh -i gh-actions-ssh-key gh-actions@165.227.44.125 'cd ~/ && make up-detached'
