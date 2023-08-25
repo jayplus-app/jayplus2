@@ -16,7 +16,7 @@ jobs:
       - name: Build and run Docker Compose in detached mode
         run: make up-detached
       - name: Archive entire application as an artifact, excluding certain directories
-        run: tar -zcvf jayplus.tar.gz --exclude-from=.tarignore .
+        run: tar --warning=no-file-changed -zcvf jayplus.tar.gz --exclude-from=.tarignore .
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
