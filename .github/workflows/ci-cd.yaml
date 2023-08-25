@@ -23,15 +23,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-and-test
     steps:
-      - name: List current directory (Before Download)
-        run: ls -la
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
           name: jayplus-artifact
           path: /home/runner/work/jayplus/jayplus-artifact
-      - name: List downloaded directory
-        run: ls -la /home/runner/work/jayplus/jayplus-artifact
       - name: Setup SSH and Deploy
         run: |
           sudo apt-get install -y openssh-client
