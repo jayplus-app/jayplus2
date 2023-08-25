@@ -44,9 +44,11 @@ jobs:
           echo "${{ secrets.GH_ACTIONS_SSH_KEY }}" > gh-actions-ssh-key
           chmod 600 gh-actions-ssh-key
           # Copy artifacts to the VM
-          scp -r -i gh-actions-ssh-key ./ gh-actions@165.227.44.125:~/ 
+          scp -i gh-actions-ssh-key jayplus.tar.gz gh-actions@165.227.44.125:~/
           # SSH into the VM
           ssh -i gh-actions-ssh-key gh-actions@165.227.44.125 'bash -s' << 'EOF'
+            # Unpack the artifacts
+            tar -zxvf ~/jayplus.tar.gz -C ~/
             # Navigate to the root directory and run the Makefile (assuming it deploys both backend and frontend)
             cd ~/
             make up-detached
