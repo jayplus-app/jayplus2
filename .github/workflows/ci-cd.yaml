@@ -27,14 +27,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install SSH key
-        uses: webfactory/ssh-agent@v0.4.1
-        with:
-          ssh-private-key: ${{ secrets.GH_ACTIONS_SSH_KEY }}
-          ssh-key-passphrase: ${{ secrets.GH_ACTIONS_SSH_PASSPHRASE }}
-        
+      - name: Start SSH agent
+        run: eval $(ssh-agent -s)
+
+      - name: Add SSH key to agent
+        run: ssh-add <(echo "${{ secrets.GH_ACTIONS_SSH_KEY }}")
+        env:
+          SSH_PASSPHRASE: ${{ secrets.GH_ACTIONS_SSH_PASSPHRASE }}
+
       - name: Deploy to DigitalOcean
         run: |
+          ssh-keyscan 165.227.44.125 >> ~/.ssh/known_hosts
           ssh gh-actions@165.227.44.125 mkdir -p ~/jayplus
           scp -r ./* gh-actions@165.227.44.125:~/jayplus/
           ssh gh-actions@165.227.44.125 "cd ~/jayplus && make up-detached"
