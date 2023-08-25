@@ -28,7 +28,7 @@ jobs:
           echo "${{ secrets.GH_ACTIONS_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan 165.227.44.125 >> ~/.ssh/known_hosts
-          scp -r ./ gh-actions@165.227.44.125:~/jayplus/
+          scp -r ./jayplus gh-actions@165.227.44.125:~/jayplus/
       - name: Deploy on Droplet
         run: |
           ssh gh-actions@165.227.44.125 "cd ~/jayplus && make up-detached"
