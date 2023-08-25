@@ -11,12 +11,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Build and run Docker Compose in detached mode
+      - name: Build and run Docker Compose
         run: make up-detached
-      - name: Stop running services
-        run: make down
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -31,25 +27,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: jayplus-artifact
-      - name: Deploy to DigitalOcean Droplet
+      - name: Setup SSH and Deploy
         run: |
-          # Install SSH client
           sudo apt-get install -y openssh-client
-          # Create .ssh directory and known_hosts file if they do not exist
           mkdir -p ~/.ssh
-          touch ~/.ssh/known_hosts
-          # Add the VM to known hosts
           ssh-keyscan 165.227.44.125 >> ~/.ssh/known_hosts
-          # Write GitHub Actions SSH key to disk
           echo "${{ secrets.GH_ACTIONS_SSH_KEY }}" > gh-actions-ssh-key
           chmod 600 gh-actions-ssh-key
-          # Copy artifacts to the VM
           scp -r -i gh-actions-ssh-key ./jayplus-artifact/ gh-actions@165.227.44.125:~/
-          # SSH into the VM
-          ssh -i gh-actions-ssh-key gh-actions@165.227.44.125 'bash -s' << 'EOF'
-            # Unpack the artifacts
-            tar -zxvf ~/jayplus.tar.gz -C ~/
-            # Navigate to the root directory and run the Makefile (assuming it deploys both backend and frontend)
-            cd ~/
-            make up-detached
-          EOF
+          ssh -i gh-actions-ssh-key gh-actions@165.227.44.125 'cd ~/ && make up-detached'
