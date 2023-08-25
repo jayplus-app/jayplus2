@@ -27,16 +27,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Start SSH agent and add key
+      - name: Add SSH key to agent
         run: |
           eval $(ssh-agent -s)
-          echo "${{ secrets.GH_ACTIONS_SSH_KEY }}" | tr -d '\r' | ssh-add - > /dev/null
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+          ssh-add <(echo "${{ secrets.GH_ACTIONS_SSH_KEY }}")
 
       - name: Deploy to DigitalOcean
         run: |
           ssh-keyscan 165.227.44.125 >> ~/.ssh/known_hosts
-          ssh -o StrictHostKeyChecking=no gh-actions@165.227.44.125 mkdir -p ~/jayplus
+          ssh gh-actions@165.227.44.125 mkdir -p ~/jayplus
           scp -r ./* gh-actions@165.227.44.125:~/jayplus/
-          ssh -o StrictHostKeyChecking=no gh-actions@165.227.44.125 "cd ~/jayplus && make up-detached"
+          ssh gh-actions@165.227.44.125 "cd ~/jayplus && make up-detached"
