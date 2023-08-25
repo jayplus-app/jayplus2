@@ -17,11 +17,7 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Build and run Docker Compose in detached mode
-        run: |
-          make up-detached
-
-      # Add additional test steps here if needed
-      # Also consider steps to stop the detached services if necessary
+        run: make up-detached
 
   deploy:
     runs-on: ubuntu-latest
@@ -31,8 +27,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: DigitalOcean App Platform deployment
-        uses: digitalocean/app_action@v1.1.5
+      - name: Install SSH key
+        uses: webfactory/ssh-agent@v0.4.1
         with:
-          app_name: jayplus
-          token: ${{ secrets.JAYPLUS_CICD }}
+          ssh-private-key: ${{ secrets.GH_ACTIONS_SSH_KEY }}
+          ssh-key-passphrase: ${{ secrets.GH_ACTIONS_SSH_PASSPHRASE }}
+        
+      - name: Deploy to DigitalOcean
+        run: |
+          ssh gh-actions@165.227.44.125 mkdir -p ~/jayplus
+          scp -r ./* gh-actions@165.227.44.125:~/jayplus/
+          ssh gh-actions@165.227.44.125 "cd ~/jayplus && make up-detached"
