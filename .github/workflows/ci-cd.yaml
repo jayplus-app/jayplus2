@@ -35,4 +35,4 @@ jobs:
           echo "${{ secrets.GH_ACTIONS_SSH_KEY }}" > gh-actions-ssh-key
           chmod 600 gh-actions-ssh-key
           scp -r -i gh-actions-ssh-key /home/runner/work/jayplus/jayplus-artifact/* gh-actions@165.227.44.125:~/
-          ssh -i gh-actions-ssh-key gh-actions@165.227.44.125 'cd ~/ && make up-detached'
+          ssh -i gh-actions-ssh-key gh-actions@165.227.44.125 'cd ~/ && make up'
