@@ -32,8 +32,10 @@ jobs:
         run: echo "This is a debug echo"
       - name: Setup SSH directory
         run: mkdir -p ~/.ssh
-      - name: Add known hosts
-        run: ssh-keyscan 165.227.44.125 >> ~/.ssh/known_hosts
+      - name: Ping host
+        run: ping -c 3 165.227.44.125
+      - name: Verbose ssh-keyscan
+        run: ssh-keyscan -vvv 165.227.44.125 >> ~/.ssh/known_hosts
       - name: Setup SSH key
         run: |
           echo "${{ secrets.GH_ACTIONS_SSH_KEY }}" > gh-actions-ssh-key
