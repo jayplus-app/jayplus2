@@ -30,7 +30,6 @@ jobs:
           path: /home/runner/work/jayplus/jayplus-artifact
       - name: Setup SSH and Deploy
         run: |
-          sudo apt-get install -y openssh-client
           mkdir -p ~/.ssh
           ssh-keyscan 165.227.44.125 >> ~/.ssh/known_hosts
           echo "${{ secrets.GH_ACTIONS_SSH_KEY }}" > gh-actions-ssh-key
