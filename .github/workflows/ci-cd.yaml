@@ -31,8 +31,8 @@ jobs:
       - name: Setup SSH and Deploy
         run: |
           mkdir -p ~/.ssh
-          ssh-keyscan 165.227.44.125 >> ~/.ssh/known_hosts
+          ssh-keyscan -v 165.227.44.125 >> ~/.ssh/known_hosts
           echo "${{ secrets.GH_ACTIONS_SSH_KEY }}" > gh-actions-ssh-key
           chmod 600 gh-actions-ssh-key
-          scp -r -i gh-actions-ssh-key /home/runner/work/jayplus/jayplus-artifact/* gh-actions@165.227.44.125:~/
-          ssh -i gh-actions-ssh-key gh-actions@165.227.44.125 'cd ~/ && make up'
+          scp -v -r -i gh-actions-ssh-key /home/runner/work/jayplus/jayplus-artifact/* gh-actions@165.227.44.125:~/
+          ssh -v -i gh-actions-ssh-key gh-actions@165.227.44.125 'cd ~/ && make up-detached'
