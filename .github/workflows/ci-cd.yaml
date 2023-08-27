@@ -30,9 +30,16 @@ jobs:
           path: /home/runner/work/jayplus/jayplus-artifact
       - name: Setup SSH and Deploy
         run: |
+          echo "Setting up SSH directory and known hosts"
           mkdir -p ~/.ssh
-          ssh-keyscan -v 165.227.44.125 >> ~/.ssh/known_hosts
+          ssh-keyscan 165.227.44.125 >> ~/.ssh/known_hosts
+
+          echo "Setting up SSH key"
           echo "${{ secrets.GH_ACTIONS_SSH_KEY }}" > gh-actions-ssh-key
           chmod 600 gh-actions-ssh-key
-          scp -v -r -i gh-actions-ssh-key /home/runner/work/jayplus/jayplus-artifact/* gh-actions@165.227.44.125:~/
-          ssh -v -i gh-actions-ssh-key gh-actions@165.227.44.125 'cd ~/ && make up-detached'
+
+          echo "Copying artifacts"
+          scp -r -i gh-actions-ssh-key /home/runner/work/jayplus/jayplus-artifact/* gh-actions@165.227.44.125:~/
+
+          echo "Deploying"
+          ssh -i gh-actions-ssh-key gh-actions@165.227.44.125 'cd ~/ && make up-detached'
