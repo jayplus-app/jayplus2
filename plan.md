@@ -32,7 +32,7 @@ Frontend and backend communication are through API endpoints and JWT is used for
 
 ### Customer Booking
 
-Customers can open the business booking page at <business_name>.jayplus.app/booking where they are presented with three sets of selection options:
+Customers can open the business booking page at {business_name}.jayplus.app/booking where they are presented with three sets of selection options:
 
 - Vehicle Type
 - Service Type
@@ -50,21 +50,21 @@ Should Payment be successful, they are presented with a final receipt that inclu
 ##### Vehicle Type Selection
 
 - Vehicle Types List:
-  -- A list of all the vehicle types <business_name> Auto Detailing services as options for the customer to choose
+  -- A list of all the vehicle types {business_name} Auto Detailing services as options for the customer to choose
 - Description field:
   -- A text field describing what the Vehicle Type selected means and what type of vehicles it includes
 
-Ex: [Sedan, SUV, LargeSUV/Truck, Motorcycle]
+Ex: {Sedan, SUV, LargeSUV/Truck, Motorcycle}
 "Any 5-seater sedan, any hatchback, any two or mini car."
 
 ##### Service Type Selection
 
 - Service Types List:
-  -- A list of all the service types <business_name> Auto Detailing offers for the selected vehicle as options for the customer to choose
+  -- A list of all the service types {business_name} Auto Detailing offers for the selected vehicle as options for the customer to choose
 - Description field:
   -- A text field describing what the Service Type selected means
 
-Ex: [Show Room, Basic, Interior, Exterior]
+Ex: {Show Room, Basic, Interior, Exterior}
 " - Vacuum (Including Trunk Compartment) - Remove & Wash all Rubber Mats - Wipe All Over The dashboard - Power Wash Body and Windows - Power Wash & Clean Wheel Wells
 "
 
@@ -97,7 +97,7 @@ A Stripe payment form and a phone number field to identify the customer based on
 
 #### Dashboard Page
 
-Admins can open the dashboard at <business_name>.jayplus.app/admin/dashboard where they can access different features from the navigation bar on the left side and see the feature on the right. In version V1.0, the only active feature will be booking management.
+Admins can open the dashboard at {business_name}.jayplus.app/admin/dashboard where they can access different features from the navigation bar on the left side and see the feature on the right. In version V1.0, the only active feature will be booking management.
 
 For V1.0 dashboard page will automatically have Booking management tab active by default and the page is oepn on the right. This means all the /dashboard requests will be navigated to /booking-management.
 
@@ -111,7 +111,7 @@ The navbar is on the left on a wide screen and a dropdown on a phone. It include
 
 #### Booking Management
 
-Admins can access booking management page at <business_name>.jayplus.app/admin/booking-management where they can see all of the bookings.
+Admins can access booking management page at {business_name}.jayplus.app/admin/booking-management where they can see all of the bookings.
 
 ##### Page Heading
 
@@ -167,7 +167,7 @@ There are 2 App components that get rendered.
 - CustomerApp
 - AdminApp
 
-Each of the app files has an <Outlet> tag inside which will be replaced with the appropiate children based on the route.
+Each of the app files has an {Outlet} tag inside which will be replaced with the appropiate children based on the route.
 
 Each app has its own directory as "admin" and "customer" directories in "src", and the shared components are in the "shared" directory.
 
@@ -269,7 +269,7 @@ App service sets up the router and uses other services as required. This service
 
 ##### Endpoints
 
-- POST "/ui-config" (<sub-domain>) -> Calls UIConfig Handler.
+- POST "/ui-config" ({sub-domain}) -> Calls UIConfig Handler.
 
 ##### Handlers
 
@@ -285,7 +285,7 @@ Auth service is responsible for all of the authentication and authorization func
 
 ##### Endpoints
 
-- POST "/auth/login" (<email>, <password>) -> Calls Login Handler.
+- POST "/auth/login" ({email}, {password}) -> Calls Login Handler.
 - GET "/auth/logout" () -> Calls Logout Handler.
 - GET "/auth/refresh" () -> Calls RefreshToken Handler.
 
@@ -301,24 +301,24 @@ Booking Management service is responsible for business logic related to choosing
 
 ##### Endpoints
 
-- POST "/booking-management/vehicle-types" (<sub-domain>) -> Calls the VehicleTypes handler.
-- POST "/booking-management/service-types" (<sub-domain>) -> Calls the ServiceTypes handler.
-- POST "/booking-management/available-timeslots" (<sub-domain>, <vehicle-type>, <service-type>) -> Calls the AvailableTimeslots handler.
-- POST "/booking-management/service-cost" (<sub-domain>, <vehicle-type>, <service-type>) -> Calls the ServiceCost handler.
-- POST "/booking-management/create-booking" (<sub-domain>, <vehicle-type>, <service-type>, <payment-number>, <booking-number>) -> Calls the BookAppointment handler.
+- POST "/booking-management/vehicle-types" ({sub-domain}) -> Calls the VehicleTypes handler.
+- POST "/booking-management/service-types" ({sub-domain}) -> Calls the ServiceTypes handler.
+- POST "/booking-management/available-timeslots" ({sub-domain}, {vehicle-type}, {service-type}) -> Calls the AvailableTimeslots handler.
+- POST "/booking-management/service-cost" ({sub-domain}, {vehicle-type}, {service-type}) -> Calls the ServiceCost handler.
+- POST "/booking-management/create-booking" ({sub-domain}, {vehicle-type}, {service-type}, {payment-number}, {booking-number}) -> Calls the BookAppointment handler.
 
 ##### Handlers
 
-- VehicleTypes -> Retrieves vehicles types of the business with subdomain <sub-domain>
-- ServiceTypes -> Retrieves service types of the business with subdomain <sub-domain>
-- AvailableTimeslots -> Retrieves available timeslots of the business with subdomain <sub-domain> based on service type <service-type> and vehicle type <vehicle-type> selected.
-- ServiceCost -> Retrieves price of service with subdomain <sub-domain> based on service type <service-type> and vehicle type <vehicle-type> selected.
-- CreateBooking -> Writes a record in the bookings database for business with subdomain <sub-domain> based on service type <service-type>, vehicle type <vehicle-type>, and datetime selected <datetime-selected> with payment status pending.
+- VehicleTypes -> Retrieves vehicles types of the business with subdomain {sub-domain}
+- ServiceTypes -> Retrieves service types of the business with subdomain {sub-domain}
+- AvailableTimeslots -> Retrieves available timeslots of the business with subdomain {sub-domain} based on service type {service-type} and vehicle type {vehicle-type} selected.
+- ServiceCost -> Retrieves price of service with subdomain {sub-domain} based on service type {service-type} and vehicle type {vehicle-type} selected.
+- CreateBooking -> Writes a record in the bookings database for business with subdomain {sub-domain} based on service type {service-type}, vehicle type {vehicle-type}, and datetime selected {datetime-selected} with payment status pending.
 
 ##### Internal Functions
 
-- UpdateBookingPaymentStatus -> Updates a booking with booking number <booking-number> payment status based on <payment-status>.
-- DeleteBooking -> Delete a booking record from booking database based on <booking-number>.
+- UpdateBookingPaymentStatus -> Updates a booking with booking number {booking-number} payment status based on {payment-status}.
+- DeleteBooking -> Delete a booking record from booking database based on {booking-number}.
 
 #### Payment Service
 
@@ -326,18 +326,18 @@ Payment service uses Stripe to provide payment functionality. For V1.0 its useca
 
 ##### Endpoints
 
-- POST "/payment/pay-booking" (<booking-number>) -> Calls PayBooking handler.
+- POST "/payment/pay-booking" ({booking-number}) -> Calls PayBooking handler.
 
 ##### Handlers
 
-- PayBooking -> Uses Stripe payment to pay for the booking with booking number <booking-number>
+- PayBooking -> Uses Stripe payment to pay for the booking with booking number {booking-number}
 
 #### SMS Service
 
-SMS service uses Twilio to provide sending sms functionality. At V1.0, it's only usecase is when a customer booking is successful (upon successful payment), they recieve a sms of the receipt.
+SMS service uses Twilio to provide sending SMS functionality. At V1.0, it's only usecase is when a customer booking is successful (upon successful payment), they recieve a sms of the receipt.
 
 ##### Internal Functions
 
-- SendSMS -> Sends an sms to the recepient <recepient> with the content <sms-content>.
+- SendSMS -> Sends an sms to the recepient {recepient} with the content {sms-content}.
 
 ## Database
