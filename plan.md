@@ -195,9 +195,32 @@ Pages directory has a domain driven sub-directory structure. In V1.0 booking dir
 
 Each page includes its necessary components from the app specific or shared components. In V1.0 while admin has its specific components like Navbar most of the components are shared components which can be found under "shared" directory under "src" as follows:
 
--
--
--
+Admin:
+
+- NavbarSide
+- NavbarTop
+
+Shared:
+
+- SelectListInline (List of Options)
+- SelectListItem (Item ID, Item Name, Item Icon||null)
+- DescriptionField (Description Text)
+- TimeSelectionCalendarView
+  - PreviousDayButton
+  - NextDayButton
+  - DayColumnList
+  - DayColumn
+- ButtonMD
+- KeyValueTable
+- PaymentForm
+- ButtonSM
+- CalendarCell
+- ButtonXS
+
+modals:
+
+- BookingDetailsModal
+- ConfirmCancelModal
 
 ### Routes
 
