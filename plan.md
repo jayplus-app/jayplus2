@@ -242,7 +242,45 @@ the routes.tsx file in the "src" folder is responsible for all of the routing an
 
 ## Structure
 
+The main function in "cmd/app" directory is the entry point of the program. All of the internal services are in the "internal" directory in a folder named as the service name. An "app" package exists in the "internal" directory wich acts as a container for all the other services.
+
+"utils" directory includes shared utility functions.
+
+"models" directory includes the db models.
+
+"contracts" directory includes all the interfaces in directories named as their respective services.
+
+"config" directory sets the general config of the app.
+
 ## Services
+
+Services are categorized in a domain-drivven format. Each service includes routing, handlers and business logic of its specific domain. The services for V1.0 are as follows:
+
+- app
+- db
+- auth
+- booking-management
+- payment
+
+#### App Service
+
+App service sets up the router and uses other services as required. This service is also responsible for managing the business customer's config.
+
+#### DB Service
+
+Database service includes all the database related functionality from setting up the database to query functions.
+
+#### Auth Service
+
+Auth service is responsible for all of the authentication and authorization functionality. It uses JWT and is reponsible for generating and deleting tokens and setting up JWT.
+
+#### Booking Management Service
+
+Booking Management service is responsible for business logic related to choosing services and time to book as well as recording and retrieving the bookings. The scheduling is also done in this service.
+
+#### Payment Service
+
+Payment service uses Stripe to provide payment functionality. For V1.0 its usecase is when the customer wants to pay.
 
 ### Endpoints
 
