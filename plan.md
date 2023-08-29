@@ -261,10 +261,19 @@ Services are categorized in a domain-drivven format. Each service includes routi
 - auth
 - booking-management
 - payment
+- sms
 
 #### App Service
 
 App service sets up the router and uses other services as required. This service is also responsible for managing the business customer's config.
+
+##### Endpoints
+
+- POST "/ui-config" (<sub-domain>) -> Calls UIConfig Handler.
+
+##### Handlers
+
+- UIConfig -> Retrieves business ui settings from the database and returns as JSON.
 
 #### DB Service
 
@@ -274,16 +283,61 @@ Database service includes all the database related functionality from setting up
 
 Auth service is responsible for all of the authentication and authorization functionality. It uses JWT and is reponsible for generating and deleting tokens and setting up JWT.
 
+##### Endpoints
+
+- POST "/auth/login" (<email>, <password>) -> Calls Login Handler.
+- GET "/auth/logout" () -> Calls Logout Handler.
+- GET "/auth/refresh" () -> Calls RefreshToken Handler.
+
+##### Handlers
+
+- Login -> Authenticates the user credentials.
+- Logout -> Sets an expired refresh cookie to logout.
+- RefreshToken -> Updates the token with a new one to keep user logged in.
+
 #### Booking Management Service
 
 Booking Management service is responsible for business logic related to choosing services and time to book as well as recording and retrieving the bookings. The scheduling is also done in this service.
+
+##### Endpoints
+
+- POST "/booking-management/vehicle-types" (<sub-domain>) -> Calls the VehicleTypes handler.
+- POST "/booking-management/service-types" (<sub-domain>) -> Calls the ServiceTypes handler.
+- POST "/booking-management/available-timeslots" (<sub-domain>, <vehicle-type>, <service-type>) -> Calls the AvailableTimeslots handler.
+- POST "/booking-management/service-cost" (<sub-domain>, <vehicle-type>, <service-type>) -> Calls the ServiceCost handler.
+- POST "/booking-management/create-booking" (<sub-domain>, <vehicle-type>, <service-type>, <payment-number>, <booking-number>) -> Calls the BookAppointment handler.
+
+##### Handlers
+
+- VehicleTypes -> Retrieves vehicles types of the business with subdomain <sub-domain>
+- ServiceTypes -> Retrieves service types of the business with subdomain <sub-domain>
+- AvailableTimeslots -> Retrieves available timeslots of the business with subdomain <sub-domain> based on service type <service-type> and vehicle type <vehicle-type> selected.
+- ServiceCost -> Retrieves price of service with subdomain <sub-domain> based on service type <service-type> and vehicle type <vehicle-type> selected.
+- CreateBooking -> Writes a record in the bookings database for business with subdomain <sub-domain> based on service type <service-type>, vehicle type <vehicle-type>, and datetime selected <datetime-selected> with payment status pending.
+
+##### Internal Functions
+
+- UpdateBookingPaymentStatus -> Updates a booking with booking number <booking-number> payment status based on <payment-status>.
+- DeleteBooking -> Delete a booking record from booking database based on <booking-number>.
 
 #### Payment Service
 
 Payment service uses Stripe to provide payment functionality. For V1.0 its usecase is when the customer wants to pay.
 
-### Endpoints
+##### Endpoints
 
-### Handlers
+- POST "/payment/pay-booking" (<booking-number>) -> Calls PayBooking handler.
+
+##### Handlers
+
+- PayBooking -> Uses Stripe payment to pay for the booking with booking number <booking-number>
+
+#### SMS Service
+
+SMS service uses Twilio to provide sending sms functionality. At V1.0, it's only usecase is when a customer booking is successful (upon successful payment), they recieve a sms of the receipt.
+
+##### Internal Functions
+
+- SendSMS -> Sends an sms to the recepient <recepient> with the content <sms-content>.
 
 ## Database
