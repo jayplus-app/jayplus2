@@ -341,3 +341,94 @@ SMS service uses Twilio to provide sending SMS functionality. At V1.0, it's only
 - SendSMS -> Sends an sms to the recepient {recepient} with the content {sms-content}.
 
 ## Database
+## Services
+
+Services are organized in a domain-driven format, each handling the routing, handlers, and business logic for its specific area. For V1.0, the services are as follows:
+
+- app
+- db
+- auth
+- booking-management
+- payment
+- sms
+
+### App Service
+
+Responsible for router setup and interacting with other services as needed. Manages the UI configuration for the business customer.
+
+#### Endpoints
+
+- `POST "/ui-config" ({sub-domain})` -> Calls UIConfig Handler.
+
+#### Handlers
+
+- **UIConfig**: Retrieves and returns the business UI settings from the database as JSON.
+
+### DB Service
+
+Handles all database-related functionality, from initialization to query operations.
+
+### Auth Service
+
+Manages authentication and authorization using JWT. Responsible for token generation and deletion.
+
+#### Endpoints
+
+- `POST "/auth/login" ({email}, {password})` -> Calls Login Handler.
+- `GET "/auth/logout"` -> Calls Logout Handler.
+- `GET "/auth/refresh"` -> Calls RefreshToken Handler.
+
+#### Handlers
+
+- **Login**: Authenticates user credentials.
+- **Logout**: Sets an expired refresh cookie to log out.
+- **RefreshToken**: Refreshes the token to keep the user logged in.
+
+### Booking Management Service
+
+Handles the business logic related to bookings, including service and time selection as well as scheduling.
+
+#### Endpoints
+
+- `POST "/booking-management/vehicle-types" ({sub-domain})` -> Calls VehicleTypes Handler.
+- `POST "/booking-management/service-types" ({sub-domain})` -> Calls ServiceTypes Handler.
+- `POST "/booking-management/available-timeslots" ({sub-domain}, {vehicle-type}, {service-type})` -> Calls AvailableTimeslots Handler.
+- `POST "/booking-management/service-cost" ({sub-domain}, {vehicle-type}, {service-type})` -> Calls ServiceCost Handler.
+- `POST "/booking-management/create-booking" ({sub-domain}, {vehicle-type}, {service-type}, {payment-number}, {booking-number})` -> Calls CreateBooking Handler.
+
+#### Handlers
+
+- **VehicleTypes**: Retrieves vehicle types for a business identified by subdomain `{sub-domain}`.
+- **ServiceTypes**: Retrieves service types for a business identified by subdomain `{sub-domain}`.
+- **AvailableTimeslots**: Retrieves available timeslots based on selected service and vehicle types.
+- **ServiceCost**: Provides the cost of the selected service.
+- **CreateBooking**: Records a new booking with payment status pending.
+
+#### Internal Functions
+
+- **UpdateBookingPaymentStatus**: Updates the payment status of a booking identified by `{booking-number}`.
+- **DeleteBooking**: Removes a booking record based on `{booking-number}`.
+
+### Payment Service
+
+Utilizes Stripe for payment processing. In V1.0, it is used for customer payments.
+
+#### Endpoints
+
+- `POST "/payment/pay-booking" ({booking-number})` -> Calls PayBooking Handler.
+
+#### Handlers
+
+- **PayBooking**: Processes the payment for the booking identified by `{booking-number}`.
+
+### SMS Service
+
+Employs Twilio for sending SMS. For V1.0, an SMS receipt is sent to customers upon successful booking.
+
+#### Internal Functions
+
+- **SendSMS**: Sends an SMS to the recipient `{recipient}` with the content `{sms-content}`.
+
+#### Database
+
+- Placeholder for database-related information
