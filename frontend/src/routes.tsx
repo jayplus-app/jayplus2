@@ -1,10 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom'
 import CustomerApp from './customer/CustomerApp'
-import BookingSelectionPage from './customer/pages/booking/BookingSelectionPage'
+import CustomerBookingSelectionPage from './customer/pages/booking/CustomerBookingSelectionPage'
 import PaymentPage from './customer/pages/payment/PaymentPage'
 import PaymentSuccessPage from './customer/pages/payment/PaymentSuccessPage'
 import AdminApp from './admin/AdminApp'
 import DashboardPage from './admin/pages/DashboardPage'
+import BookingManagementPage from './admin/pages/booking/BookingManagementPage'
+import AdminBookingSelectionPage from './admin/pages/booking/AdminBookingSelectionPage'
 
 const Router = createBrowserRouter([
 	{
@@ -13,7 +15,7 @@ const Router = createBrowserRouter([
 		children: [
 			{
 				path: '',
-				element: <BookingSelectionPage />,
+				element: <CustomerBookingSelectionPage />,
 			},
 			{
 				path: 'payment',
@@ -32,6 +34,14 @@ const Router = createBrowserRouter([
 			{
 				path: '',
 				element: <DashboardPage />,
+			},
+			{
+				path: 'booking-management',
+				element: <BookingManagementPage />,
+			},
+			{
+				path: 'booking',
+				element: <AdminBookingSelectionPage />,
 			},
 		],
 	},
