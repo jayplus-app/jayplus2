@@ -7,6 +7,7 @@ import AdminApp from './admin/AdminApp'
 import DashboardPage from './admin/pages/DashboardPage'
 import BookingManagementPage from './admin/pages/booking/BookingManagementPage'
 import AdminBookingSelectionPage from './admin/pages/booking/AdminBookingSelectionPage'
+import AdminLogin from './admin/pages/auth/AdminLogin'
 
 const Router = createBrowserRouter([
 	{
@@ -42,6 +43,10 @@ const Router = createBrowserRouter([
 			{
 				path: 'booking',
 				element: <AdminBookingSelectionPage />,
+			},
+			{
+				path: 'login',
+				element: <AdminLogin />,
 			},
 		],
 	},
