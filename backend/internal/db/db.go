@@ -2,9 +2,13 @@ package db
 
 import (
 	"backend/config"
+	"context"
 	"database/sql"
 	"fmt"
 	"log"
+	"time"
+
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 const (
@@ -33,4 +37,12 @@ func (db *DB) SetupDB() error {
 	log.Println("Database connection successfully established")
 
 	return nil
+}
+
+func ExecuteQuery(db *sql.DB, query string, args ...any) (*sql.Row, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
+	defer cancel()
+
+	row := db.QueryRowContext(ctx, query, args...)
+	return row, nil
 }

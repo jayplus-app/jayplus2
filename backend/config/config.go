@@ -2,6 +2,6 @@ package config
 
 func LoadConfig() {
 	LoadAppConfig()
-	// LoadDBConfig()
+	LoadDBConfig()
 	// LoadAuthConfig()
 }
