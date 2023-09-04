@@ -18,7 +18,7 @@ func main() {
 	if err := dbInstance.SetupDB(); err != nil {
 		log.Fatalf("failed to setup the database: %v", err)
 	}
-	
+
 	// Initialize Auth
 	authInstance := auth.NewAuth()
 
