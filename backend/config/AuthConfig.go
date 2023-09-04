@@ -8,14 +8,14 @@ import (
 )
 
 var (
-	JWTIssuer string
-	JWTAudience string
-	JWTSecret string
-	AccessTokenExpiry time.Duration
+	JWTIssuer          string
+	JWTAudience        string
+	JWTSecret          string
+	AccessTokenExpiry  time.Duration
 	RefreshTokenExpiry time.Duration
-	JWTCookieDomain string
-	JWTCookiePath string
-	JWTCookieName string
+	JWTCookieDomain    string
+	JWTCookiePath      string
+	JWTCookieName      string
 )
 
 func LoadAuthConfig() {

@@ -3,10 +3,10 @@ package config
 import "os"
 
 var (
-	DBHost string
-	DBPort string
-	DBName string
-	DBUser string
+	DBHost     string
+	DBPort     string
+	DBName     string
+	DBUser     string
 	DBPassword string
 )
 

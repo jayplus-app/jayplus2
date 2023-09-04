@@ -14,9 +14,7 @@ type App struct {
 }
 
 func NewApp(
-	dbInstance db.DBInterface,
-	authInstance auth.AuthInterface,
-) (*App, error) {
+	dbInstance db.DBInterface, authInstance auth.AuthInterface) (*App, error) {
 	app := &App{
 		app.App{
 			DB:   dbInstance,

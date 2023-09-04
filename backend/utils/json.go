@@ -15,9 +15,9 @@ const (
 
 // JSONResponse is a generic JSON response.
 type JSONResponse struct {
-	Error bool		`json:"error"`
-	Message string	`json:"message"`
-	Data any		`json:"data,omitempty"`
+	Error   bool   `json:"error"`
+	Message string `json:"message"`
+	Data    any    `json:"data,omitempty"`
 }
 
 // WriteJSON writes a JSON response.
@@ -70,7 +70,7 @@ func ErrorJSON(w http.ResponseWriter, err error, status ...int) error {
 	}
 
 	payload := JSONResponse{
-		Error: true,
+		Error:   true,
 		Message: err.Error(),
 	}
 
