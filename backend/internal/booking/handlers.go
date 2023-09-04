@@ -174,7 +174,6 @@ func TimeSlots(w http.ResponseWriter, r *http.Request, db booking.BookingDBInter
 
 // ServiceCost handler returns the cost of a service.
 func ServiceCost(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
-	// Return service cost is 100 in form of {"cost": 100}
 	serviceCost := map[string]int{
 		"cost": 100,
 	}
@@ -184,8 +183,6 @@ func ServiceCost(w http.ResponseWriter, r *http.Request, db booking.BookingDBInt
 
 // CreateBookings handler creates bookings.
 func CreateBooking(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
-	// Create booking
-	// Return booking number in form of {"number": "123456"}
 	bookingNumber := map[string]string{
 		"booking_number": "123456",
 	}
@@ -194,9 +191,7 @@ func CreateBooking(w http.ResponseWriter, r *http.Request, db booking.BookingDBI
 }
 
 // Booking handler returns a booking.
-// individual booking at "/booking/booking/:id"
 func Booking(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
-	// Return booking
 	booking := map[string]string{
 		"Transaction Number": "13",
 		"Bill Number":        "37",
@@ -212,4 +207,13 @@ func Booking(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterfa
 	}
 
 	utils.WriteJSON(w, http.StatusOK, booking)
+}
+
+// CancelBooking handler cancels a booking.
+func CancelBooking(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+	message := map[string]string{
+		"message": "Booking cancelled successfully",
+	}
+
+	utils.WriteJSON(w, http.StatusOK, message)
 }

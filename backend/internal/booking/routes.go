@@ -28,4 +28,7 @@ func BookingRoutes(r *mux.Router, db booking.BookingDBInterface) {
 	bookingRouter.HandleFunc("/booking/{id}", func(w http.ResponseWriter, r *http.Request) {
 		Booking(w, r, db)
 	}).Methods("GET")
+	bookingRouter.HandleFunc("/cancel-booking/{id}", func(w http.ResponseWriter, r *http.Request) {
+		CancelBooking(w, r, db)
+	}).Methods("GET")
 }

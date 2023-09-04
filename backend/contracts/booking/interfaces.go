@@ -13,6 +13,7 @@ type BookingInterface interface {
 	ServiceCost(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
 	CreateBooking(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
 	Booking(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
+	CancelBooking(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
 }
 
 type BookingDBInterface interface {
