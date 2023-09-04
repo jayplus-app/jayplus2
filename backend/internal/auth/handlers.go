@@ -1,7 +1,7 @@
 package auth
 
 import (
-	authContracts "backend/contracts/auth"
+	"backend/contracts/auth"
 	"backend/utils"
 	"errors"
 	"log"
@@ -11,7 +11,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func (a *Auth) Login(w http.ResponseWriter, r *http.Request, db authContracts.AuthDBInterface) {
+func (a *Auth) Login(w http.ResponseWriter, r *http.Request, db auth.AuthDBInterface) {
 	var reqPayload struct {
 		Email    string `json:"email"`
 		Password string `json:"password"`
@@ -36,7 +36,7 @@ func (a *Auth) Login(w http.ResponseWriter, r *http.Request, db authContracts.Au
 	}
 
 	// create JWT user
-	u := authContracts.AuthUser{
+	u := auth.AuthUser{
 		ID:        user.ID,
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
@@ -55,10 +55,10 @@ func (a *Auth) Login(w http.ResponseWriter, r *http.Request, db authContracts.Au
 	utils.WriteJSON(w, http.StatusAccepted, tokenPair)
 }
 
-func (a *Auth) RefreshToken(w http.ResponseWriter, r *http.Request, db authContracts.AuthDBInterface) {
+func (a *Auth) RefreshToken(w http.ResponseWriter, r *http.Request, db auth.AuthDBInterface) {
 	for _, cookie := range r.Cookies() {
 		if cookie.Name == a.CookieName {
-			claims := &authContracts.JWTClaims{}
+			claims := &auth.JWTClaims{}
 			refreshToken := cookie.Value
 
 			_, err := jwt.ParseWithClaims(refreshToken, claims, func(token *jwt.Token) (any, error) {
@@ -81,7 +81,7 @@ func (a *Auth) RefreshToken(w http.ResponseWriter, r *http.Request, db authContr
 				return
 			}
 
-			u := authContracts.AuthUser{
+			u := auth.AuthUser{
 				ID:        user.ID,
 				FirstName: user.FirstName,
 				LastName:  user.LastName,

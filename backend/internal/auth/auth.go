@@ -9,19 +9,19 @@ import (
 	"strings"
 	"time"
 
-	authContracts "backend/contracts/auth"
+	"backend/contracts/auth"
 
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type Auth struct {
-	authContracts.Auth
+	auth.Auth
 }
 
 func NewAuth() *Auth {
 	return &Auth{
-		authContracts.Auth{
+		auth.Auth{
 			Issuer:             config.JWTIssuer,
 			Audience:           config.JWTAudience,
 			Secret:             config.JWTSecret,
@@ -34,9 +34,9 @@ func NewAuth() *Auth {
 	}
 }
 
-func (a *Auth) generateSignedTokenPair(user *authContracts.AuthUser) (authContracts.JWTTokenPair, error) {
+func (a *Auth) generateSignedTokenPair(user *auth.AuthUser) (auth.JWTTokenPair, error) {
 	if user == nil {
-		return authContracts.JWTTokenPair{}, fmt.Errorf("error generating token pair: user is nil")
+		return auth.JWTTokenPair{}, fmt.Errorf("error generating token pair: user is nil")
 	}
 
 	// create access token
@@ -53,7 +53,7 @@ func (a *Auth) generateSignedTokenPair(user *authContracts.AuthUser) (authContra
 
 	signedAccessToken, err := accessToken.SignedString([]byte(a.Secret))
 	if err != nil {
-		return authContracts.JWTTokenPair{}, fmt.Errorf("error signing access token: %w", err)
+		return auth.JWTTokenPair{}, fmt.Errorf("error signing access token: %w", err)
 	}
 
 	// create refresh token
@@ -66,10 +66,10 @@ func (a *Auth) generateSignedTokenPair(user *authContracts.AuthUser) (authContra
 
 	signedRefreshToken, err := refreshToken.SignedString([]byte(a.Secret))
 	if err != nil {
-		return authContracts.JWTTokenPair{}, fmt.Errorf("error signing refresh token: %w", err)
+		return auth.JWTTokenPair{}, fmt.Errorf("error signing refresh token: %w", err)
 	}
 
-	return authContracts.JWTTokenPair{
+	return auth.JWTTokenPair{
 		AccessToken:  signedAccessToken,
 		RefreshToken: signedRefreshToken,
 	}, nil
@@ -118,7 +118,7 @@ func passwordMatches(user *models.User, password string) (bool, error) {
 	return true, nil
 }
 
-func (a *Auth) getHeaderFromTokenAndVerify(w http.ResponseWriter, r *http.Request) (string, *authContracts.JWTClaims, error) {
+func (a *Auth) getHeaderFromTokenAndVerify(w http.ResponseWriter, r *http.Request) (string, *auth.JWTClaims, error) {
 	w.Header().Add("Vary", "Authorization")
 
 	authorizationHeader := r.Header.Get("Authorization")
@@ -137,7 +137,7 @@ func (a *Auth) getHeaderFromTokenAndVerify(w http.ResponseWriter, r *http.Reques
 
 	token := headerParts[1]
 
-	claims := &authContracts.JWTClaims{}
+	claims := &auth.JWTClaims{}
 	_, err := jwt.ParseWithClaims(token, claims, func(token *jwt.Token) (any, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
