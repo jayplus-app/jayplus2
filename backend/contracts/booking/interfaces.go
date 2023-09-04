@@ -11,6 +11,7 @@ type BookingInterface interface {
 	ServiceTypes(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
 	TimeSlots(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
 	ServiceCost(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
+	CreateBooking(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
 }
 
 type BookingDBInterface interface {

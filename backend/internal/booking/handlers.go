@@ -181,3 +181,14 @@ func (b *Booking) ServiceCost(w http.ResponseWriter, r *http.Request, db booking
 
 	utils.WriteJSON(w, http.StatusOK, serviceCost)
 }
+
+// CreateBookings handler creates bookings.
+func (b *Booking) CreateBooking(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+	// Create booking
+	// Return booking number in form of {"number": "123456"}
+	bookingNumber := map[string]string{
+		"booking_number": "123456",
+	}
+
+	utils.WriteJSON(w, http.StatusOK, bookingNumber)
+}
