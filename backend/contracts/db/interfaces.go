@@ -4,6 +4,8 @@ import (
 	"backend/contracts/auth"
 	"backend/contracts/booking"
 	"backend/contracts/common"
+	"backend/contracts/payment"
+	"backend/contracts/sms"
 )
 
 type DBInterface interface {
@@ -11,4 +13,6 @@ type DBInterface interface {
 	common.AppDBInterface
 	auth.AuthDBInterface
 	booking.BookingDBInterface
+	payment.PaymentDBInterface
+	sms.SMSDBInterface
 }
