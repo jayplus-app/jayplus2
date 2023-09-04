@@ -1,7 +1,8 @@
 package models
 
 type VehicleType struct {
-	ID          int64   `json:"id"`
-	Name        string  `json:"name"`
-	Description string  `json:"description"`
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Icon        string `json:"icon"`
+	Description string `json:"description"`
 }
