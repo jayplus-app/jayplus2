@@ -1,9 +1,9 @@
-name: CI/CD Pipeline
+name: CI/CD Pipeline - Dev
 
 on:
   push:
     branches:
-      - main
+      - dev
 
 jobs:
   build-and-test:
@@ -16,7 +16,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: jayplus-artifact
+          name: jayplus-dev-artifact
           path: ./
 
   deploy:
@@ -26,14 +26,14 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
-          name: jayplus-artifact
-          path: /home/runner/work/jayplus/jayplus-artifact
+          name: jayplus-dev-artifact
+          path: /home/runner/work/jayplus/jayplus-dev-artifact
       - name: Setup SSH and Deploy
         run: |
           sudo apt-get install -y openssh-client
           mkdir -p ~/.ssh
-          ssh-keyscan 165.227.44.125 >> ~/.ssh/known_hosts
-          echo "${{ secrets.GH_ACTIONS_SSH_KEY }}" > gh-actions-ssh-key
-          chmod 600 gh-actions-ssh-key
-          scp -r -i gh-actions-ssh-key /home/runner/work/jayplus/jayplus-artifact/* gh-actions@165.227.44.125:~/
-          ssh -i gh-actions-ssh-key gh-actions@165.227.44.125 'cd ~/ && make up-detached'
+          ssh-keyscan 178.128.228.63 >> ~/.ssh/known_hosts
+          echo "${{ secrets.GH_ACTIONS_DEV_SSH_KEY }}" > gh-actions-dev-ssh-key
+          chmod 600 gh-actions-dev-ssh-key
+          scp -r -i gh-actions-dev-ssh-key /home/runner/work/jayplus/jayplus-dev-artifact/* gh-actions@178.128.228.63:~/
+          ssh -i gh-actions-dev-ssh-key gh-actions@178.128.228.63 'cd ~/ && make up-detached'
