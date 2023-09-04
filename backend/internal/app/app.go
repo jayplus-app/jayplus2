@@ -3,6 +3,7 @@ package app
 import (
 	"backend/config"
 	"backend/contracts/auth"
+	"backend/contracts/booking"
 	"backend/contracts/db"
 	"fmt"
 	"net/http"
@@ -11,15 +12,17 @@ import (
 )
 
 type App struct {
-	DB     db.DBInterface
-	Router *mux.Router
-	Auth   auth.AuthInterface
+	DB     		db.DBInterface
+	Router 		*mux.Router
+	Auth   		auth.AuthInterface
+	Booking 	booking.BookingInterface
 }
 
-func NewApp(dbInstance db.DBInterface, authInstance auth.AuthInterface) (*App, error) {
+func NewApp(dbInstance db.DBInterface, authInstance auth.AuthInterface, bookingInstance booking.BookingInterface) (*App, error) {
 	app := &App{
 		DB:   dbInstance,
 		Auth: authInstance,
+		Booking: bookingInstance,
 	}
 	app.Router = app.SetupRouter()
 
