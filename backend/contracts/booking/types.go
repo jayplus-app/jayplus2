@@ -15,3 +15,8 @@ type ServiceTypes struct {
 	Name  string                `json:"name"`
 	Types []*models.ServiceType `json:"types"`
 }
+
+type TimeSlots struct {
+	Date  string             `json:"date"`
+	Slots []*models.TimeSlot `json:"slots"`
+}
