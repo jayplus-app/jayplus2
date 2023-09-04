@@ -4,10 +4,7 @@ import (
 	"backend/config"
 	"backend/internal/app"
 	"backend/internal/auth"
-	"backend/internal/booking"
 	"backend/internal/db"
-	"backend/internal/payment"
-	"backend/internal/sms"
 	"log"
 )
 
@@ -24,17 +21,8 @@ func main() {
 	// Initialize Auth
 	authInstance := auth.NewAuth()
 
-	// Setup Booking
-	bookingInstance := booking.NewBooking()
-
-	// Setup Payment
-	paymentInstance := payment.NewPayment()
-
-	// Setup SMS
-	smsInstance := sms.NewSMS()
-
 	// Setup App
-	appInstance, err := app.NewApp(dbInstance, authInstance, bookingInstance, paymentInstance, smsInstance)
+	appInstance, err := app.NewApp(dbInstance, authInstance)
 	if err != nil {
 		log.Fatalf("failed to setup the application: %s", err.Error())
 		return

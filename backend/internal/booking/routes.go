@@ -7,22 +7,25 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func BookingRoutes(r *mux.Router, booking booking.BookingInterface, db booking.BookingDBInterface) {
+func BookingRoutes(r *mux.Router, db booking.BookingDBInterface) {
 	bookingRouter := r.PathPrefix("/booking").Subrouter()
 
 	bookingRouter.HandleFunc("/vehicle-types", func(w http.ResponseWriter, r *http.Request) {
-		booking.VehicleTypes(w, r, db)
+		VehicleTypes(w, r, db)
 	}).Methods("GET")
 	bookingRouter.HandleFunc("/service-types", func(w http.ResponseWriter, r *http.Request) {
-		booking.ServiceTypes(w, r, db)
+		ServiceTypes(w, r, db)
 	}).Methods("GET")
 	bookingRouter.HandleFunc("/timeslots", func(w http.ResponseWriter, r *http.Request) {
-		booking.TimeSlots(w, r, db)
+		TimeSlots(w, r, db)
 	}).Methods("GET")
 	bookingRouter.HandleFunc("/service-cost", func(w http.ResponseWriter, r *http.Request) {
-		booking.ServiceCost(w, r, db)
+		ServiceCost(w, r, db)
 	}).Methods("GET")
 	bookingRouter.HandleFunc("/create-booking", func(w http.ResponseWriter, r *http.Request) {
-		booking.CreateBooking(w, r, db)
+		CreateBooking(w, r, db)
+	}).Methods("GET")
+	bookingRouter.HandleFunc("/booking/{id}", func(w http.ResponseWriter, r *http.Request) {
+		Booking(w, r, db)
 	}).Methods("GET")
 }

@@ -9,7 +9,7 @@ import (
 )
 
 // VehicleTypes handler returns a list of vehicle types.
-func (b *Booking) VehicleTypes(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+func VehicleTypes(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
 	vehicleTypes := booking.VehicleTypes{
 		Name: "Vehicle Types",
 		Types: []*models.VehicleType{
@@ -44,7 +44,7 @@ func (b *Booking) VehicleTypes(w http.ResponseWriter, r *http.Request, db bookin
 }
 
 // ServiceTypes handler returns a list of service types.
-func (b *Booking) ServiceTypes(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+func ServiceTypes(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
 	serviceTypes := booking.ServiceTypes{
 		Name: "Service Types",
 		Types: []*models.ServiceType{
@@ -79,7 +79,7 @@ func (b *Booking) ServiceTypes(w http.ResponseWriter, r *http.Request, db bookin
 }
 
 // Timeslots handler returns a list of time slots.
-func (b *Booking) TimeSlots(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+func TimeSlots(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
 	// Sample data for a single date, replace this with database retrieval logic
 	timeSlots := []*models.TimeSlot{
 		{
@@ -173,7 +173,7 @@ func (b *Booking) TimeSlots(w http.ResponseWriter, r *http.Request, db booking.B
 }
 
 // ServiceCost handler returns the cost of a service.
-func (b *Booking) ServiceCost(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+func ServiceCost(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
 	// Return service cost is 100 in form of {"cost": 100}
 	serviceCost := map[string]int{
 		"cost": 100,
@@ -183,7 +183,7 @@ func (b *Booking) ServiceCost(w http.ResponseWriter, r *http.Request, db booking
 }
 
 // CreateBookings handler creates bookings.
-func (b *Booking) CreateBooking(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+func CreateBooking(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
 	// Create booking
 	// Return booking number in form of {"number": "123456"}
 	bookingNumber := map[string]string{
@@ -191,4 +191,25 @@ func (b *Booking) CreateBooking(w http.ResponseWriter, r *http.Request, db booki
 	}
 
 	utils.WriteJSON(w, http.StatusOK, bookingNumber)
+}
+
+// Booking handler returns a booking.
+// individual booking at "/booking/booking/:id"
+func Booking(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+	// Return booking
+	booking := map[string]string{
+		"Transaction Number": "13",
+		"Bill Number":        "37",
+		"Type of Service":    "Show Room",
+		"Vehicle Type":       "Sedan",
+		"Date":               "14 Mar 2023",
+		"Time":               "15:00",
+		"Service Cost":       "169.00 $",
+		"Discount":           "Not Specified",
+		"Total":              "169.00 $",
+		"Deposit":            "30.00 $",
+		"Remaining":          "139.00 $",
+	}
+
+	utils.WriteJSON(w, http.StatusOK, booking)
 }

@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func (p *Payment) PaymentMethods(w http.ResponseWriter, r *http.Request, db payment.PaymentDBInterface) {
+func PaymentMethods(w http.ResponseWriter, r *http.Request, db payment.PaymentDBInterface) {
 	fmt.Println("PaymentMethods")
 	utils.WriteJSON(w, http.StatusOK, "PaymentMethods")
 }

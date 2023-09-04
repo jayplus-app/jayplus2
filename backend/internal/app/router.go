@@ -14,7 +14,7 @@ func (app *App) SetupRouter() *mux.Router {
 	hello.HelloRoutes(r)
 	AppRoutes(r, app, app.DB)
 	auth.AuthRoutes(r, app.Auth, app.DB)
-	booking.BookingRoutes(r, app.Booking, app.DB)
-	payment.PaymentRoutes(r, app.Payment, app.DB)
+	booking.BookingRoutes(r, app.DB)
+	payment.PaymentRoutes(r, app.DB)
 	return r
 }
