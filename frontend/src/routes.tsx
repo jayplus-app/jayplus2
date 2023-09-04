@@ -7,7 +7,8 @@ import AdminApp from './admin/AdminApp'
 import DashboardPage from './admin/pages/DashboardPage'
 import BookingManagementPage from './admin/pages/booking/BookingManagementPage'
 import AdminBookingSelectionPage from './admin/pages/booking/AdminBookingSelectionPage'
-import AdminLogin from './admin/pages/auth/AdminLogin'
+import AdminLoginPage from './admin/pages/auth/AdminLoginPage'
+import AuthProvider from './context/AuthContext/AuthProvider'
 
 const Router = createBrowserRouter([
 	{
@@ -30,7 +31,11 @@ const Router = createBrowserRouter([
 	},
 	{
 		path: '/admin',
-		element: <AdminApp />,
+		element: (
+			<AuthProvider>
+				<AdminApp />
+			</AuthProvider>
+		),
 		children: [
 			{
 				path: '',
@@ -46,7 +51,7 @@ const Router = createBrowserRouter([
 			},
 			{
 				path: 'login',
-				element: <AdminLogin />,
+				element: <AdminLoginPage />,
 			},
 		],
 	},

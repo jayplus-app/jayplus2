@@ -2,13 +2,16 @@ package db
 
 import (
 	"backend/models"
-	"database/sql"
-	"errors"
+	"context"
+	"time"
 )
 
 // GetUserByEmail retrieves a user by email.
 func (db *DB) GetUserByEmail(email string) (*models.User, error) {
-	query := `SELECT 
+	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
+	defer cancel()
+
+	quey := `SELECT 
 				id,
 				email,
 				phone_number,
@@ -23,13 +26,11 @@ func (db *DB) GetUserByEmail(email string) (*models.User, error) {
 			WHERE
 				email = $1`
 
-	row, err := ExecuteQuery(db.DB, query, email)
-	if err != nil {
-		return nil, err
-	}
-
 	var user models.User
-	err = row.Scan(
+
+	row := db.QueryRowContext(ctx, quey, email)
+
+	err := row.Scan(
 		&user.ID,
 		&user.Email,
 		&user.PhoneNumber,
@@ -42,9 +43,6 @@ func (db *DB) GetUserByEmail(email string) (*models.User, error) {
 	)
 
 	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, nil
-		}
 		return nil, err
 	}
 
@@ -53,7 +51,10 @@ func (db *DB) GetUserByEmail(email string) (*models.User, error) {
 
 // GetUserByID retrieves a user by ID.
 func (db *DB) GetUserByID(id int) (*models.User, error) {
-	query := `SELECT 
+	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
+	defer cancel()
+
+	quey := `SELECT 
 				id,
 				email,
 				phone_number,
@@ -68,13 +69,11 @@ func (db *DB) GetUserByID(id int) (*models.User, error) {
 			WHERE
 				id = $1`
 
-	row, err := ExecuteQuery(db.DB, query, id)
-	if err != nil {
-		return nil, err
-	}
-
 	var user models.User
-	err = row.Scan(
+
+	row := db.QueryRowContext(ctx, quey, id)
+
+	err := row.Scan(
 		&user.ID,
 		&user.Email,
 		&user.PhoneNumber,
@@ -87,9 +86,6 @@ func (db *DB) GetUserByID(id int) (*models.User, error) {
 	)
 
 	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, nil
-		}
 		return nil, err
 	}
 

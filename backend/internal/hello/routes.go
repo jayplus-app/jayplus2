@@ -1,6 +1,7 @@
 package hello
 
 import (
+	"backend/utils"
 	"fmt"
 	"net/http"
 
@@ -14,6 +15,6 @@ func HelloRoutes(r *mux.Router) {
 		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE")
 
 	    message := SayHello()
-	    fmt.Fprintf(w, message)
+	    utils.WriteJSON(w, http.StatusOK, fmt.Sprintf("%s", message))
 	}).Methods("GET")
 }
