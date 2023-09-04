@@ -1,4 +1,4 @@
-package sms
+package models
 
 type SMS struct {
 	ID       int64  `json:"id"`

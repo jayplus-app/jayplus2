@@ -5,6 +5,7 @@ import (
 	"backend/contracts/booking"
 	"backend/contracts/db"
 	"backend/contracts/payment"
+	"backend/contracts/sms"
 
 	"github.com/gorilla/mux"
 )
@@ -15,4 +16,5 @@ type App struct {
 	Auth    auth.AuthInterface
 	Booking booking.BookingInterface
 	Payment payment.PaymentInterface
+	SMS     sms.SMSInterface
 }

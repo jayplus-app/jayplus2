@@ -7,6 +7,7 @@ import (
 	"backend/internal/booking"
 	"backend/internal/db"
 	"backend/internal/payment"
+	"backend/internal/sms"
 	"log"
 )
 
@@ -29,8 +30,11 @@ func main() {
 	// Setup Payment
 	paymentInstance := payment.NewPayment()
 
+	// Setup SMS
+	smsInstance := sms.NewSMS()
+
 	// Setup App
-	appInstance, err := app.NewApp(dbInstance, authInstance, bookingInstance, paymentInstance)
+	appInstance, err := app.NewApp(dbInstance, authInstance, bookingInstance, paymentInstance, smsInstance)
 	if err != nil {
 		log.Fatalf("failed to setup the application: %s", err.Error())
 		return

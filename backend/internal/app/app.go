@@ -7,6 +7,7 @@ import (
 	"backend/contracts/booking"
 	"backend/contracts/db"
 	"backend/contracts/payment"
+	"backend/contracts/sms"
 	"fmt"
 	"net/http"
 )
@@ -15,13 +16,20 @@ type App struct {
 	app.App
 }
 
-func NewApp(dbInstance db.DBInterface, authInstance auth.AuthInterface, bookingInstance booking.BookingInterface, paymentInstance payment.PaymentInterface) (*App, error) {
+func NewApp(
+	dbInstance db.DBInterface,
+	authInstance auth.AuthInterface,
+	bookingInstance booking.BookingInterface,
+	paymentInstance payment.PaymentInterface,
+	smsInstance sms.SMSInterface,
+) (*App, error) {
 	app := &App{
 		app.App{
 			DB:      dbInstance,
 			Auth:    authInstance,
 			Booking: bookingInstance,
 			Payment: paymentInstance,
+			SMS:     smsInstance,
 		},
 	}
 	app.Router = app.SetupRouter()
