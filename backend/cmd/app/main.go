@@ -1,20 +1,37 @@
 package main
 
 import (
-	"backend/internal/hello"
-	"fmt"
-	"net/http"
+	"backend/config"
+	"backend/internal/app"
+	"backend/internal/auth"
+	"backend/internal/db"
+	"log"
 )
 
-func helloHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE")
-	
-    message := hello.SayHello()
-    fmt.Fprintf(w, message)
-}
-
 func main() {
-	http.HandleFunc("/hello", helloHandler)
-	http.ListenAndServe(":8080", nil)
+	// Load Config
+	config.LoadConfig()
+
+	// Initialize DB
+	dbInstance := &db.DB{}
+	if err := dbInstance.SetupDB(); err != nil {
+		log.Fatalf("failed to setup the database: %v", err)
+	}
+	
+	// Initialize Auth
+	authInstance := auth.NewAuth()
+	
+	// Setup App
+	appInstance, err := app.NewApp(dbInstance, authInstance)
+	if err != nil {
+		log.Fatalf("failed to setup the application: %s", err.Error())
+		return
+	}
+
+	// Run Server
+	err = appInstance.Run()
+	if err != nil {
+		log.Fatalf("failed to run the application: %s", err.Error())
+		return
+	}
 }
