@@ -12,6 +12,7 @@ type BookingInterface interface {
 	TimeSlots(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
 	ServiceCost(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
 	CreateBooking(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
+	Bookings(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
 	Booking(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
 	CancelBooking(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
 }

@@ -190,6 +190,56 @@ func CreateBooking(w http.ResponseWriter, r *http.Request, db booking.BookingDBI
 	utils.WriteJSON(w, http.StatusOK, bookingNumber)
 }
 
+// Bookings handler returns a list of bookings.
+func Bookings(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+	bookings := []*models.Booking{
+		{
+			ID:                "1",
+			TransactionNumber: "13",
+			BillNumber:        "37",
+			TypeOfService:     "Show Room",
+			VehicleType:       "Sedan",
+			Date:              "14 Mar 2023",
+			Time:              "15:00",
+			ServiceCost:       "169.00 $",
+			Discount:          "Not Specified",
+			Total:             "169.00 $",
+			Deposit:           "30.00 $",
+			Remaining:         "139.00 $",
+		},
+		{
+			ID:                "2",
+			TransactionNumber: "14",
+			BillNumber:        "38",
+			TypeOfService:     "Show Room",
+			VehicleType:       "Sedan",
+			Date:              "14 Mar 2023",
+			Time:              "15:00",
+			ServiceCost:       "169.00 $",
+			Discount:          "Not Specified",
+			Total:             "169.00 $",
+			Deposit:           "30.00 $",
+			Remaining:         "139.00 $",
+		},
+		{
+			ID:                "3",
+			TransactionNumber: "15",
+			BillNumber:        "39",
+			TypeOfService:     "Show Room",
+			VehicleType:       "Sedan",
+			Date:              "14 Mar 2023",
+			Time:              "15:00",
+			ServiceCost:       "169.00 $",
+			Discount:          "Not Specified",
+			Total:             "169.00 $",
+			Deposit:           "30.00 $",
+			Remaining:         "139.00 $",
+		},
+	}
+
+	utils.WriteJSON(w, http.StatusOK, bookings)
+}
+
 // Booking handler returns a booking.
 func Booking(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
 	booking := map[string]string{
