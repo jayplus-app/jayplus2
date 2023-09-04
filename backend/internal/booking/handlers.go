@@ -171,3 +171,13 @@ func (b *Booking) TimeSlots(w http.ResponseWriter, r *http.Request, db booking.B
 
 	utils.WriteJSON(w, http.StatusOK, timeSlotsResponse)
 }
+
+// ServiceCost handler returns the cost of a service.
+func (b *Booking) ServiceCost(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+	// Return service cost is 100 in form of {"cost": 100}
+	serviceCost := map[string]int{
+		"cost": 100,
+	}
+
+	utils.WriteJSON(w, http.StatusOK, serviceCost)
+}
