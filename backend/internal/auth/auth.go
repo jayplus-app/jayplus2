@@ -85,7 +85,7 @@ func (a *Auth) getRefreshCookie(refreshToken string) *http.Cookie {
 		SameSite: http.SameSiteStrictMode,
 		Domain:   a.CookieDomain,
 		HttpOnly: true,
-		Secure:   true,
+		Secure:   false,
 	}
 }
 
@@ -99,7 +99,7 @@ func (a *Auth) getExpiredRefreshCookie() *http.Cookie {
 		SameSite: http.SameSiteStrictMode,
 		Domain:   a.CookieDomain,
 		HttpOnly: true,
-		Secure:   true,
+		Secure:   false,
 	}
 
 }
