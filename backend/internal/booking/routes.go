@@ -13,4 +13,7 @@ func BookingRoutes(r *mux.Router, booking booking.BookingInterface, db booking.B
 	bookingRouter.HandleFunc("/vehicle-types", func(w http.ResponseWriter, r *http.Request) {
 		booking.VehicleTypes(w, r, db)
 	}).Methods("GET")
+	bookingRouter.HandleFunc("/service-types", func(w http.ResponseWriter, r *http.Request) {
+		booking.ServiceTypes(w, r, db)
+	}).Methods("GET")
 }

@@ -7,6 +7,7 @@ import (
 	"net/http"
 )
 
+// VehicleTypes handler returns a list of vehicle types.
 func (b *Booking) VehicleTypes(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
 	vehicleTypes := booking.VehicleTypes{
 		Name: "Vehicle Types",
@@ -39,4 +40,39 @@ func (b *Booking) VehicleTypes(w http.ResponseWriter, r *http.Request, db bookin
 	}
 
 	utils.WriteJSON(w, http.StatusOK, vehicleTypes)
+}
+
+// ServiceTypes handler returns a list of service types.
+func (b *Booking) ServiceTypes(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+	serviceTypes := booking.ServiceTypes{
+		Name: "Service Types",
+		Types: []*models.ServiceType{
+			{
+				ID:          "1",
+				Name:        "Show Room",
+				Icon:        "show_room_icon",
+				Description: "A premium service to make your vehicle look as good as new.",
+			},
+			{
+				ID:          "2",
+				Name:        "Basic",
+				Icon:        "basic_icon",
+				Description: "Basic cleaning and maintenance, ideal for quick touch-ups.",
+			},
+			{
+				ID:          "3",
+				Name:        "Interior",
+				Icon:        "interior_icon",
+				Description: "Focused on cleaning and sanitizing the vehicle's interior.",
+			},
+			{
+				ID:          "4",
+				Name:        "Exterior",
+				Icon:        "exterior_icon",
+				Description: "Focused on exterior wash and wax, to make your vehicle shine.",
+			},
+		},
+	}
+
+	utils.WriteJSON(w, http.StatusOK, serviceTypes)
 }
