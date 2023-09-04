@@ -22,7 +22,7 @@ env:
   REFRESH_TOKEN_EXPIRY: ${{ secrets.REFRESH_TOKEN_EXPIRY }}
 
 jobs:
-  build-and-test:å
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
