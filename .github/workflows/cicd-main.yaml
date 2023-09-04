@@ -32,7 +32,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: jayplus-artifact
+          name: jayplus-main-artifact
           path: ./
 
   deploy:
@@ -42,8 +42,8 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
-          name: jayplus-artifact
-          path: /home/runner/work/jayplus/jayplus-artifact
+          name: jayplus-main-artifact
+          path: /home/runner/work/jayplus/jayplus-main-artifact
       - name: Setup SSH and Deploy
         run: |
           sudo apt-get install -y openssh-client
@@ -51,5 +51,5 @@ jobs:
           ssh-keyscan 165.227.44.125 >> ~/.ssh/known_hosts
           echo "${{ secrets.GH_ACTIONS_SSH_KEY }}" > gh-actions-ssh-key
           chmod 600 gh-actions-ssh-key
-          scp -r -i gh-actions-ssh-key /home/runner/work/jayplus/jayplus-artifact/* gh-actions@165.227.44.125:~/
+          scp -r -i gh-actions-ssh-key /home/runner/work/jayplus/jayplus-main-artifact/* gh-actions@165.227.44.125:~/
           ssh -i gh-actions-ssh-key gh-actions@165.227.44.125 "export SERVER_PORT=${{ secrets.SERVER_PORT }} && export DB_HOST=${{ secrets.DB_HOST }} && export DB_PORT=${{ secrets.DB_PORT }} && export DB_NAME=${{ secrets.DB_NAME }} && export DB_USER=${{ secrets.DB_USER }} && export DB_PASSWORD=${{ secrets.DB_PASSWORD }} && export JWT_ISSUER=${{ secrets.JWT_ISSUER }} && export JWT_AUDIENCE=${{ secrets.JWT_AUDIENCE }} && export JWT_SECRET=${{ secrets.JWT_SECRET }} && export JWT_COOKIE_DOMAIN=${{ secrets.JWT_COOKIE_DOMAIN }} && export JWT_COOKIE_NAME=${{ secrets.JWT_COOKIE_NAME }} && export JWT_COOKIE_PATH=${{ secrets.JWT_COOKIE_PATH }} && export ACCESS_TOKEN_EXPIRY=${{ secrets.ACCESS_TOKEN_EXPIRY }} && export REFRESH_TOKEN_EXPIRY=${{ secrets.REFRESH_TOKEN_EXPIRY }} && cd ~/ && make up-detached"
