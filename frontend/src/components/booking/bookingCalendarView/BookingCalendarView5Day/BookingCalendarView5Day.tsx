@@ -1,5 +1,5 @@
-const BookingCalendarView5Day = () => {
-	return <div>BookingCalendarView5Day</div>
+const BookingCalendarView7Day = () => {
+	return <div>BookingCalendarView7Day</div>
 }
 
-export default BookingCalendarView5Day
+export default BookingCalendarView7Day
