@@ -1,44 +1,23 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
+import { useVehicleTypes } from '../../../../../hooks/booking/useVehicleTypes'
 import DescriptionField from '../../../../../components/booking/DescriptionField'
 import SelectListInline from '../../../../../components/booking/SelectListInline'
 import CustomerBookingContext from '../../../../../context/CustomerBookingContext/CustomerBookingContext'
 
-interface VehicleType {
-	id: string
-	name: string
-	icon: string
-	description: string
-}
-
-interface VehicleTypeResponse {
-	name: string
-	types: VehicleType[]
-}
-
 const VehicleTypes = () => {
-	const [vehicleTypes, setVehicleTypes] = useState<VehicleType[]>([])
-	const [isLoading, setIsLoading] = useState(true)
+	const { vehicleTypes, isLoadingVehicleTypes } = useVehicleTypes()
 	const { vehicleTypeSelected, setVehicleTypeSelected } = useContext(
 		CustomerBookingContext
 	)
 
-	useEffect(() => {
-		fetch('/api/booking/vehicle-types')
-			.then((response) => response.json())
-			.then((data: VehicleTypeResponse) => {
-				setVehicleTypes(data.types)
-				setIsLoading(false)
-			})
-			.catch((error) => {
-				console.error('Error fetching data:', error)
-				setIsLoading(false)
-			})
-	}, [])
+	const selectedDescription = vehicleTypes.find(
+		(vt) => vt.id === vehicleTypeSelected
+	)?.description
 
 	return (
 		<div>
 			<h2>Vehicle Types</h2>
-			{isLoading ? (
+			{isLoadingVehicleTypes ? (
 				'Loading...'
 			) : (
 				<SelectListInline
@@ -47,7 +26,9 @@ const VehicleTypes = () => {
 					select={(option) => setVehicleTypeSelected(option)}
 				/>
 			)}
-			<DescriptionField />
+			<DescriptionField
+				content={selectedDescription || 'No description available'}
+			/>
 		</div>
 	)
 }

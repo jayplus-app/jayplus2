@@ -14,13 +14,20 @@ interface SelectListInlineProps {
 }
 
 const SelectListInline = ({ options, name, select }: SelectListInlineProps) => {
-	const [selected, setSelected] = useState('')
 	const {
 		vehicleTypeSelected,
 		serviceTypeSelected,
 		setServiceCost,
 		setDateTimeSelected,
 	} = useContext(CustomerBookingContext)
+
+	const getSelectedValue = () => {
+		if (name === 'vehicle-types') return vehicleTypeSelected
+		if (name === 'service-types') return serviceTypeSelected
+		return options[0].id
+	}
+
+	const [selected, setSelected] = useState(getSelectedValue)
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setSelected(e.currentTarget.value)
@@ -32,17 +39,17 @@ const SelectListInline = ({ options, name, select }: SelectListInlineProps) => {
 	return (
 		<ul id="select-list-inline">
 			{options.map((option) => (
-				<li id="select-list-item">
+				<li key={option.id} id="select-list-item">
 					<input
 						className="select-list-input"
 						type="radio"
-						id={option.name}
+						id={option.id}
 						name={name}
 						value={option.id}
 						checked={selected === option.id}
 						onChange={handleChange}
 					/>
-					<label htmlFor={option.name} className="select-list-label">
+					<label htmlFor={option.id} className="select-list-label">
 						{option.icon && (
 							<img
 								src={option.icon}
