@@ -1,6 +1,7 @@
 #previous-day-button {
 	width: 25px;
 	height: 50px;
+	padding: 0;
 }
 
 #previous-day-button:disabled {

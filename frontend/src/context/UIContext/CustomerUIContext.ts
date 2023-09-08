@@ -2,7 +2,8 @@ import { createContext } from 'react'
 
 interface CustomerUIContextProps {
 	maxFutureBookingDays: number
-	setMaxFutureBookingDays: (maxFutureBookingDays: number) => void
+	primaryColor: string
+	secondaryColor: string
 	isLoadingUI: boolean
 }
 

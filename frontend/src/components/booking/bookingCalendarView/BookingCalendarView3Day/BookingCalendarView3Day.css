@@ -1,3 +1,8 @@
+#booking-calendar-view-3-day {
+	display: flex;
+	flex-direction: row;
+}
+
 #booking-calendar-view-3-day .day-columns {
 	display: flex;
 	flex-direction: row;

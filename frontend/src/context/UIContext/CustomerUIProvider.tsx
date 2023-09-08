@@ -7,6 +7,8 @@ interface CustomerUIProviderProps {
 
 const CustomerUIProvider = ({ children }: CustomerUIProviderProps) => {
 	const [maxFutureBookingDays, setMaxFutureBookingDays] = useState<number>(5)
+	const [primaryColor, setPrimaryColor] = useState<string>('#FFC960')
+	const [secondaryColor, setSecondaryColor] = useState<string>('#ced4da')
 	const [isLoadingUI, setIsLoadingUI] = useState(true)
 
 	useEffect(() => {
@@ -14,6 +16,8 @@ const CustomerUIProvider = ({ children }: CustomerUIProviderProps) => {
 			.then((res) => res.json())
 			.then((data) => {
 				setMaxFutureBookingDays(data.maxFutureBookingDays)
+				setPrimaryColor(data.primaryColor)
+				setSecondaryColor(data.secondaryColor)
 				setIsLoadingUI(false)
 			})
 			.catch((err) => {
@@ -25,7 +29,8 @@ const CustomerUIProvider = ({ children }: CustomerUIProviderProps) => {
 	const contextValue = useMemo(
 		() => ({
 			maxFutureBookingDays,
-			setMaxFutureBookingDays,
+			primaryColor,
+			secondaryColor,
 			isLoadingUI,
 		}),
 		[maxFutureBookingDays, setMaxFutureBookingDays, isLoadingUI]

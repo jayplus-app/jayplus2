@@ -1,6 +1,7 @@
 #next-day-button {
 	width: 25px;
 	height: 50px;
+	padding: 0;
 }
 
 #next-day-button:disabled {
