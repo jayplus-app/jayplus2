@@ -22,7 +22,7 @@ const ServiceTypes = () => {
 			) : (
 				<SelectListInline
 					options={serviceTypes}
-					name="vehicle-types"
+					name="service-types"
 					select={(option) => setServiceTypeSelected(option)}
 				/>
 			)}

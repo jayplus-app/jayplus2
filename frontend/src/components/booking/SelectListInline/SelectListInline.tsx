@@ -14,20 +14,10 @@ interface SelectListInlineProps {
 }
 
 const SelectListInline = ({ options, name, select }: SelectListInlineProps) => {
-	const {
-		vehicleTypeSelected,
-		serviceTypeSelected,
-		setServiceCost,
-		setDateTimeSelected,
-	} = useContext(CustomerBookingContext)
-
-	const getSelectedValue = () => {
-		if (name === 'vehicle-types') return vehicleTypeSelected
-		if (name === 'service-types') return serviceTypeSelected
-		return options[0].id
-	}
-
-	const [selected, setSelected] = useState(getSelectedValue)
+	const [selected, setSelected] = useState(options[0].id)
+	const { setServiceCost, setDateTimeSelected } = useContext(
+		CustomerBookingContext
+	)
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setSelected(e.currentTarget.value)
@@ -39,17 +29,20 @@ const SelectListInline = ({ options, name, select }: SelectListInlineProps) => {
 	return (
 		<ul id="select-list-inline">
 			{options.map((option) => (
-				<li key={option.id} id="select-list-item">
+				<li id="select-list-item" key={option.id}>
 					<input
 						className="select-list-input"
 						type="radio"
-						id={option.id}
+						id={`${name}${option.id}`}
 						name={name}
 						value={option.id}
 						checked={selected === option.id}
 						onChange={handleChange}
 					/>
-					<label htmlFor={option.id} className="select-list-label">
+					<label
+						htmlFor={`${name}${option.id}`}
+						className="select-list-label"
+					>
 						{option.icon && (
 							<img
 								src={option.icon}
