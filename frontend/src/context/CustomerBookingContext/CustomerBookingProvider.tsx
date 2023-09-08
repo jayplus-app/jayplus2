@@ -31,6 +31,10 @@ const CustomerBookingProvider = ({
 
 	const contextValue = useMemo(
 		() => ({
+			vehicleTypes,
+			isLoadingVehicleTypes,
+			serviceTypes,
+			isLoadingServiceTypes,
 			vehicleTypeSelected,
 			setVehicleTypeSelected,
 			serviceTypeSelected,
@@ -41,6 +45,10 @@ const CustomerBookingProvider = ({
 			setServiceCost,
 		}),
 		[
+			vehicleTypes,
+			isLoadingVehicleTypes,
+			serviceTypes,
+			isLoadingServiceTypes,
 			vehicleTypeSelected,
 			setVehicleTypeSelected,
 			serviceTypeSelected,

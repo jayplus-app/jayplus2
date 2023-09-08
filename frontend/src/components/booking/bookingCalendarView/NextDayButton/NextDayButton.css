@@ -1,0 +1,13 @@
+#next-day-button {
+	width: 25px;
+	height: 50px;
+}
+
+#next-day-button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed !important;
+}
+
+#next-day-button:hover {
+	cursor: pointer;
+}

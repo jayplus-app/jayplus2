@@ -1,14 +1,15 @@
 import { useContext } from 'react'
-import { useVehicleTypes } from '../../../../../hooks/booking/useVehicleTypes'
 import DescriptionField from '../../../../../components/booking/DescriptionField'
 import SelectListInline from '../../../../../components/booking/SelectListInline'
 import CustomerBookingContext from '../../../../../context/CustomerBookingContext/CustomerBookingContext'
 
 const VehicleTypes = () => {
-	const { vehicleTypes, isLoadingVehicleTypes } = useVehicleTypes()
-	const { vehicleTypeSelected, setVehicleTypeSelected } = useContext(
-		CustomerBookingContext
-	)
+	const {
+		vehicleTypeSelected,
+		setVehicleTypeSelected,
+		vehicleTypes,
+		isLoadingVehicleTypes,
+	} = useContext(CustomerBookingContext)
 
 	const selectedDescription = vehicleTypes.find(
 		(vt) => vt.id === vehicleTypeSelected

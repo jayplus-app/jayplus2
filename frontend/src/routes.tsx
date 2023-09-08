@@ -9,11 +9,16 @@ import BookingManagementPage from './admin/pages/booking/BookingManagementPage'
 import AdminBookingSelectionPage from './admin/pages/booking/AdminBookingSelectionPage'
 import AdminLoginPage from './admin/pages/auth/AdminLoginPage'
 import AuthProvider from './context/AuthContext/AuthProvider'
+import CustomerUIProvider from './context/UIContext/CustomerUIProvider'
 
 const Router = createBrowserRouter([
 	{
 		path: '/',
-		element: <CustomerApp />,
+		element: (
+			<CustomerUIProvider>
+				<CustomerApp />
+			</CustomerUIProvider>
+		),
 		children: [
 			{
 				path: '',

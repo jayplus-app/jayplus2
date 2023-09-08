@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 
-interface ServiceType {
+export interface ServiceType {
 	id: string
 	name: string
 	icon: string
 	description: string
 }
 
-interface ServiceTypeResponse {
+export interface ServiceTypeResponse {
 	name: string
 	types: ServiceType[]
 }

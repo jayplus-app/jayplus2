@@ -1,6 +1,12 @@
 import { createContext } from 'react'
+import { VehicleType } from '../../hooks/booking/useVehicleTypes'
+import { ServiceType } from '../../hooks/booking/useServiceTypes'
 
 interface CustomerBookingContextProps {
+	vehicleTypes: VehicleType[]
+	isLoadingVehicleTypes: boolean
+	serviceTypes: ServiceType[]
+	isLoadingServiceTypes: boolean
 	vehicleTypeSelected: string
 	setVehicleTypeSelected: (vehicleType: string) => void
 	serviceTypeSelected: string

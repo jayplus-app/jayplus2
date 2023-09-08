@@ -8,5 +8,10 @@ import (
 
 func (app *App) UICOnfig(w http.ResponseWriter, r *http.Request, db common.AppDBInterface) {
 	w.Header().Set("Content-Type", "application/json")
-	utils.WriteJSON(w, http.StatusOK, "UICOnfig")
+
+	uiConfig := map[string]string{
+		"maxFutureBookingDays": "5",
+	}
+
+	utils.WriteJSON(w, http.StatusOK, uiConfig)
 }

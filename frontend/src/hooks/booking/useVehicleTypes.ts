@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 
-interface VehicleType {
+export interface VehicleType {
 	id: string
 	name: string
 	icon: string
 	description: string
 }
 
-interface VehicleTypeResponse {
+export interface VehicleTypeResponse {
 	name: string
 	types: VehicleType[]
 }
