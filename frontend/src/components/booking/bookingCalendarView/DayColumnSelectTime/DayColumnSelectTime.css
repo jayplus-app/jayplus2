@@ -6,6 +6,56 @@
 #select-list-block #select-list-item {
 	width: 100%;
 	text-align: center;
+	height: 50px;
 	background-color: var(--secondaryColorLight);
 	margin-bottom: 10px;
+	position: relative;
+	border-radius: 5px;
+	border: none;
+	transition: 0.3s;
+}
+
+#select-list-block #select-list-item:hover {
+	position: relative;
+	width: 100%;
+	height: 50px;
+	border-radius: 5px;
+	border: none;
+	background-color: var(--primaryColor);
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+#select-list-block .li-disabled {
+	opacity: 50%;
+	background-color: var(--disableColor);
+}
+
+#select-list-block .select-list-label {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 100%;
+	height: 50px;
+	border-radius: 5px;
+	transform: translate(-50%, -50%);
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+#select-list-block .label-disabled {
+	opacity: 50%;
+	cursor: not-allowed;
+	background-color: var(--disableColor);
+}
+
+#select-list-block .select-list-input {
+	display: none;
+}
+
+#select-list-block .select-list-input:checked ~ label {
+	background: var(--primaryColor);
 }

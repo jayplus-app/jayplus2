@@ -3,7 +3,7 @@ import BookingCalendarView3Day from '../../../../../components/booking/bookingCa
 const TimeSelection = () => {
 	return (
 		<div>
-			<h1>Time Selection</h1>
+			<div>Time Selection</div>
 			<BookingCalendarView3Day />
 		</div>
 	)

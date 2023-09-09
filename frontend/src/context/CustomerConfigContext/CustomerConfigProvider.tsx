@@ -49,6 +49,10 @@ const CustomerConfigProvider = ({ children }: CustomerConfigProviderProps) => {
 		'--complementaryColorLight',
 		cssConfig.complementaryColorLight
 	)
+	document.documentElement.style.setProperty(
+		'--disableColor',
+		cssConfig.disableColor
+	)
 
 	const contextValue = useMemo(
 		() => ({

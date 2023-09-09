@@ -17,7 +17,7 @@ const ServiceTypes = () => {
 
 	return (
 		<div>
-			<h2>Vehicle Types</h2>
+			<div>Service Types</div>
 			{isLoadingServiceTypes ? (
 				'Loading...'
 			) : (

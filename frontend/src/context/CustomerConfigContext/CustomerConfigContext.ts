@@ -7,6 +7,7 @@ export const defaultCssConfig = {
 	secondaryColorLight: '#f8f9fa',
 	complementaryColorDark: '#45645b',
 	complementaryColorLight: '#eaf0f0',
+	disableColor: '#f3f3f3',
 }
 
 const CustomerConfigContext = createContext({

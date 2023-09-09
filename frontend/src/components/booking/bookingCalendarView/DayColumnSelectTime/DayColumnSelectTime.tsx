@@ -25,7 +25,11 @@ const DayColumnSelectTime = ({ date }: DayColumnSelectTimeProps) => {
 				<li>Loading...</li>
 			) : (
 				timeslots?.map((slot) => (
-					<li id="select-list-item" key={slot.start_time}>
+					<li
+						id="select-list-item"
+						key={slot.start_time}
+						className={`${!slot.available && 'li-disabled'}`}
+					>
 						<input
 							className="select-list-input"
 							type="radio"
@@ -36,10 +40,13 @@ const DayColumnSelectTime = ({ date }: DayColumnSelectTimeProps) => {
 								dateTimeSelected === date + slot.start_time
 							}
 							onChange={handleChange}
+							disabled={!slot.available}
 						/>
 						<label
 							htmlFor={`${date}${slot.start_time}`}
-							className="select-list-label"
+							className={`select-list-label ${
+								!slot.available && 'label-disabled'
+							}`}
 						>
 							<span>{slot.start_time}</span>
 						</label>
