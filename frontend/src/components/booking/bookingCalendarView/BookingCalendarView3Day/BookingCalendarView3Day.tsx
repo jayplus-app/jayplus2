@@ -5,10 +5,10 @@ import DayColumnSelectTime from '../DayColumnSelectTime'
 import NextDayButton from '../NextDayButton'
 import PreviousDayButton from '../PreviousDayButton'
 import CustomerBookingContext from '../../../../context/CustomerBookingContext/CustomerBookingContext'
-import CustomerUIContext from '../../../../context/UIContext/CustomerUIContext'
+import CustomerConfigContext from '../../../../context/CustomerConfigContext/CustomerConfigContext'
 
 const BookingCalendarView3Day = () => {
-	const { maxFutureBookingDays } = useContext(CustomerUIContext)
+	const { appConfig } = useContext(CustomerConfigContext)
 	const { setDateTimeSelected } = useContext(CustomerBookingContext)
 	const [startDate, setStartDate] = useState<string>(todaysDate())
 
@@ -23,26 +23,35 @@ const BookingCalendarView3Day = () => {
 				onClick={() => setStartDate(addDaysToDate(startDate, -1))}
 				disabled={dateToNumber(startDate) <= dateToNumber(todaysDate())}
 			/>
-			<div className="day-columns">
+
+			<div id="day-columns">
 				<div>
-					<h3>{startDate}</h3>
+					<div className="day-column-title">{startDate}</div>
 					<DayColumnSelectTime date={startDate} />
 				</div>
 				<div>
-					<h3>{addDaysToDate(startDate, +1)}</h3>
+					<div className="day-column-title">
+						{addDaysToDate(startDate, +1)}
+					</div>
 					<DayColumnSelectTime date={addDaysToDate(startDate, +1)} />
 				</div>
 				<div>
-					<h3>{addDaysToDate(startDate, +2)}</h3>
+					<div className="day-column-title">
+						{addDaysToDate(startDate, +2)}
+					</div>
 					<DayColumnSelectTime date={addDaysToDate(startDate, +2)} />
 				</div>
 			</div>
+
 			<NextDayButton
 				onClick={() => setStartDate(addDaysToDate(startDate, +1))}
 				disabled={
 					dateToNumber(startDate) >=
 					dateToNumber(
-						addDaysToDate(todaysDate(), +maxFutureBookingDays)
+						addDaysToDate(
+							todaysDate(),
+							+appConfig.maxFutureBookingDays
+						)
 					)
 				}
 			/>

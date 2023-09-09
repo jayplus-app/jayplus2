@@ -1,7 +1,10 @@
 #previous-day-button {
+	background-color: var(--secondaryColor);
 	width: 25px;
 	height: 50px;
 	padding: 0;
+	border-radius: 5px;
+	border: none;
 }
 
 #previous-day-button:disabled {

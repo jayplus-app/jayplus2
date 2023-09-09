@@ -1,3 +1,11 @@
 #select-list-block {
 	list-style-type: none;
+	padding: 0;
+}
+
+#select-list-block #select-list-item {
+	width: 100%;
+	text-align: center;
+	background-color: var(--secondaryColor);
+	margin-bottom: 10px;
 }

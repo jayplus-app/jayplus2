@@ -3,13 +3,24 @@
 	flex-direction: row;
 }
 
-#booking-calendar-view-3-day .day-columns {
+#booking-calendar-view-3-day #day-columns {
 	display: flex;
+	gap: 20px;
 	flex-direction: row;
 	width: 100%;
+	margin: 0 10px;
 }
 
-#booking-calendar-view-3-day .day-columns div {
+#booking-calendar-view-3-day #day-columns div {
 	width: 100%;
 	text-align: center;
+}
+
+#booking-calendar-view-3-day #day-columns .day-column-title {
+	background-color: var(--secondaryColor);
+	height: 50px;
+	border-radius: 5px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
