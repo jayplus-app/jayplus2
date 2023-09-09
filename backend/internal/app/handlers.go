@@ -15,7 +15,10 @@ func (app *App) UICOnfig(w http.ResponseWriter, r *http.Request, db common.AppDB
 		},
 		"cssConfig": map[string]string{
 			"primaryColor":   "#FFC960",
-			"secondaryColor": "#ced4da",
+			"secondaryColorDark": "#ced4da",
+			"secondaryColorLight": "#e9edf0",
+			"complementaryColorDark": "#45645b",
+			"complementaryColorLight": "#eaf0f0",
 		},
 	}
 

@@ -1,24 +1,12 @@
 import { createContext } from 'react'
 
-interface AppConfig {
-	maxFutureBookingDays: number
-}
-
-interface CSSConfig {
-	primaryColor: string
-	secondaryColor: string
-}
-
-interface CustomerConfigContextProps {
-	appConfig: AppConfig
-	cssConfig: CSSConfig
-	isLoadingConfig: boolean
-}
-
 export const defaultAppConfig = { maxFutureBookingDays: 5 }
 export const defaultCssConfig = {
 	primaryColor: '#FFC960',
-	secondaryColor: '#ced4da',
+	secondaryColorDark: '#ced4da',
+	secondaryColorLight: '#f8f9fa',
+	complementaryColorDark: '#45645b',
+	complementaryColorLight: '#eaf0f0',
 }
 
 const CustomerConfigContext = createContext({

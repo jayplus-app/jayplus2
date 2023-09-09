@@ -1,9 +1,11 @@
+import './DescriptionField.css'
+
 interface DescriptionFieldProps {
 	content: string
 }
 
 const DescriptionField = ({ content }: DescriptionFieldProps) => {
-	return <div>{content}</div>
+	return <div id="description-field">{content}</div>
 }
 
 export default DescriptionField

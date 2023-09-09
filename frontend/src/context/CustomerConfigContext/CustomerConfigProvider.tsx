@@ -34,8 +34,20 @@ const CustomerConfigProvider = ({ children }: CustomerConfigProviderProps) => {
 		cssConfig.primaryColor
 	)
 	document.documentElement.style.setProperty(
-		'--secondaryColor',
-		cssConfig.secondaryColor
+		'--secondaryColorDark',
+		cssConfig.secondaryColorDark
+	)
+	document.documentElement.style.setProperty(
+		'--secondaryColorLight',
+		cssConfig.secondaryColorLight
+	)
+	document.documentElement.style.setProperty(
+		'--complementaryColorDark',
+		cssConfig.complementaryColorDark
+	)
+	document.documentElement.style.setProperty(
+		'--complementaryColorLight',
+		cssConfig.complementaryColorLight
 	)
 
 	const contextValue = useMemo(

@@ -1,0 +1,9 @@
+#description-field {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background-color: var(--complementaryColorLight);
+	border: 1px solid var(--complementaryColorDark);
+	border-radius: 5px;
+	padding: 15px;
+	font-size: 13px;
+}

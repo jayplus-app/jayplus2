@@ -6,6 +6,6 @@
 #select-list-block #select-list-item {
 	width: 100%;
 	text-align: center;
-	background-color: var(--secondaryColor);
+	background-color: var(--secondaryColorLight);
 	margin-bottom: 10px;
 }
