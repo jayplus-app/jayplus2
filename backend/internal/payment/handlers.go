@@ -17,16 +17,17 @@ func PayBooking(w http.ResponseWriter, r *http.Request, db payment.PaymentDBInte
 
 func GetInvoice(w http.ResponseWriter, r *http.Request, db payment.PaymentDBInterface) {
 	invoice := map[string]string{
-		"bookingID":   "13",
-		"serviceType": "Show Room",
-		"vehicleType": "Sedan",
-		"date":        "2023-03-14",
-		"time":        "15:00",
-		"serviceCost": "169.00",
-		"discount":    "Not Specified",
-		"total":       "169.00",
-		"deposit":     "30.00",
-		"remaining":   "139.00",
+		"transactionNumber": "1",
+		"billNumber":        "1",
+		"typeOfService":     "Show Room",
+		"vehicleType":       "Sedan",
+		"date":              "2023-03-14",
+		"time":              "15:00",
+		"serviceCost":       "169.00",
+		"discount":          "Not Specified",
+		"total":             "169.00",
+		"deposit":           "30.00",
+		"remaining":         "139.00",
 	}
 
 	utils.WriteJSON(w, http.StatusOK, invoice)
