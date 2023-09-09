@@ -15,8 +15,8 @@ const PaymentForm = () => {
 				<input type="text" />
 				<label htmlFor="">Phone Number</label>
 				<input type="text" />
-				<ButtonMD />
-				<ButtonMD />
+				<ButtonMD >Cancel</ButtonMD>
+				<ButtonMD >Pay</ButtonMD>
 			</form>
 		</div>
 	)

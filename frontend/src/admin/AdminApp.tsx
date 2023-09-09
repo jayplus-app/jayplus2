@@ -41,7 +41,6 @@ const AdminApp = () => {
 			.catch((err) => {
 				console.log('User not logged in')
 			})
-		console.log('Refreshed auth token')
 	}, [setAuthToken, setRefreshInterval])
 
 	useEffect(() => {
@@ -49,8 +48,6 @@ const AdminApp = () => {
 			refreshAuthToken()
 		}
 	}, [authToken, refreshAuthToken])
-
-	console.log('authToken: ', authToken)
 
 	return (
 		<div className="container">

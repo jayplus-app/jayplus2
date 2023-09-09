@@ -7,7 +7,7 @@ const PaymentSuccessPage = () => {
 			<h1>Payment Success Page</h1>
 			<h2>Done Successfully</h2>
 			<Invoice />
-			<ButtonMD />
+			<ButtonMD>Back to Booking</ButtonMD>
 		</div>
 	)
 }

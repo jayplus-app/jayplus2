@@ -13,7 +13,6 @@ const BookingCalendarView3Day = () => {
 	const [startDate, setStartDate] = useState<string>(todaysDate())
 
 	useEffect(() => {
-		console.log('BookingCalendarView3Day: startDate', startDate)
 		setDateTimeSelected('')
 	}, [startDate])
 
