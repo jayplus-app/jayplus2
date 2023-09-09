@@ -7,6 +7,7 @@ import (
 
 type PaymentInterface interface {
 	PayBooking(w http.ResponseWriter, r *http.Request, db PaymentDBInterface)
+	GetInvoice(w http.ResponseWriter, r *http.Request, db PaymentDBInterface)
 }
 
 type PaymentDBInterface interface {
