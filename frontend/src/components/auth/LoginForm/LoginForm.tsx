@@ -1,50 +1,23 @@
-import { useCallback, useContext, useState } from 'react'
-import AuthContext from '../../../context/AuthContext/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useState, useCallback } from 'react'
+import useAuth from '../../../hooks/auth/useAuth'
 
 const LoginForm = () => {
-	const { setAuthToken, setRefreshInterval } = useContext(AuthContext)
+	const { login } = useAuth()
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [loginError, setLoginError] = useState('')
 
-	const navigate = useNavigate()
-
 	const handleSubmit = useCallback(
 		async (e: React.FormEvent<HTMLFormElement>) => {
 			e.preventDefault()
-
-			const payload = {
-				email: email,
-				password: password,
+			const data = await login(email, password)
+			if (data.error) {
+				setLoginError(data.message || 'Failed to login')
+			} else {
+				setLoginError('')
 			}
-
-			const options: RequestInit = {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				credentials: 'include',
-				body: JSON.stringify(payload),
-			}
-
-			fetch('/api/auth/login', options)
-				.then((res) => res.json())
-				.then((data) => {
-					if (data.error) {
-						setLoginError(data.message)
-					} else {
-						setAuthToken(data.access_token)
-						setLoginError('')
-						navigate('/admin/booking')
-						setRefreshInterval(true)
-					}
-				})
-				.catch((err) => {
-					setLoginError(err.message)
-				})
 		},
-		[email, password, navigate, setAuthToken, setRefreshInterval]
+		[email, password, login]
 	)
 
 	return (

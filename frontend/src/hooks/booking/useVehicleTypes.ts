@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { apiGet } from '../../utils/apiUtils'
 
 export interface VehicleType {
 	id: string
@@ -17,8 +18,7 @@ export const useVehicleTypes = () => {
 	const [isLoadingVehicleTypes, setIsLoadingVehicleTypes] = useState(true)
 
 	useEffect(() => {
-		fetch('/api/booking/vehicle-types')
-			.then((response) => response.json())
+		apiGet('/api/booking/vehicle-types')
 			.then((data: VehicleTypeResponse) => {
 				setVehicleTypes(data.types)
 				setIsLoadingVehicleTypes(false)

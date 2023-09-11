@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { apiGet } from '../../utils/apiUtils'
 
 interface Timeslot {
 	id: number
@@ -25,8 +26,7 @@ export const useTimeslots = ({ selectedDate }: UseTimeslotsProps) => {
 	useEffect(() => {
 		setIsLoadingTimeslots(true)
 
-		fetch(`/api/booking/timeslots?date=${selectedDate}`)
-			.then((response) => response.json())
+		apiGet(`/api/booking/timeslots?date=${selectedDate}`)
 			.then((data: TimeslotsResponse) => {
 				setTimeslots(data.slots)
 				setIsLoadingTimeslots(false)

@@ -3,6 +3,7 @@ import CustomerConfigContext, {
 	defaultAppConfig,
 	defaultCssConfig,
 } from './CustomerConfigContext'
+import { apiGet } from '../../utils/apiUtils'
 
 interface CustomerConfigProviderProps {
 	children: React.ReactNode
@@ -24,8 +25,7 @@ const CustomerConfigProvider = ({ children }: CustomerConfigProviderProps) => {
 	}
 
 	useEffect(() => {
-		fetch('/api/app/ui-config')
-			.then((res) => res.json())
+		apiGet('/api/app/ui-config')
 			.then((data) => {
 				setAppConfig(data.appConfig)
 				setCssConfig(data.cssConfig)

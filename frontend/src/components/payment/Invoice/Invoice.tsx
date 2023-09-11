@@ -1,3 +1,4 @@
+import { apiGet } from '../../../utils/apiUtils'
 import './Invoice.css'
 import { useEffect, useState } from 'react'
 
@@ -31,11 +32,8 @@ const Invoice = () => {
 	})
 
 	useEffect(() => {
-		fetch('/api/payment/invoice')
-			.then((res) => res.json())
-			.then((data) => {
-				setInvoice(data)
-			})
+		apiGet('/api/payment/invoice')
+			.then(setInvoice)
 			.catch((err) => console.error(err))
 	}, [])
 

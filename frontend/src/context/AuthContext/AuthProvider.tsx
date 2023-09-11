@@ -1,5 +1,6 @@
-import React, { ReactNode, useState, useRef, useEffect } from 'react'
+import { ReactNode, useState, useRef, useEffect } from 'react'
 import AuthContext from './AuthContext'
+import { apiGet } from '../../utils/apiUtils'
 
 interface AuthProviderProps {
 	children: ReactNode
@@ -12,16 +13,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 	const setRefreshInterval = (shouldStart: boolean) => {
 		if (shouldStart) {
 			tickIntervalRef.current = setInterval(() => {
-				fetch('/api/auth/refresh', {
-					method: 'GET',
-					credentials: 'include',
-				})
-					.then((res) => {
-						if (!res.ok) {
-							throw new Error('Failed to refresh the token')
-						}
-						return res.json()
-					})
+				apiGet('/api/auth/refresh')
 					.then((data) => {
 						if (data.access_token) {
 							setAuthToken(data.access_token)
