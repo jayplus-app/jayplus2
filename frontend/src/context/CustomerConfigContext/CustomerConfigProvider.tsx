@@ -14,6 +14,15 @@ const CustomerConfigProvider = ({ children }: CustomerConfigProviderProps) => {
 
 	const [isLoadingConfig, setIsLoadingConfig] = useState(true)
 
+	const setCssVariables = (cssConfig: typeof defaultCssConfig) => {
+		Object.keys(cssConfig).forEach((key) => {
+			document.documentElement.style.setProperty(
+				`--${key}`,
+				cssConfig[key as keyof typeof cssConfig]
+			)
+		})
+	}
+
 	useEffect(() => {
 		fetch('/api/app/ui-config')
 			.then((res) => res.json())
@@ -28,39 +37,7 @@ const CustomerConfigProvider = ({ children }: CustomerConfigProviderProps) => {
 			})
 	}, [])
 
-	// Set CSS variables
-	document.documentElement.style.setProperty(
-		'--primaryColorLight',
-		cssConfig.primaryColorLight
-	)
-	document.documentElement.style.setProperty(
-		'--primaryColorDark',
-		cssConfig.primaryColorDark
-	)
-	document.documentElement.style.setProperty(
-		'--secondaryColorLight',
-		cssConfig.secondaryColorLight
-	)
-	document.documentElement.style.setProperty(
-		'--secondaryColorDark',
-		cssConfig.secondaryColorDark
-	)
-	document.documentElement.style.setProperty(
-		'--secondaryColorDarker',
-		cssConfig.secondaryColorDarker
-	)
-	document.documentElement.style.setProperty(
-		'--complementaryColorLight',
-		cssConfig.complementaryColorLight
-	)
-	document.documentElement.style.setProperty(
-		'--complementaryColorDark',
-		cssConfig.complementaryColorDark
-	)
-	document.documentElement.style.setProperty(
-		'--disableColor',
-		cssConfig.disableColor
-	)
+	setCssVariables(cssConfig)
 
 	const contextValue = useMemo(
 		() => ({

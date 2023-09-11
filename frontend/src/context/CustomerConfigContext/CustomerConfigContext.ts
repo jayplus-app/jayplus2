@@ -12,7 +12,13 @@ export const defaultCssConfig = {
 	disableColor: '#f3f3f3',
 }
 
-const CustomerConfigContext = createContext({
+interface CustomerConfigContextProps {
+	appConfig: typeof defaultAppConfig
+	cssConfig: typeof defaultCssConfig
+	isLoadingConfig: boolean
+}
+
+const CustomerConfigContext = createContext<CustomerConfigContextProps>({
 	appConfig: defaultAppConfig,
 	cssConfig: defaultCssConfig,
 	isLoadingConfig: true,
