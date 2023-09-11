@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 
 const NavbarSide = () => {
 	const { authToken, logOut } = useAuth()
+	const location = useLocation()
 
 	return (
 		<nav id="navbar-side">
