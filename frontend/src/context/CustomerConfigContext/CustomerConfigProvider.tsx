@@ -30,8 +30,12 @@ const CustomerConfigProvider = ({ children }: CustomerConfigProviderProps) => {
 
 	// Set CSS variables
 	document.documentElement.style.setProperty(
-		'--primaryColor',
-		cssConfig.primaryColor
+		'--primaryColorLight',
+		cssConfig.primaryColorLight
+	)
+	document.documentElement.style.setProperty(
+		'--primaryColorDark',
+		cssConfig.primaryColorDark
 	)
 	document.documentElement.style.setProperty(
 		'--secondaryColorDark',

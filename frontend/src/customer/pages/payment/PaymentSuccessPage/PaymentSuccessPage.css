@@ -1,0 +1,9 @@
+#payment-success h2 {
+	text-align: center;
+	color: var(--complementaryColorDark);
+}
+
+#payment-success .buttons {
+	width: 250px;
+	margin: 15px auto;
+}

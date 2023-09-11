@@ -1,9 +1,11 @@
+import './PaymentForm.css'
 import ButtonMD from '../../system/buttons/ButtonMD'
+import { useNavigate } from 'react-router-dom'
 
 const PaymentForm = () => {
+	const navigate = useNavigate()
 	return (
-		<div>
-			<h1>Payment Form</h1>
+		<div id="payment-form">
 			<form action="">
 				<label htmlFor="">Card Number</label>
 				<input type="text" />
@@ -15,9 +17,27 @@ const PaymentForm = () => {
 				<input type="text" />
 				<label htmlFor="">Phone Number</label>
 				<input type="text" />
-				<ButtonMD >Cancel</ButtonMD>
-				<ButtonMD >Pay</ButtonMD>
 			</form>
+			<div className="buttons">
+				<ButtonMD
+					bgColor="var(--secondaryColorLight)"
+					bgColorHover="var(--secondaryColorDark)"
+					onClick={() => {
+						navigate('/')
+					}}
+				>
+					Cancel
+				</ButtonMD>
+				<ButtonMD
+					bgColor="var(--primaryColorLight)"
+					bgColorHover="var(--primaryColorDark)"
+					onClick={() => {
+						navigate('/payment-success')
+					}}
+				>
+					Pay
+				</ButtonMD>
+			</div>
 		</div>
 	)
 }

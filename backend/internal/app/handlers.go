@@ -14,7 +14,8 @@ func (app *App) UICOnfig(w http.ResponseWriter, r *http.Request, db common.AppDB
 			"maxFutureBookingDays": 5,
 		},
 		"cssConfig": map[string]string{
-			"primaryColor":            "#FFC960",
+			"primaryColorLight":       "#FFC960",
+			"primaryColorDark":        "#ffaf14",
 			"secondaryColorDark":      "#ced4da",
 			"secondaryColorLight":     "#e9edf0",
 			"complementaryColorDark":  "#45645b",

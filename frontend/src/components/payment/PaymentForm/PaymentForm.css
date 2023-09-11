@@ -1,0 +1,10 @@
+#payment-form {
+	margin: 0 auto;
+	max-width: 800px;
+}
+
+#payment-form .buttons {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+}

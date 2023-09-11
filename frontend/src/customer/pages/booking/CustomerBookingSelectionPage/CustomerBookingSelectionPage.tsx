@@ -15,13 +15,17 @@ const CustomerBookingSelectionPage = () => {
 			<TimeSelection />
 			<div id="footer">
 				<div>Price 100$</div>
-				<ButtonMD
-					onClick={() => {
-						navigate('/payment')
-					}}
-				>
-					Payment
-				</ButtonMD>
+				<div className="footer-button">
+					<ButtonMD
+						onClick={() => {
+							navigate('/payment')
+						}}
+						bgColor="var(--primaryColorLight)"
+						bgColorHover="var(--primaryColorDark)"
+					>
+						Payment
+					</ButtonMD>
+				</div>
 			</div>
 		</div>
 	)

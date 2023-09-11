@@ -25,7 +25,7 @@
 	height: 80px;
 	border-radius: 5px;
 	border: none;
-	background-color: var(--primaryColor);
+	background-color: var(--primaryColorLight);
 	cursor: pointer;
 	transition: 0.3s;
 }
@@ -50,5 +50,5 @@
 }
 
 #select-list-inline .select-list-input:checked ~ label {
-	background: var(--primaryColor);
+	background: var(--primaryColorLight);
 }

@@ -41,7 +41,6 @@ const Invoice = () => {
 
 	return (
 		<div id="invoice">
-			<h1>Invoice</h1>
 			<table>
 				<tbody>
 					<tr>

@@ -4,3 +4,8 @@
 	display: block;
 	text-align: center;
 }
+
+#customer-booking-selection-page #footer .footer-button {
+	width: 250px;
+	margin: 15px auto;
+}
