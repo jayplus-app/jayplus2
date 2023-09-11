@@ -1,0 +1,16 @@
+#admin-app {
+	display: flex;
+	flex-direction: row;
+	justify-content: left;
+}
+
+#admin-app #admin-app-content {
+	width: 100%;
+	background-color: #656565;
+}
+
+@media screen and (max-width: 800px) {
+	#admin-app {
+		flex-direction: column;
+	}
+}

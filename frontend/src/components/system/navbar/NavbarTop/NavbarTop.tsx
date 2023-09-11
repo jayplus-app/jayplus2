@@ -1,5 +1,7 @@
+import './NavbarTop.css'
+
 const NavbarTop = () => {
-	return <nav>NavbarTop</nav>
+	return <nav id="navbar-top">NavbarTop</nav>
 }
 
 export default NavbarTop
