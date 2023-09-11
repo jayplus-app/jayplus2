@@ -1,11 +1,13 @@
+import React, { useContext, useEffect } from 'react'
 import { Link, Outlet } from 'react-router-dom'
-import { useEffect } from 'react'
 import useAuth from '../hooks/auth/useAuth'
 import NavbarSide from '../components/system/navbar/NavbarSide'
 import NavbarTop from '../components/system/navbar/NavbarTop'
+import SystemContext from '../context/SystemContext/SystemContext'
 
 const AdminApp = () => {
 	const { authToken, logOut, refreshAuthToken } = useAuth()
+	const { windowWidth } = useContext(SystemContext)
 
 	useEffect(() => {
 		if (authToken === '') {
@@ -27,8 +29,7 @@ const AdminApp = () => {
 				)}
 			</div>
 			<div id="navbar">
-				<NavbarSide />
-				<NavbarTop />
+				{windowWidth <= 800 ? <NavbarTop /> : <NavbarSide />}
 			</div>
 			<Outlet />
 		</div>
