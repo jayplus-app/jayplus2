@@ -21,6 +21,8 @@ const BookingCalendarView3Day = () => {
 			<PreviousDayButton
 				onClick={() => setStartDate(addDaysToDate(startDate, -1))}
 				disabled={dateToNumber(startDate) <= dateToNumber(todaysDate())}
+				bgColor="var(--secondaryColorDark)"
+				bgColorHover="var(--secondaryColorDarker)"
 			/>
 
 			<div id="day-columns">
@@ -53,6 +55,8 @@ const BookingCalendarView3Day = () => {
 						)
 					)
 				}
+				bgColor="var(--secondaryColorDark)"
+				bgColorHover="var(--secondaryColorDarker)"
 			/>
 		</div>
 	)

@@ -38,20 +38,24 @@ const CustomerConfigProvider = ({ children }: CustomerConfigProviderProps) => {
 		cssConfig.primaryColorDark
 	)
 	document.documentElement.style.setProperty(
-		'--secondaryColorDark',
-		cssConfig.secondaryColorDark
-	)
-	document.documentElement.style.setProperty(
 		'--secondaryColorLight',
 		cssConfig.secondaryColorLight
 	)
 	document.documentElement.style.setProperty(
-		'--complementaryColorDark',
-		cssConfig.complementaryColorDark
+		'--secondaryColorDark',
+		cssConfig.secondaryColorDark
+	)
+	document.documentElement.style.setProperty(
+		'--secondaryColorDarker',
+		cssConfig.secondaryColorDarker
 	)
 	document.documentElement.style.setProperty(
 		'--complementaryColorLight',
 		cssConfig.complementaryColorLight
+	)
+	document.documentElement.style.setProperty(
+		'--complementaryColorDark',
+		cssConfig.complementaryColorDark
 	)
 	document.documentElement.style.setProperty(
 		'--disableColor',

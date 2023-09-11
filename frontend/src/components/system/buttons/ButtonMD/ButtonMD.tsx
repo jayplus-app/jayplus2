@@ -35,8 +35,8 @@ const ButtonMD = ({
 ButtonMD.defaultProps = {
 	onClick: () => {},
 	disabled: false,
-	bgColor: 'var(--secondaryColorLight)',
-	bgColorHover: 'var(--secondaryColorDark)',
+	bgColor: 'var(--secondaryColorDark)',
+	bgColorHover: 'var(--secondaryColorDarker)',
 }
 
 export default ButtonMD

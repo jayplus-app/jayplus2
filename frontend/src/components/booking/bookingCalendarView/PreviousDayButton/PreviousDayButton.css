@@ -1,5 +1,5 @@
 #previous-day-button {
-	background-color: var(--secondaryColorDark);
+	background-color: var(--previous-day-button-bg-color);
 	width: 25px;
 	height: 50px;
 	padding: 0;
@@ -12,6 +12,14 @@
 	cursor: not-allowed !important;
 }
 
+#previous-day-button:disabled:hover {
+	opacity: 0.5;
+	cursor: not-allowed !important;
+	background-color: var(--previous-day-button-bg-color);
+}
+
 #previous-day-button:hover {
+	background-color: var(--previous-day-button-bg-color-hover);
 	cursor: pointer;
+	transition: 200ms;
 }

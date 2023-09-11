@@ -20,8 +20,8 @@ const PaymentForm = () => {
 			</form>
 			<div className="buttons">
 				<ButtonMD
-					bgColor="var(--secondaryColorLight)"
-					bgColorHover="var(--secondaryColorDark)"
+					bgColor="var(--secondaryColorDark)"
+					bgColorHover="var(--secondaryColorDarker)"
 					onClick={() => {
 						navigate('/')
 					}}
