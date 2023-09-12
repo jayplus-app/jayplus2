@@ -1,11 +1,14 @@
 import { useState, useCallback } from 'react'
 import useAuth from '../../../hooks/auth/useAuth'
+import { useNavigate } from 'react-router-dom'
 
 const LoginForm = () => {
 	const { login } = useAuth()
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [loginError, setLoginError] = useState('')
+
+	const navigate = useNavigate()
 
 	const handleSubmit = useCallback(
 		async (e: React.FormEvent<HTMLFormElement>) => {
@@ -15,6 +18,7 @@ const LoginForm = () => {
 				setLoginError(data.message || 'Failed to login')
 			} else {
 				setLoginError('')
+				navigate('/admin')
 			}
 		},
 		[email, password, login]

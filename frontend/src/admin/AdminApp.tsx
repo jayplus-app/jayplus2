@@ -1,4 +1,5 @@
 import './AdminApp.css'
+import { setAdminCssVariables } from './AdminAppConfig'
 import { useContext, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import useAuth from '../hooks/auth/useAuth'
@@ -9,6 +10,8 @@ import SystemContext from '../context/SystemContext/SystemContext'
 const AdminApp = () => {
 	const { authToken, refreshAuthToken } = useAuth()
 	const { windowWidth } = useContext(SystemContext)
+
+	setAdminCssVariables()
 
 	useEffect(() => {
 		if (authToken === '') {

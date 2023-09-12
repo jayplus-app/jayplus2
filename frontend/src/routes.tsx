@@ -54,11 +54,15 @@ const Router = createBrowserRouter([
 				path: 'booking',
 				element: <AdminBookingSelectionPage />,
 			},
-			{
-				path: 'login',
-				element: <AdminLoginPage />,
-			},
 		],
+	},
+	{
+		path: '/login',
+		element: (
+			<AuthProvider>
+				<AdminLoginPage />
+			</AuthProvider>
+		),
 	},
 ])
 

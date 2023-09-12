@@ -5,6 +5,7 @@
 	display: flex;
 	flex-direction: column;
 	border-right: 1px solid var(--secondaryColorDark);
+	font-size: 16px;
 }
 
 #navbar-side #navbar-side-logo {
@@ -23,12 +24,12 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 30px;
 	margin-bottom: auto;
 }
 
 #navbar-side #navbar-side-options a {
 	width: 100%;
+	padding: 15px 0;
 	text-align: center;
 	text-decoration: none;
 	color: var(--secondaryColorDark);
@@ -36,6 +37,7 @@
 
 #navbar-side #navbar-side-options a.active {
 	color: var(--secondaryColorDarker);
+	font-weight: bold;
 	background-color: var(--secondaryColorLight);
 }
 

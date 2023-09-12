@@ -5,6 +5,9 @@ import { Link, useLocation } from 'react-router-dom'
 const NavbarSide = () => {
 	const { authToken, logOut } = useAuth()
 	const location = useLocation()
+	const currentPath = location.pathname.endsWith('/')
+		? location.pathname.slice(0, -1)
+		: location.pathname
 
 	return (
 		<nav id="navbar-side">
@@ -13,27 +16,33 @@ const NavbarSide = () => {
 			</div>
 			<div id="navbar-side-options">
 				<Link
-					to="/admin/dashboard"
-					className={
-						location.pathname === '/admin/dashboard' ? 'active' : ''
-					}
+					to="/admin"
+					className={currentPath === '/admin' ? 'active' : ''}
 				>
 					Dashboard
 				</Link>
 				<Link
-					to="/admin/booking"
+					to="/admin/booking-management"
 					className={
-						location.pathname === '/admin/booking' ? 'active' : ''
+						currentPath === '/admin/booking-management'
+							? 'active'
+							: ''
 					}
+				>
+					Booking Management
+				</Link>
+				<Link
+					to="/admin/booking"
+					className={currentPath === '/admin/booking' ? 'active' : ''}
 				>
 					Booking
 				</Link>
 			</div>
 			<div id="navbar-side-logout">
 				{authToken === '' ? (
-					<Link to="/admin/login">Login</Link>
+					<Link to="/login">Login</Link>
 				) : (
-					<Link to="/admin/login" onClick={logOut}>
+					<Link to="/login" onClick={logOut}>
 						Logout
 					</Link>
 				)}

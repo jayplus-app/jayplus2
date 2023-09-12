@@ -1,12 +1,10 @@
 import { useContext, useCallback } from 'react'
 import AuthContext from '../../context/AuthContext/AuthContext'
-import { useNavigate } from 'react-router-dom'
 import { apiGet, apiPost } from '../../utils/apiUtils'
 
 const useAuth = () => {
 	const { authToken, setAuthToken, setRefreshInterval } =
 		useContext(AuthContext)
-	const navigate = useNavigate()
 
 	const logOut = useCallback(() => {
 		apiGet('/api/auth/logout')
@@ -15,9 +13,7 @@ const useAuth = () => {
 				setAuthToken('')
 				setRefreshInterval(false)
 			})
-
-		navigate('/admin/login')
-	}, [setAuthToken, setRefreshInterval, navigate])
+	}, [setAuthToken, setRefreshInterval])
 
 	const refreshAuthToken = useCallback(() => {
 		apiGet('/api/auth/refresh')
@@ -41,7 +37,6 @@ const useAuth = () => {
 				.then((data) => {
 					if (!data.error) {
 						setAuthToken(data.access_token)
-						navigate('/admin/booking')
 						setRefreshInterval(true)
 					}
 					return data
@@ -50,7 +45,7 @@ const useAuth = () => {
 					return { error: err.message }
 				})
 		},
-		[setAuthToken, setRefreshInterval, navigate]
+		[setAuthToken, setRefreshInterval]
 	)
 
 	return {

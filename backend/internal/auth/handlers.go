@@ -104,5 +104,6 @@ func (a *Auth) RefreshToken(w http.ResponseWriter, r *http.Request, db auth.Auth
 func (a *Auth) Logout(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, a.getExpiredRefreshCookie())
 	w.WriteHeader(http.StatusAccepted)
+	utils.WriteJSON(w, http.StatusOK, "Logged out")
 	log.Println("Logout endpoint hit")
 }
