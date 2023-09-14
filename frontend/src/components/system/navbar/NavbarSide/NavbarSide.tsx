@@ -1,13 +1,30 @@
 import './NavbarSide.css'
 import useAuth from '../../../../hooks/auth/useAuth'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import ButtonMD from '../../buttons/ButtonMD'
 
 const NavbarSide = () => {
 	const { authToken, logOut } = useAuth()
+	const [isLoggingOut, setIsLoggingOut] = useState(false)
 	const location = useLocation()
 	const currentPath = location.pathname.endsWith('/')
 		? location.pathname.slice(0, -1)
 		: location.pathname
+
+	const navigate = useNavigate()
+
+	useEffect(() => {
+		if (isLoggingOut && authToken === '') {
+			setIsLoggingOut(false)
+			navigate('/login')
+		}
+	}, [isLoggingOut, authToken, navigate])
+
+	const handleLogout = () => {
+		setIsLoggingOut(true)
+		logOut()
+	}
 
 	return (
 		<nav id="navbar-side">
@@ -42,9 +59,7 @@ const NavbarSide = () => {
 				{authToken === '' ? (
 					<Link to="/login">Login</Link>
 				) : (
-					<Link to="/login" onClick={logOut}>
-						Logout
-					</Link>
+					<ButtonMD onClick={handleLogout}>Logout</ButtonMD>
 				)}
 			</div>
 		</nav>

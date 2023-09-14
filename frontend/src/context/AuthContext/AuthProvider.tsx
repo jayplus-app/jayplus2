@@ -7,7 +7,8 @@ interface AuthProviderProps {
 }
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-	const [authToken, setAuthToken] = useState('')
+	const initialToken = localStorage.getItem('authToken') || ''
+	const [authToken, setAuthToken] = useState(initialToken)
 	const tickIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
 	const setRefreshInterval = (shouldStart: boolean) => {

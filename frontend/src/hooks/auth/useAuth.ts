@@ -12,20 +12,28 @@ const useAuth = () => {
 			.finally(() => {
 				setAuthToken('')
 				setRefreshInterval(false)
+				localStorage.removeItem('authToken')
 			})
 	}, [setAuthToken, setRefreshInterval])
 
 	const refreshAuthToken = useCallback(() => {
-		apiGet('/api/auth/refresh')
-			.then((data) => {
-				if (data.access_token) {
-					setAuthToken(data.access_token)
-					setRefreshInterval(true)
-				}
-			})
-			.catch(() => {
-				console.log('User not logged in')
-			})
+		return new Promise((resolve, reject) => {
+			apiGet('/api/auth/refresh')
+				.then((data) => {
+					if (data.access_token) {
+						setAuthToken(data.access_token)
+						setRefreshInterval(true)
+						localStorage.setItem('authToken', data.access_token)
+						resolve(data.access_token) // resolve the promise
+					} else {
+						reject(new Error('No access token')) // reject if no access_token
+					}
+				})
+				.catch((err) => {
+					console.log('User not logged in')
+					reject(err) // reject the promise
+				})
+		})
 	}, [setAuthToken, setRefreshInterval])
 
 	const login = useCallback(
@@ -38,6 +46,7 @@ const useAuth = () => {
 					if (!data.error) {
 						setAuthToken(data.access_token)
 						setRefreshInterval(true)
+						localStorage.setItem('authToken', data.access_token)
 					}
 					return data
 				})
