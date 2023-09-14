@@ -1,7 +1,7 @@
 import './DayColumnSelectTime.css'
 import { ChangeEvent, useContext } from 'react'
 import { useTimeslots } from '../../../../hooks/booking/useTimeslots'
-import CustomerBookingContext from '../../../../context/CustomerBookingContext/CustomerBookingContext'
+import BookingContext from '../../../../context/BookingContext/BookingContext'
 
 interface DayColumnSelectTimeProps {
 	date: string
@@ -11,9 +11,7 @@ const DayColumnSelectTime = ({ date }: DayColumnSelectTimeProps) => {
 	const { timeslots, isLoadingTimeslots } = useTimeslots({
 		selectedDate: date,
 	})
-	const { dateTimeSelected, setDateTimeSelected } = useContext(
-		CustomerBookingContext
-	)
+	const { dateTimeSelected, setDateTimeSelected } = useContext(BookingContext)
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setDateTimeSelected(e.currentTarget.value)

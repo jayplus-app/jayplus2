@@ -4,13 +4,19 @@ import { addDaysToDate, dateToNumber, todaysDate } from '../../../../utils'
 import DayColumnSelectTime from '../DayColumnSelectTime'
 import NextDayButton from '../NextDayButton'
 import PreviousDayButton from '../PreviousDayButton'
-import CustomerBookingContext from '../../../../context/CustomerBookingContext/CustomerBookingContext'
+import BookingContext from '../../../../context/BookingContext/BookingContext'
 import CustomerConfigContext from '../../../../context/CustomerConfigContext/CustomerConfigContext'
 
 const BookingCalendarView3Day = () => {
 	const { appConfig } = useContext(CustomerConfigContext)
-	const { setDateTimeSelected } = useContext(CustomerBookingContext)
+	const { setDateTimeSelected } = useContext(BookingContext)
 	const [startDate, setStartDate] = useState<string>(todaysDate())
+
+	const dates = [
+		startDate,
+		addDaysToDate(startDate, +1),
+		addDaysToDate(startDate, +2),
+	]
 
 	useEffect(() => {
 		setDateTimeSelected('')
@@ -21,27 +27,15 @@ const BookingCalendarView3Day = () => {
 			<PreviousDayButton
 				onClick={() => setStartDate(addDaysToDate(startDate, -1))}
 				disabled={dateToNumber(startDate) <= dateToNumber(todaysDate())}
-				bgColor="var(--secondaryColorDark)"
-				bgColorHover="var(--secondaryColorDarker)"
 			/>
 
 			<div id="day-columns">
-				<div>
-					<div className="day-column-title">{startDate}</div>
-					<DayColumnSelectTime date={startDate} />
-				</div>
-				<div>
-					<div className="day-column-title">
-						{addDaysToDate(startDate, +1)}
+				{dates.map((date) => (
+					<div key={date}>
+						<div className="day-column-title">{date}</div>
+						<DayColumnSelectTime date={date} />
 					</div>
-					<DayColumnSelectTime date={addDaysToDate(startDate, +1)} />
-				</div>
-				<div>
-					<div className="day-column-title">
-						{addDaysToDate(startDate, +2)}
-					</div>
-					<DayColumnSelectTime date={addDaysToDate(startDate, +2)} />
-				</div>
+				))}
 			</div>
 
 			<NextDayButton
@@ -55,8 +49,6 @@ const BookingCalendarView3Day = () => {
 						)
 					)
 				}
-				bgColor="var(--secondaryColorDark)"
-				bgColorHover="var(--secondaryColorDarker)"
 			/>
 		</div>
 	)

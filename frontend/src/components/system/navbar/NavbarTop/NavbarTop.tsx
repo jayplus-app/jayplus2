@@ -31,6 +31,11 @@ const NavbarTop = ({ expanded }: NavbarTopProps) => {
 			})
 	}
 
+	const closeNavbar = () => {
+		setIsMenuExpanded(false)
+		expanded(false)
+	}
+
 	return (
 		<nav id="navbar-top">
 			<div id="navbar-top-heading">
@@ -53,6 +58,7 @@ const NavbarTop = ({ expanded }: NavbarTopProps) => {
 					<Link
 						to="/admin"
 						className={currentPath === '/admin' ? 'active' : ''}
+						onClick={closeNavbar}
 					>
 						Dashboard
 					</Link>
@@ -63,6 +69,7 @@ const NavbarTop = ({ expanded }: NavbarTopProps) => {
 								? 'active'
 								: ''
 						}
+						onClick={closeNavbar}
 					>
 						Booking Management
 					</Link>
@@ -71,18 +78,15 @@ const NavbarTop = ({ expanded }: NavbarTopProps) => {
 						className={
 							currentPath === '/admin/booking' ? 'active' : ''
 						}
+						onClick={closeNavbar}
 					>
 						Booking
 					</Link>
 				</div>
 				<div id="navbar-top-options-logout">
-					{authToken === '' ? (
-						<Link to="/login">Login</Link>
-					) : (
-						<Link to="#" onClick={handleLogout}>
-							Logout
-						</Link>
-					)}
+					<Link to="#" onClick={handleLogout}>
+						Logout
+					</Link>
 				</div>
 			</div>
 		</nav>

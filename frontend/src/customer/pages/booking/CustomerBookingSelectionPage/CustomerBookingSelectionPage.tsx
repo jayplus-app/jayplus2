@@ -4,7 +4,7 @@ import ServiceTypes from './ServiceTypes'
 import TimeSelection from './TimeSelection'
 import VehicleTypes from './VehicleTypes'
 import { useNavigate } from 'react-router-dom'
-import CustomerBookingContext from '../../../../context/CustomerBookingContext/CustomerBookingContext'
+import BookingContext from '../../../../context/BookingContext/BookingContext'
 import { useContext } from 'react'
 
 const CustomerBookingSelectionPage = () => {
@@ -13,7 +13,7 @@ const CustomerBookingSelectionPage = () => {
 		vehicleTypeSelected,
 		serviceTypeSelected,
 		dateTimeSelected,
-	} = useContext(CustomerBookingContext)
+	} = useContext(BookingContext)
 
 	const isDisabled =
 		dateTimeSelected === '' ||

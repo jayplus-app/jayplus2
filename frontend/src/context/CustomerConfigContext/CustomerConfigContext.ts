@@ -7,6 +7,7 @@ export const defaultCssConfig = {
 	secondaryColorLight: '#f8f9fa',
 	secondaryColorDark: '#ced4da',
 	secondaryColorDarker: '#b1bbc4',
+	secondaryColorDarkest: '#404040',
 	complementaryColorLight: '#eaf0f0',
 	complementaryColorDark: '#45645b',
 	disableColor: '#f3f3f3',

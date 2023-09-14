@@ -1,5 +1,5 @@
 #navbar-side {
-	width: 200px;
+	width: 180px;
 	height: 100vh;
 	min-height: 500px;
 	display: flex;
@@ -32,13 +32,13 @@
 	padding: 15px 0;
 	text-align: center;
 	text-decoration: none;
-	color: var(--secondaryColorDark);
+	color: var(--secondaryColorDarkest);
 }
 
 #navbar-side #navbar-side-options a.active {
-	color: var(--secondaryColorDarker);
+	color: var(--secondaryColorDarkest);
 	font-weight: bold;
-	background-color: var(--secondaryColorLight);
+	background-color: var(--secondaryColorDark);
 }
 
 #navbar-side #navbar-side-logout {
@@ -50,6 +50,6 @@
 
 #navbar-side #navbar-side-logout a {
 	text-decoration: none;
-	color: var(--secondaryColorDarker);
+	color: var(--secondaryColorDarkest);
 	font-weight: 700;
 }

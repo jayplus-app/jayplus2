@@ -10,6 +10,7 @@ import AdminBookingSelectionPage from './admin/pages/booking/AdminBookingSelecti
 import AdminLoginPage from './admin/pages/auth/AdminLoginPage'
 import AuthProvider from './context/AuthContext/AuthProvider'
 import CustomerConfigProvider from './context/CustomerConfigContext/CustomerConfigProvider'
+import BookingProvider from './context/BookingContext/BookingProvider'
 
 const Router = createBrowserRouter([
 	{
@@ -52,7 +53,11 @@ const Router = createBrowserRouter([
 			},
 			{
 				path: 'booking',
-				element: <AdminBookingSelectionPage />,
+				element: (
+					<BookingProvider>
+						<AdminBookingSelectionPage />
+					</BookingProvider>
+				),
 			},
 		],
 	},

@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router-dom'
-import CustomerBookingProvider from '../context/CustomerBookingContext/CustomerBookingProvider'
+import BookingProvider from '../context/BookingContext/BookingProvider'
 
 const CustomerApp = () => {
 	return (
-		<CustomerBookingProvider>
+		<BookingProvider>
 			<Outlet />
-		</CustomerBookingProvider>
+		</BookingProvider>
 	)
 }
 

@@ -1,5 +1,5 @@
 #next-day-button {
-	background-color: var(--next-day-button-bg-color);
+	background-color: var(--secondaryColorDark);
 	width: 25px;
 	height: 50px;
 	padding: 0;
@@ -15,11 +15,11 @@
 #next-day-button:disabled:hover {
 	opacity: 0.5;
 	cursor: not-allowed !important;
-	background-color: var(--next-day-button-bg-color);
+	background-color: var(--secondaryColorDark);
 }
 
 #next-day-button:hover {
-	background-color: var(--next-day-button-bg-color-hover);
+	background-color: var(--secondaryColorDarker);
 	cursor: pointer;
 	transition: 200ms;
 }

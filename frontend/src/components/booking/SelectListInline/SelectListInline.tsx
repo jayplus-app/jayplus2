@@ -1,6 +1,6 @@
 import './SelectListInline.css'
 import { ChangeEvent, useContext, useState } from 'react'
-import CustomerBookingContext from '../../../context/CustomerBookingContext/CustomerBookingContext'
+import BookingContext from '../../../context/BookingContext/BookingContext'
 
 export interface Options {
 	id: string
@@ -16,9 +16,7 @@ interface SelectListInlineProps {
 
 const SelectListInline = ({ options, name, select }: SelectListInlineProps) => {
 	const [selected, setSelected] = useState(options[0].id)
-	const { setServiceCost, setDateTimeSelected } = useContext(
-		CustomerBookingContext
-	)
+	const { setServiceCost, setDateTimeSelected } = useContext(BookingContext)
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setSelected(e.currentTarget.value)

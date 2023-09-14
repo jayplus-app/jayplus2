@@ -1,0 +1,11 @@
+#admin-booking-selection-page #footer {
+	font-size: 20px;
+	font-weight: 600;
+	display: block;
+	text-align: center;
+}
+
+#admin-booking-selection-page #footer .footer-button {
+	width: 250px;
+	margin: 15px auto;
+}

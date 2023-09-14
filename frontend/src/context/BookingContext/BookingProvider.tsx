@@ -1,15 +1,13 @@
 import { ReactNode, useEffect, useMemo, useState } from 'react'
 import { useVehicleTypes } from '../../hooks/booking/useVehicleTypes'
-import CustomerBookingContext from './CustomerBookingContext'
+import BookingContext from './BookingContext'
 import { useServiceTypes } from '../../hooks/booking/useServiceTypes'
 
-interface CustomerBookingProviderProps {
+interface BookingProviderProps {
 	children: ReactNode
 }
 
-const CustomerBookingProvider = ({
-	children,
-}: CustomerBookingProviderProps) => {
+const BookingProvider = ({ children }: BookingProviderProps) => {
 	const { vehicleTypes, isLoadingVehicleTypes } = useVehicleTypes()
 	const { serviceTypes, isLoadingServiceTypes } = useServiceTypes()
 	const [vehicleTypeSelected, setVehicleTypeSelected] = useState('')
@@ -61,10 +59,10 @@ const CustomerBookingProvider = ({
 	)
 
 	return (
-		<CustomerBookingContext.Provider value={contextValue}>
+		<BookingContext.Provider value={contextValue}>
 			{children}
-		</CustomerBookingContext.Provider>
+		</BookingContext.Provider>
 	)
 }
 
-export default CustomerBookingProvider
+export default BookingProvider

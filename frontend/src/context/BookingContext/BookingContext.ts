@@ -2,7 +2,7 @@ import { createContext } from 'react'
 import { VehicleType } from '../../hooks/booking/useVehicleTypes'
 import { ServiceType } from '../../hooks/booking/useServiceTypes'
 
-interface CustomerBookingContextProps {
+interface BookingContextProps {
 	vehicleTypes: VehicleType[]
 	isLoadingVehicleTypes: boolean
 	serviceTypes: ServiceType[]
@@ -17,8 +17,8 @@ interface CustomerBookingContextProps {
 	setServiceCost: (cost: number) => void
 }
 
-const CustomerBookingContext = createContext<CustomerBookingContextProps>(
-	{} as CustomerBookingContextProps
+const BookingContext = createContext<BookingContextProps>(
+	{} as BookingContextProps
 )
 
-export default CustomerBookingContext
+export default BookingContext

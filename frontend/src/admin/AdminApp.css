@@ -2,11 +2,15 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: left;
+	height: 100vh;
+	overflow: hidden;
 }
 
 #admin-app #admin-app-content {
 	width: 100%;
-	background-color: #656565;
+	padding: 20px;
+	overflow-y: auto;
+	box-sizing: border-box;
 }
 
 @media screen and (max-width: 800px) {
