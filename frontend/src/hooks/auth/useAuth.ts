@@ -7,13 +7,19 @@ const useAuth = () => {
 		useContext(AuthContext)
 
 	const logOut = useCallback(() => {
-		apiGet('/api/auth/logout')
-			.catch((error) => console.error('Error logging out', error))
-			.finally(() => {
-				setAuthToken('')
-				setRefreshInterval(false)
-				localStorage.removeItem('authToken')
-			})
+		return new Promise((resolve, reject) => {
+			apiGet('/api/auth/logout')
+				.then(() => {
+					setAuthToken('')
+					setRefreshInterval(false)
+					localStorage.removeItem('authToken')
+					resolve('Logged out successfully') // resolve the promise
+				})
+				.catch((error) => {
+					console.error('Error logging out', error)
+					reject(error) // reject the promise
+				})
+		})
 	}, [setAuthToken, setRefreshInterval])
 
 	const refreshAuthToken = useCallback(() => {

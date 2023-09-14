@@ -9,7 +9,8 @@ import SystemContext from '../context/SystemContext/SystemContext'
 
 const AdminApp = () => {
 	const { authToken, refreshAuthToken } = useAuth()
-	const [tokenRefreshed, setTokenRefreshed] = useState(false)
+	const [shouldRender, setShouldRender] = useState(false)
+	const [showBody, setShowBody] = useState(true)
 	const { windowWidth } = useContext(SystemContext)
 
 	const navigate = useNavigate()
@@ -23,21 +24,32 @@ const AdminApp = () => {
 					navigate('/login')
 				})
 				.finally(() => {
-					setTokenRefreshed(true)
+					setShouldRender(true)
 				})
 		} else {
-			setTokenRefreshed(true)
+			setShouldRender(true)
 		}
 	}, [authToken, refreshAuthToken, navigate])
 
-	return tokenRefreshed ? (
+	return shouldRender ? (
 		<div id="admin-app">
 			<div id="navbar">
-				{windowWidth <= 800 ? <NavbarTop /> : <NavbarSide />}
+				{windowWidth <= 800 ? (
+					<NavbarTop
+						expanded={(expanded) => {
+							setShowBody(!expanded)
+							console.log('expanded', expanded)
+						}}
+					/>
+				) : (
+					<NavbarSide />
+				)}
 			</div>
-			<div id="admin-app-content">
-				<Outlet />
-			</div>
+			{showBody && (
+				<div id="admin-app-content">
+					<Outlet />
+				</div>
+			)}
 		</div>
 	) : null
 }
