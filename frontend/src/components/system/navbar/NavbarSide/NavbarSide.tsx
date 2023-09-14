@@ -59,7 +59,9 @@ const NavbarSide = () => {
 				{authToken === '' ? (
 					<Link to="/login">Login</Link>
 				) : (
-					<ButtonMD onClick={handleLogout}>Logout</ButtonMD>
+					<Link to="#" onClick={handleLogout}>
+						Logout
+					</Link>
 				)}
 			</div>
 		</nav>

@@ -50,5 +50,6 @@
 
 #navbar-side #navbar-side-logout a {
 	text-decoration: none;
-	color: var(--secondaryColorDark);
+	color: var(--secondaryColorDarker);
+	font-weight: 700;
 }

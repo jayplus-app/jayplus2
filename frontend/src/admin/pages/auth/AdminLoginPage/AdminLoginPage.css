@@ -1,0 +1,21 @@
+#admin-login-page {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background-color: rgba(255, 202, 96, 0.8);
+}
+
+#admin-login-page #login-card {
+	background-color: #f2f2f2;
+	border-radius: 10px;
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+	width: 80%;
+	max-width: 400px;
+	padding: 20px;
+}
+
+#admin-login-page #login-card h1 {
+	text-align: center;
+}

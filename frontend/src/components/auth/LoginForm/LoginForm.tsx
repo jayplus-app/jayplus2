@@ -1,6 +1,8 @@
+import './LoginForm.css'
 import { useState, useCallback } from 'react'
 import useAuth from '../../../hooks/auth/useAuth'
 import { useNavigate } from 'react-router-dom'
+import ButtonMD from '../../system/buttons/ButtonMD'
 
 const LoginForm = () => {
 	const { login } = useAuth()
@@ -25,7 +27,8 @@ const LoginForm = () => {
 	)
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form id="login-form" onSubmit={handleSubmit}>
+			{loginError && <p className="login-error">{loginError}</p>}
 			<div className="form-group">
 				<label htmlFor="username">Username</label>
 				<input
@@ -46,8 +49,15 @@ const LoginForm = () => {
 					onChange={(e) => setPassword(e.target.value)}
 				/>
 			</div>
-			{loginError && <p className="error">{loginError}</p>}
-			<button type="submit">Login</button>
+			<div className="form-button">
+				<ButtonMD
+					type="submit"
+					bgColor="#FFC960"
+					bgColorHover="#ffaf14"
+				>
+					Login
+				</ButtonMD>
+			</div>
 		</form>
 	)
 }

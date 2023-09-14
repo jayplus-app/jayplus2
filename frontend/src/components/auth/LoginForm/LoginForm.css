@@ -1,0 +1,38 @@
+#login-form {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+#login-form .login-error {
+	color: rgb(200, 0, 0);
+	text-align: center;
+}
+
+#login-form .form-button {
+	width: 80%;
+	max-width: 220px;
+	margin: 0 auto;
+}
+
+#login-form .form-group {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+#login-form .form-group label {
+	font-weight: 600;
+}
+
+#login-form .form-group input {
+	padding: 5px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+#login-form .form-group input:focus {
+	border: 1px solid #ccc;
+	box-shadow: #ccc 0px 0px 6px;
+	outline: none;
+}

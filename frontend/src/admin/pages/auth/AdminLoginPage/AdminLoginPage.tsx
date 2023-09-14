@@ -19,9 +19,11 @@ const AdminLoginPage = () => {
 	})
 
 	return shouldRender ? (
-		<div id="AdminLogin">
-			<h1>Admin Login</h1>
-			<LoginForm />
+		<div id="admin-login-page">
+			<div id="login-card">
+				<h1>Login</h1>
+				<LoginForm />
+			</div>
 		</div>
 	) : null
 }

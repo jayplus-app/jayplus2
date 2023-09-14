@@ -2,6 +2,7 @@ import './ButtonMD.css'
 
 interface ButtonMDProps {
 	children: React.ReactNode
+	type?: 'button' | 'submit' | 'reset'
 	onClick?: () => void
 	bgColor?: string
 	bgColorHover?: string
@@ -10,6 +11,7 @@ interface ButtonMDProps {
 
 const ButtonMD = ({
 	children,
+	type,
 	onClick,
 	bgColor,
 	bgColorHover,
@@ -18,6 +20,7 @@ const ButtonMD = ({
 	return (
 		<button
 			className="buttonMD"
+			type={type}
 			onClick={onClick}
 			style={
 				{
