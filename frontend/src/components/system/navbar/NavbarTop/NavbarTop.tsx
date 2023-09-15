@@ -9,7 +9,7 @@ interface NavbarTopProps {
 }
 
 const NavbarTop = ({ expanded }: NavbarTopProps) => {
-	const { authToken, logOut } = useAuth()
+	const { logOut } = useAuth()
 	const location = useLocation()
 	const currentPath = location.pathname.endsWith('/')
 		? location.pathname.slice(0, -1)
