@@ -237,7 +237,12 @@ func Bookings(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterf
 		},
 	}
 
-	utils.WriteJSON(w, http.StatusOK, bookings)
+	bookingsResponse := booking.Bookings{
+		Date:	 "2023-01-20",
+		Bookings: bookings,
+	}
+
+	utils.WriteJSON(w, http.StatusOK, bookingsResponse)
 }
 
 // Booking handler returns a booking.

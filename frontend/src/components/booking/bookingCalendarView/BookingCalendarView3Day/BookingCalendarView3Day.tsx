@@ -6,8 +6,13 @@ import NextDayButton from '../NextDayButton'
 import PreviousDayButton from '../PreviousDayButton'
 import BookingContext from '../../../../context/BookingContext/BookingContext'
 import CustomerConfigContext from '../../../../context/CustomerConfigContext/CustomerConfigContext'
+import DayColumnBookingCards from '../DayColumnBookingCards'
 
-const BookingCalendarView3Day = () => {
+interface BookingCalendarView3DayProps {
+	type: 'view' | 'select'
+}
+
+const BookingCalendarView3Day = ({ type }: BookingCalendarView3DayProps) => {
 	const { appConfig } = useContext(CustomerConfigContext)
 	const { setDateTimeSelected } = useContext(BookingContext)
 	const [startDate, setStartDate] = useState<string>(todaysDate())
@@ -33,7 +38,11 @@ const BookingCalendarView3Day = () => {
 				{dates.map((date) => (
 					<div key={date}>
 						<div className="day-column-title">{date}</div>
-						<DayColumnSelectTime date={date} />
+						{type === 'select' ? (
+							<DayColumnSelectTime date={date} />
+						) : (
+							<DayColumnBookingCards date={date} />
+						)}
 					</div>
 				))}
 			</div>
@@ -52,6 +61,10 @@ const BookingCalendarView3Day = () => {
 			/>
 		</div>
 	)
+}
+
+BookingCalendarView3Day.defaultProps = {
+	type: 'select',
 }
 
 export default BookingCalendarView3Day

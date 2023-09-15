@@ -49,7 +49,11 @@ const Router = createBrowserRouter([
 			},
 			{
 				path: 'booking-management',
-				element: <BookingManagementPage />,
+				element: (
+					<BookingProvider>
+						<BookingManagementPage />
+					</BookingProvider>
+				),
 			},
 			{
 				path: 'booking',

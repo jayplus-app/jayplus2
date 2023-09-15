@@ -1,7 +1,14 @@
-export const apiGet = async (url: string) => {
+export const apiGet = async (url: string, authToken: string | null = null) => {
+	const headers: any = {}
+
+	if (authToken) {
+		headers['Authorization'] = `Bearer ${authToken}`
+	}
+
 	try {
 		const res = await fetch(url, {
 			method: 'GET',
+			headers,
 			credentials: 'include',
 		})
 		if (!res.ok) throw new Error('Failed to fetch')
@@ -11,11 +18,23 @@ export const apiGet = async (url: string) => {
 	}
 }
 
-export const apiPost = async (url: string, payload: any) => {
+export const apiPost = async (
+	url: string,
+	payload: any,
+	authToken: string | null = null
+) => {
+	const headers: any = {
+		'Content-Type': 'application/json',
+	}
+
+	if (authToken) {
+		headers['Authorization'] = `Bearer ${authToken}`
+	}
+
 	try {
 		const res = await fetch(url, {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
+			headers,
 			credentials: 'include',
 			body: JSON.stringify(payload),
 		})

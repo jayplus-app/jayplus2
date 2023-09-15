@@ -10,9 +10,9 @@ const TimeSelection = () => {
 		<div>
 			<div>Time Selection</div>
 			{windowWidth <= 1000 ? (
-				<BookingCalendarView3Day />
+				<BookingCalendarView3Day type="select" />
 			) : (
-				<BookingCalendarView5Day />
+				<BookingCalendarView5Day type="select" />
 			)}
 		</div>
 	)
