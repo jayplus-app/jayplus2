@@ -11,6 +11,7 @@ import AdminLoginPage from './admin/pages/auth/AdminLoginPage'
 import AuthProvider from './context/AuthContext/AuthProvider'
 import CustomerConfigProvider from './context/CustomerConfigContext/CustomerConfigProvider'
 import BookingProvider from './context/BookingContext/BookingProvider'
+import BookingManagementProvider from './context/BookingManagementContext/BookingManagementProvider'
 
 const Router = createBrowserRouter([
 	{
@@ -51,7 +52,9 @@ const Router = createBrowserRouter([
 				path: 'booking-management',
 				element: (
 					<BookingProvider>
-						<BookingManagementPage />
+						<BookingManagementProvider>
+							<BookingManagementPage />
+						</BookingManagementProvider>
 					</BookingProvider>
 				),
 			},

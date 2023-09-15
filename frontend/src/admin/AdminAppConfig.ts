@@ -9,6 +9,8 @@ export const cssConfig = {
 	complementaryColorLight: '#eaf0f0',
 	complementaryColorDark: '#45645b',
 	disableColor: '#f3f3f3',
+	dangerColorDark: '#B30000',
+	dangerColorDarker: '#7d0000',
 }
 
 export const setAdminCssVariables = () => {

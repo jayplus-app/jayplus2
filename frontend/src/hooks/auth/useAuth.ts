@@ -13,11 +13,11 @@ const useAuth = () => {
 					setAuthToken('')
 					setRefreshInterval(false)
 					localStorage.removeItem('authToken')
-					resolve('Logged out successfully') // resolve the promise
+					resolve('Logged out successfully')
 				})
 				.catch((error) => {
 					console.error('Error logging out', error)
-					reject(error) // reject the promise
+					reject(error)
 				})
 		})
 	}, [setAuthToken, setRefreshInterval])
@@ -30,14 +30,14 @@ const useAuth = () => {
 						setAuthToken(data.access_token)
 						setRefreshInterval(true)
 						localStorage.setItem('authToken', data.access_token)
-						resolve(data.access_token) // resolve the promise
+						resolve(data.access_token)
 					} else {
-						reject(new Error('No access token')) // reject if no access_token
+						reject(new Error('No access token'))
 					}
 				})
 				.catch((err) => {
 					console.log('User not logged in')
-					reject(err) // reject the promise
+					reject(err)
 				})
 		})
 	}, [setAuthToken, setRefreshInterval])

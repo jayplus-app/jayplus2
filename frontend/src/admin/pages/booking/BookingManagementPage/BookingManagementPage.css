@@ -1,3 +1,28 @@
 #booking-management-page .page-title {
 	margin-bottom: 10px;
 }
+
+#booking-management-page .cancel-message {
+	border-radius: 5px;
+	margin: 0 auto;
+	width: 90%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+}
+
+#booking-management-page .cancel-message.success {
+	color: green;
+	background-color: #e6ffe6;
+}
+
+#booking-management-page .cancel-message.fail {
+	color: red;
+	background-color: #ffe6e6;
+}
+
+#booking-management-page .cancel-message .cancel-message-icon {
+	cursor: pointer;
+	color: inherit;
+}

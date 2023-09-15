@@ -38,7 +38,6 @@ const AdminApp = () => {
 					<NavbarTop
 						expanded={(expanded) => {
 							setShowBody(!expanded)
-							console.log('expanded', expanded)
 						}}
 					/>
 				) : (
