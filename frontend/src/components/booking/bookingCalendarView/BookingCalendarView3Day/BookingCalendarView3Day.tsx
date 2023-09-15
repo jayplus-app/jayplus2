@@ -1,6 +1,11 @@
 import './BookingCalendarView3Day.css'
 import { useContext, useEffect, useState } from 'react'
-import { addDaysToDate, dateToNumber, todaysDate } from '../../../../utils'
+import {
+	addDaysToDate,
+	dateToNumber,
+	formatDateToRelativeOrMMMDDForm,
+	todaysDate,
+} from '../../../../utils'
 import DayColumnSelectTime from '../DayColumnSelectTime'
 import NextDayButton from '../NextDayButton'
 import PreviousDayButton from '../PreviousDayButton'
@@ -37,7 +42,12 @@ const BookingCalendarView3Day = ({ type }: BookingCalendarView3DayProps) => {
 			<div id="day-columns">
 				{dates.map((date) => (
 					<div key={date}>
-						<div className="day-column-title">{date}</div>
+						<div className="day-column-title">
+							{formatDateToRelativeOrMMMDDForm(
+								date,
+								todaysDate()
+							)}
+						</div>
 						{type === 'select' ? (
 							<DayColumnSelectTime date={date} />
 						) : (

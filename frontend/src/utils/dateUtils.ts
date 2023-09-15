@@ -31,3 +31,19 @@ export const todaysDate = () => {
 		.toString()
 		.padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`
 }
+
+export const formatDateToRelativeOrMMMDDForm = (
+	date: string,
+	currentDate: string
+) => {
+	if (date === currentDate) return 'Today'
+	const tomorrow = addDaysToDate(currentDate, +1)
+	if (date === tomorrow) return 'Tomorrow'
+
+	const dateObject = new Date(date)
+	const options: Intl.DateTimeFormatOptions = {
+		month: 'short',
+		day: '2-digit',
+	}
+	return dateObject.toLocaleDateString(undefined, options)
+}

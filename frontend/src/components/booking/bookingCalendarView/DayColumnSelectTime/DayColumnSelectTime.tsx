@@ -46,7 +46,7 @@ const DayColumnSelectTime = ({ date }: DayColumnSelectTimeProps) => {
 								!slot.available && 'label-disabled'
 							}`}
 						>
-							<span>{slot.start_time}</span>
+							<span>{slot.start_time.slice(11, 16)}</span>
 						</label>
 					</li>
 				))
