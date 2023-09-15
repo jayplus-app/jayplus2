@@ -44,9 +44,9 @@ const NavbarTop = ({ expanded }: NavbarTopProps) => {
 				</div>
 				<div id="navbar-top-toggle" onClick={handleToggle}>
 					{isMenuExpanded ? (
-						<IoIosClose size="35px" />
+						<IoIosClose size="40px" />
 					) : (
-						<IoIosMenu size="28px" />
+						<IoIosMenu size="30px" />
 					)}{' '}
 				</div>
 			</div>
