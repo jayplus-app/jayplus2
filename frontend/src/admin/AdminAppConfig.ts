@@ -1,6 +1,6 @@
 // CSS Config
 export const cssConfig = {
-	primaryColorLight: '#FFC960',
+	primaryColorLight: '#ffd27a',
 	primaryColorDark: '#ffaf14',
 	secondaryColorLight: '#e9edf0',
 	secondaryColorDark: '#ced4da',

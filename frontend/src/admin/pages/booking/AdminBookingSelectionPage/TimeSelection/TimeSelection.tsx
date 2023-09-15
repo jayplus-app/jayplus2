@@ -1,3 +1,4 @@
+import './TimeSelection.css'
 import { useContext } from 'react'
 import BookingCalendarView3Day from '../../../../../components/booking/bookingCalendarView/BookingCalendarView3Day'
 import BookingCalendarView5Day from '../../../../../components/booking/bookingCalendarView/BookingCalendarView5Day'
@@ -7,9 +8,9 @@ const TimeSelection = () => {
 	const { windowWidth } = useContext(SystemContext)
 
 	return (
-		<div>
-			<div>Time Selection</div>
-			{windowWidth <= 1000 ? (
+		<div id="admin-booking-time-selection">
+			<div className="section-title">Time Selection</div>
+			{windowWidth <= 800 ? (
 				<BookingCalendarView3Day type="select" />
 			) : (
 				<BookingCalendarView5Day type="select" />

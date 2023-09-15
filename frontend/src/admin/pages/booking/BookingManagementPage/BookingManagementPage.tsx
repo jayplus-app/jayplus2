@@ -8,8 +8,8 @@ const BookingManagementPage = () => {
 	const { windowWidth } = useContext(SystemContext)
 
 	return (
-		<div>
-			<div>Time Selection</div>
+		<div id="booking-management-page">
+			<div className="page-title">Bookings</div>
 			{windowWidth <= 1000 ? (
 				<BookingCalendarView3Day type="view" />
 			) : (

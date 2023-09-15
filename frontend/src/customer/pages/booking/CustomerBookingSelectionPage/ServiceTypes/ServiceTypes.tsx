@@ -1,3 +1,4 @@
+import './ServiceTypes.css'
 import { useContext } from 'react'
 import DescriptionField from '../../../../../components/booking/DescriptionField'
 import SelectListInline from '../../../../../components/booking/SelectListInline'
@@ -16,14 +17,15 @@ const ServiceTypes = () => {
 	)?.description
 
 	return (
-		<div>
-			<div>Service Types</div>
+		<div id="service-types">
+			<div className="section-title">Service Types</div>
 			{isLoadingServiceTypes ? (
 				'Loading...'
 			) : (
 				<SelectListInline
 					options={serviceTypes}
 					name="service-types"
+					className="service-types-list"
 					select={(option) => setServiceTypeSelected(option)}
 				/>
 			)}

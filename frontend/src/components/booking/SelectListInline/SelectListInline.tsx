@@ -10,11 +10,17 @@ export interface Options {
 
 interface SelectListInlineProps {
 	options: Options[]
+	className?: string
 	name: string
 	select: (id: string) => void
 }
 
-const SelectListInline = ({ options, name, select }: SelectListInlineProps) => {
+const SelectListInline = ({
+	options,
+	name,
+	className,
+	select,
+}: SelectListInlineProps) => {
 	const [selected, setSelected] = useState(options[0].id)
 	const { setServiceCost, setDateTimeSelected } = useContext(BookingContext)
 
@@ -26,7 +32,7 @@ const SelectListInline = ({ options, name, select }: SelectListInlineProps) => {
 	}
 
 	return (
-		<ul id="select-list-inline">
+		<ul id="select-list-inline" className={className}>
 			{options.map((option) => (
 				<li id="select-list-item" key={option.id}>
 					<input

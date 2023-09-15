@@ -2,7 +2,7 @@ import { createContext } from 'react'
 
 export const defaultAppConfig = { maxFutureBookingDays: 5 }
 export const defaultCssConfig = {
-	primaryColorLight: '#FFC960',
+	primaryColorLight: '#ffd27a',
 	primaryColorDark: '#ffaf14',
 	secondaryColorLight: '#f8f9fa',
 	secondaryColorDark: '#ced4da',
