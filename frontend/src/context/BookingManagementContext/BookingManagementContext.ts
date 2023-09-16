@@ -1,6 +1,8 @@
 import { createContext } from 'react'
 
 interface BookingManagementContextProps {
+	bookingIdToCancel: string
+	setBookingIdToCancel: (bookingId: string) => void
 	isCanceling: boolean
 	isCanceled: boolean | null
 	cancelMessage: string | null

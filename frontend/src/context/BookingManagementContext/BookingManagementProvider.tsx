@@ -9,8 +9,10 @@ interface BookingManagementProviderProps {
 const BookingManagementProvider = ({
 	children,
 }: BookingManagementProviderProps) => {
+	const [bookingIdToCancel, setBookingIdToCancel] = useState<string>('')
 	const [cancelMessage, setCancelMessage] = useState<string | null>(null)
 	const { isCanceled, isCanceling, cancelBooking } = useCancelBooking()
+
 	useEffect(() => {
 		if (isCanceled === true) {
 			setCancelMessage(`Booking has been successfully canceled.`)
@@ -22,6 +24,8 @@ const BookingManagementProvider = ({
 	return (
 		<BookingManagementContext.Provider
 			value={{
+				bookingIdToCancel,
+				setBookingIdToCancel,
 				isCanceling,
 				isCanceled,
 				cancelMessage,

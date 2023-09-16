@@ -12,13 +12,14 @@ const BookingManagementPage = () => {
 	const [showMessage, setShowMessage] = useState(true)
 
 	useEffect(() => {
+		setShowMessage(true)
 		if (cancelMessage && showMessage) {
 			const timer = setTimeout(() => {
 				setShowMessage(false)
 			}, 5000)
 			return () => clearTimeout(timer)
 		}
-	}, [cancelMessage, showMessage])
+	}, [cancelMessage])
 
 	return (
 		<div id="booking-management-page">

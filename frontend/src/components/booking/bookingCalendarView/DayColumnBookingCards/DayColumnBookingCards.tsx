@@ -1,6 +1,6 @@
 import './DayColumnBookingCards.css'
 import { useBookings } from '../../../../hooks/booking/useBookings'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import BookingDetailsModal from '../../../../admin/modals/BookingDetailsModal'
 import ConfirmCancelBookingModal from '../../../../admin/modals/ConfirmCancelBookingModal'
 import BookingManagementContext from '../../../../context/BookingManagementContext/BookingManagementContext'
@@ -13,16 +13,16 @@ const DayColumnBookingCards = ({ date }: DayColumnBookingCardsProps) => {
 	const { bookings, isLoadingBookings } = useBookings({
 		selectedDate: date,
 	})
-	const { cancelBooking } = useContext(BookingManagementContext)
+	const { cancelBooking, bookingIdToCancel, setBookingIdToCancel } =
+		useContext(BookingManagementContext)
 
 	const [showBookingDetailsModal, setShowBookingdetailsModal] =
 		useState(false)
 	const [showConfirmCancelBookingModal, setShowConfirmCancelBookingModal] =
 		useState(false)
-	const [bookingId, setBookingId] = useState<string>('')
 
 	const handleBookingClick = (id: string) => {
-		setBookingId(id)
+		setBookingIdToCancel(id)
 		setShowBookingdetailsModal(true)
 	}
 
@@ -34,7 +34,7 @@ const DayColumnBookingCards = ({ date }: DayColumnBookingCardsProps) => {
 	const handleConfirmCancelBooking = (id: string) => {
 		cancelBooking(id)
 		setShowConfirmCancelBookingModal(false)
-		setBookingId('')
+		setBookingIdToCancel('')
 	}
 
 	return (
@@ -58,23 +58,25 @@ const DayColumnBookingCards = ({ date }: DayColumnBookingCardsProps) => {
 			</ul>
 			{showBookingDetailsModal && (
 				<BookingDetailsModal
-					bookingId={bookingId}
+					bookingId={bookingIdToCancel}
 					onClose={() => {
 						setShowBookingdetailsModal(false)
-						setBookingId('')
+						setBookingIdToCancel('')
 					}}
-					onCancelBooking={() => handleCancelBooking(bookingId)}
+					onCancelBooking={() =>
+						handleCancelBooking(bookingIdToCancel)
+					}
 				/>
 			)}
 			{showConfirmCancelBookingModal && (
 				<ConfirmCancelBookingModal
-					bookingId={bookingId}
+					bookingId={bookingIdToCancel}
 					onClose={() => {
 						setShowConfirmCancelBookingModal(false)
-						setBookingId('')
+						setBookingIdToCancel('')
 					}}
 					onConfirmCancelBooking={() => {
-						handleConfirmCancelBooking(bookingId)
+						handleConfirmCancelBooking(bookingIdToCancel)
 					}}
 				/>
 			)}
