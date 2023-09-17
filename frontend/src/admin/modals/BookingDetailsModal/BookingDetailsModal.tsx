@@ -1,21 +1,22 @@
 import './BookingDetailsModal.css'
 import { AiOutlineClose } from 'react-icons/ai'
 import { FaTrashCan } from 'react-icons/fa6'
-import { useBooking } from '../../../hooks/booking/useBooking'
 import ButtonMD from '../../../components/system/buttons/ButtonMD'
+import { useContext, useEffect } from 'react'
+import BookingManagementContext from '../../../context/BookingManagementContext/BookingManagementContext'
 
 interface BookingDetailsModalProps {
-	bookingId: string
 	onClose: () => void
-	onCancelBooking: (bookingId: string) => void
+	onCancelBooking: () => void
 }
 
 const BookingDetailsModal = ({
-	bookingId,
 	onClose,
 	onCancelBooking,
 }: BookingDetailsModalProps) => {
-	const { booking, isLoadingBooking } = useBooking({ bookingID: bookingId })
+	const { isLoadingBooking, bookingSelected } = useContext(
+		BookingManagementContext
+	)
 
 	return (
 		<div id="booking-details-modal">
@@ -36,51 +37,53 @@ const BookingDetailsModal = ({
 							<tbody>
 								<tr>
 									<td>ID</td>
-									<td>{booking?.ID}</td>
+									<td>{bookingSelected?.ID}</td>
 								</tr>
 								<tr>
 									<td>Transaction Number</td>
-									<td>{booking?.TransactionNumber}</td>
+									<td>
+										{bookingSelected?.TransactionNumber}
+									</td>
 								</tr>
 								<tr>
 									<td>Bill Number</td>
-									<td>{booking?.BillNumber}</td>
+									<td>{bookingSelected?.BillNumber}</td>
 								</tr>
 								<tr>
 									<td>Type of Service</td>
-									<td>{booking?.TypeOfService}</td>
+									<td>{bookingSelected?.TypeOfService}</td>
 								</tr>
 								<tr>
 									<td>Vehicle Type</td>
-									<td>{booking?.VehicleType}</td>
+									<td>{bookingSelected?.VehicleType}</td>
 								</tr>
 								<tr>
 									<td>Date</td>
-									<td>{booking?.Date}</td>
+									<td>{bookingSelected?.Date}</td>
 								</tr>
 								<tr>
 									<td>Time</td>
-									<td>{booking?.Time}</td>
+									<td>{bookingSelected?.Time}</td>
 								</tr>
 								<tr>
 									<td>Service Cost</td>
-									<td>{booking?.ServiceCost}</td>
+									<td>{bookingSelected?.ServiceCost}</td>
 								</tr>
 								<tr>
 									<td>Discount</td>
-									<td>{booking?.Discount}</td>
+									<td>{bookingSelected?.Discount}</td>
 								</tr>
 								<tr>
 									<td>Total</td>
-									<td>{booking?.Total}</td>
+									<td>{bookingSelected?.Total}</td>
 								</tr>
 								<tr>
 									<td>Deposit</td>
-									<td>{booking?.Deposit}</td>
+									<td>{bookingSelected?.Deposit}</td>
 								</tr>
 								<tr>
 									<td>Remaining</td>
-									<td>{booking?.Remaining}</td>
+									<td>{bookingSelected?.Remaining}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -92,7 +95,7 @@ const BookingDetailsModal = ({
 						bgColorHover="var(--dangerColorDarker)"
 						color="white"
 						bold={true}
-						onClick={() => onCancelBooking(bookingId)}
+						onClick={() => onCancelBooking()}
 					>
 						<span>Cancel Booking</span>
 						<FaTrashCan size="21px" />

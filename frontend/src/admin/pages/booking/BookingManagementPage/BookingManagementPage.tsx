@@ -3,23 +3,32 @@ import BookingCalendarView3Day from '../../../../components/booking/bookingCalen
 import BookingCalendarView5Day from '../../../../components/booking/bookingCalendarView/BookingCalendarView5Day'
 import './BookingManagementPage.css'
 import SystemContext from '../../../../context/SystemContext/SystemContext'
-import BookingManagementContext from '../../../../context/BookingManagementContext/BookingManagementContext'
 import { FaXmark } from 'react-icons/fa6'
+import BookingManagementContext from '../../../../context/BookingManagementContext/BookingManagementContext'
 
 const BookingManagementPage = () => {
-	const { cancelMessage, isCanceled } = useContext(BookingManagementContext)
 	const { windowWidth } = useContext(SystemContext)
-	const [showMessage, setShowMessage] = useState(true)
+	const [showMessage, setShowMessage] = useState(false)
+	const [cancelMessage, setCancelMessage] = useState<string>('')
+	const { isCanceled, setIsCanceled, setIsCanceling, bookingIdToCancel } =
+		useContext(BookingManagementContext)
 
 	useEffect(() => {
+		if (isCanceled === null) return
+
+		setCancelMessage(
+			isCanceled
+				? `Booking has been successfully canceled.`
+				: `Failed to cancel booking.`
+		)
 		setShowMessage(true)
-		if (cancelMessage && showMessage) {
-			const timer = setTimeout(() => {
-				setShowMessage(false)
-			}, 5000)
-			return () => clearTimeout(timer)
-		}
-	}, [cancelMessage])
+
+		setTimeout(() => {
+			setIsCanceling(null)
+			setIsCanceled(null)
+			setShowMessage(false)
+		}, 3000)
+	}, [isCanceled])
 
 	return (
 		<div id="booking-management-page">

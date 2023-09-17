@@ -4,7 +4,6 @@ import CustomerBookingSelectionPage from './customer/pages/booking/CustomerBooki
 import PaymentPage from './customer/pages/payment/PaymentPage'
 import PaymentSuccessPage from './customer/pages/payment/PaymentSuccessPage'
 import AdminApp from './admin/AdminApp'
-import DashboardPage from './admin/pages/DashboardPage'
 import BookingManagementPage from './admin/pages/booking/BookingManagementPage'
 import AdminBookingSelectionPage from './admin/pages/booking/AdminBookingSelectionPage'
 import AdminLoginPage from './admin/pages/auth/AdminLoginPage'

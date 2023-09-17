@@ -3,7 +3,9 @@ import { useBookings } from '../../../../hooks/booking/useBookings'
 import { useContext, useState } from 'react'
 import BookingDetailsModal from '../../../../admin/modals/BookingDetailsModal'
 import ConfirmCancelBookingModal from '../../../../admin/modals/ConfirmCancelBookingModal'
+import { useCancelBooking } from '../../../../hooks/booking/useCancelBooking'
 import BookingManagementContext from '../../../../context/BookingManagementContext/BookingManagementContext'
+import { useBooking } from '../../../../hooks/booking/useBooking'
 
 interface DayColumnBookingCardsProps {
 	date: string
@@ -13,29 +15,16 @@ const DayColumnBookingCards = ({ date }: DayColumnBookingCardsProps) => {
 	const { bookings, isLoadingBookings } = useBookings({
 		selectedDate: date,
 	})
-	const { cancelBooking, bookingIdToCancel, setBookingIdToCancel } =
-		useContext(BookingManagementContext)
+	const { getBooking } = useBooking()
+	const { cancelBooking } = useCancelBooking()
+	const { bookingIdToCancel, setBookingIdToCancel } = useContext(
+		BookingManagementContext
+	)
 
 	const [showBookingDetailsModal, setShowBookingdetailsModal] =
 		useState(false)
 	const [showConfirmCancelBookingModal, setShowConfirmCancelBookingModal] =
 		useState(false)
-
-	const handleBookingClick = (id: string) => {
-		setBookingIdToCancel(id)
-		setShowBookingdetailsModal(true)
-	}
-
-	const handleCancelBooking = (id: string) => {
-		setShowBookingdetailsModal(false)
-		setShowConfirmCancelBookingModal(true)
-	}
-
-	const handleConfirmCancelBooking = (id: string) => {
-		cancelBooking(id)
-		setShowConfirmCancelBookingModal(false)
-		setBookingIdToCancel('')
-	}
 
 	return (
 		<div>
@@ -47,7 +36,11 @@ const DayColumnBookingCards = ({ date }: DayColumnBookingCardsProps) => {
 						<li
 							id="card-list-item"
 							key={booking.Date + booking.Time}
-							onClick={() => handleBookingClick(booking.ID)}
+							onClick={() => {
+								getBooking(booking.ID)
+								setBookingIdToCancel(booking.ID)
+								setShowBookingdetailsModal(true)
+							}}
 						>
 							<span>{booking.Time}</span>
 							<span>{booking.VehicleType}</span>
@@ -58,25 +51,26 @@ const DayColumnBookingCards = ({ date }: DayColumnBookingCardsProps) => {
 			</ul>
 			{showBookingDetailsModal && (
 				<BookingDetailsModal
-					bookingId={bookingIdToCancel}
 					onClose={() => {
 						setShowBookingdetailsModal(false)
 						setBookingIdToCancel('')
 					}}
-					onCancelBooking={() =>
-						handleCancelBooking(bookingIdToCancel)
-					}
+					onCancelBooking={() => {
+						setShowBookingdetailsModal(false)
+						setShowConfirmCancelBookingModal(true)
+					}}
 				/>
 			)}
 			{showConfirmCancelBookingModal && (
 				<ConfirmCancelBookingModal
-					bookingId={bookingIdToCancel}
 					onClose={() => {
 						setShowConfirmCancelBookingModal(false)
 						setBookingIdToCancel('')
 					}}
 					onConfirmCancelBooking={() => {
-						handleConfirmCancelBooking(bookingIdToCancel)
+						cancelBooking(bookingIdToCancel || '-1')
+						setShowConfirmCancelBookingModal(false)
+						setBookingIdToCancel('')
 					}}
 				/>
 			)}

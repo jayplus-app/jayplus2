@@ -1,6 +1,7 @@
-import { ReactNode, useEffect, useState } from 'react'
-import { useCancelBooking } from '../../hooks/booking/useCancelBooking'
-import BookingManagementContext from './BookingManagementContext'
+import { ReactNode, useState } from 'react'
+import BookingManagementContext, {
+	BookingInterface,
+} from './BookingManagementContext'
 
 interface BookingManagementProviderProps {
 	children: ReactNode
@@ -9,27 +10,30 @@ interface BookingManagementProviderProps {
 const BookingManagementProvider = ({
 	children,
 }: BookingManagementProviderProps) => {
-	const [bookingIdToCancel, setBookingIdToCancel] = useState<string>('')
-	const [cancelMessage, setCancelMessage] = useState<string | null>(null)
-	const { isCanceled, isCanceling, cancelBooking } = useCancelBooking()
-
-	useEffect(() => {
-		if (isCanceled === true) {
-			setCancelMessage(`Booking has been successfully canceled.`)
-		} else if (isCanceled === false) {
-			setCancelMessage(`Failed to cancel booking.`)
-		}
-	}, [isCanceling])
+	const [bookingSelected, setBookingSelected] =
+		useState<BookingInterface | null>(null)
+	const [isCanceling, setIsCanceling] = useState<boolean | null>(null)
+	const [isCanceled, setIsCanceled] = useState<boolean | null>(null)
+	const [bookingIdToCancel, setBookingIdToCancel] = useState<string | null>(
+		null
+	)
+	const [isLoadingBooking, setIsLoadingBooking] = useState<boolean | null>(
+		null
+	)
 
 	return (
 		<BookingManagementContext.Provider
 			value={{
+				isCanceling,
+				setIsCanceling,
+				isCanceled,
+				setIsCanceled,
 				bookingIdToCancel,
 				setBookingIdToCancel,
-				isCanceling,
-				isCanceled,
-				cancelMessage,
-				cancelBooking,
+				isLoadingBooking,
+				setIsLoadingBooking,
+				bookingSelected,
+				setBookingSelected,
 			}}
 		>
 			{children}

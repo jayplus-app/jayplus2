@@ -3,13 +3,11 @@ import { AiOutlineClose } from 'react-icons/ai'
 import ButtonMD from '../../../components/system/buttons/ButtonMD'
 
 interface ConfirmCancelBookingModalProps {
-	bookingId: string
 	onClose: () => void
-	onConfirmCancelBooking: (bookingId: string) => void
+	onConfirmCancelBooking: () => void
 }
 
 const ConfirmCancelBookingModal = ({
-	bookingId,
 	onClose,
 	onConfirmCancelBooking,
 }: ConfirmCancelBookingModalProps) => {
@@ -36,7 +34,7 @@ const ConfirmCancelBookingModal = ({
 						bgColorHover="var(--dangerColorDarker)"
 						color="white"
 						bold={true}
-						onClick={() => onConfirmCancelBooking(bookingId)}
+						onClick={() => onConfirmCancelBooking()}
 					>
 						<span>Yes, Cancel!</span>
 					</ButtonMD>
