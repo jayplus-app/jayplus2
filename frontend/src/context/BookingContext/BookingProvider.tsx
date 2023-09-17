@@ -11,7 +11,7 @@ const BookingProvider = ({ children }: BookingProviderProps) => {
 	const { vehicleTypes, isLoadingVehicleTypes } = useVehicleTypes()
 	const { serviceTypes, isLoadingServiceTypes } = useServiceTypes()
 	const [vehicleTypeSelected, setVehicleTypeSelected] = useState('')
-	const [serviceTypeSelected, setServiceTypeSelected] = useState('Show Room')
+	const [serviceTypeSelected, setServiceTypeSelected] = useState('')
 	const [dateTimeSelected, setDateTimeSelected] = useState('')
 	const [serviceCost, setServiceCost] = useState(0)
 

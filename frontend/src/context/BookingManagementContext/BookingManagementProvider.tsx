@@ -1,7 +1,5 @@
 import { ReactNode, useState } from 'react'
-import BookingManagementContext, {
-	BookingInterface,
-} from './BookingManagementContext'
+import BookingManagementContext, { Booking } from './BookingManagementContext'
 
 interface BookingManagementProviderProps {
 	children: ReactNode
@@ -10,8 +8,7 @@ interface BookingManagementProviderProps {
 const BookingManagementProvider = ({
 	children,
 }: BookingManagementProviderProps) => {
-	const [bookingSelected, setBookingSelected] =
-		useState<BookingInterface | null>(null)
+	const [bookingSelected, setBookingSelected] = useState<Booking | null>(null)
 	const [isCanceling, setIsCanceling] = useState<boolean | null>(null)
 	const [isCanceled, setIsCanceled] = useState<boolean | null>(null)
 	const [bookingIdToCancel, setBookingIdToCancel] = useState<string | null>(

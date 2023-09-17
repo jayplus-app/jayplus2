@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 
-export interface BookingInterface {
+export interface Booking {
 	ID: string
 	TransactionNumber: string
 	BillNumber: string
@@ -24,8 +24,8 @@ interface BookingManagementContextProps {
 	setBookingIdToCancel: (bookingId: string) => void
 	isLoadingBooking: boolean | null
 	setIsLoadingBooking: (isLoadingBooking: boolean | null) => void
-	bookingSelected: BookingInterface | null
-	setBookingSelected: (booking: BookingInterface) => void
+	bookingSelected: Booking | null
+	setBookingSelected: (booking: Booking) => void
 }
 
 const BookingManagementContext = createContext<BookingManagementContextProps>(

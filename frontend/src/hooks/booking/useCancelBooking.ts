@@ -1,28 +1,23 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { apiGet } from '../../utils/apiUtils'
 import AuthContext from '../../context/AuthContext/AuthContext'
-import BookingManagementContext from '../../context/BookingManagementContext/BookingManagementContext'
 
 export const useCancelBooking = () => {
-	const { setIsCanceling, setIsCanceled } = useContext(
-		BookingManagementContext
-	)
-
 	const { authToken } = useContext(AuthContext)
 
-	const cancelBooking = (bookingId: string) => {
-		setIsCanceling(true)
-
-		apiGet(`/api/booking/cancel-booking/${bookingId}`, authToken)
-			.then(() => {
-				setIsCanceled(true)
-			})
-			.catch((error) => {
-				setIsCanceled(false)
-			})
-			.finally(() => {
-				setIsCanceling(false)
-			})
+	const cancelBooking = async (
+		bookingId: string
+	): Promise<{ success: boolean; message?: string }> => {
+		try {
+			const response = await apiGet(
+				`/api/booking/cancel-booking/${bookingId}`,
+				authToken
+			)
+			return { success: true, message: response.message }
+		} catch (error) {
+			console.error('Error canceling the booking:', error)
+			return { success: false }
+		}
 	}
 
 	return {

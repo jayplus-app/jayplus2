@@ -30,5 +30,9 @@ export const useCreateBooking = () => {
 			})
 	}
 
-	return { bookingNumber, isLoadingCreateBooking, createBooking }
+	return {
+		bookingNumber,
+		isLoadingCreateBooking,
+		createBooking,
+	}
 }

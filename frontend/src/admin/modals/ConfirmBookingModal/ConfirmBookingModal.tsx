@@ -63,7 +63,7 @@ const ConfirmBookingModal = ({
 						<span>No</span>
 					</ButtonMD>
 					<ButtonMD
-						bgColor="var(--PrimaryColorLight)"
+						bgColor="var(--primaryColorLight)"
 						bgColorHover="var(--primaryColorDark)"
 						bold={true}
 						onClick={() => onConfirmBooking()}
