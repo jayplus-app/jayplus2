@@ -26,12 +26,6 @@ const NavbarSide = () => {
 			</div>
 			<div id="navbar-side-options">
 				<Link
-					to="/admin"
-					className={currentPath === '/admin' ? 'active' : ''}
-				>
-					Dashboard
-				</Link>
-				<Link
 					to="/admin/booking-management"
 					className={
 						currentPath === '/admin/booking-management'

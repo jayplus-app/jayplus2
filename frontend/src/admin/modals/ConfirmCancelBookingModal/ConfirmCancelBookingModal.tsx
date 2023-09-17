@@ -1,5 +1,4 @@
 import './ConfirmCancelBookingModal.css'
-import { useCancelBooking } from '../../../hooks/booking/useCancelBooking'
 import { AiOutlineClose } from 'react-icons/ai'
 import ButtonMD from '../../../components/system/buttons/ButtonMD'
 

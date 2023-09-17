@@ -56,13 +56,6 @@ const NavbarTop = ({ expanded }: NavbarTopProps) => {
 			>
 				<div id="navbar-top-options-nav">
 					<Link
-						to="/admin"
-						className={currentPath === '/admin' ? 'active' : ''}
-						onClick={closeNavbar}
-					>
-						Dashboard
-					</Link>
-					<Link
 						to="/admin/booking-management"
 						className={
 							currentPath === '/admin/booking-management'

@@ -1,0 +1,54 @@
+#confirm-booking-modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.7);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
+}
+
+#confirm-booking-modal .modal-container {
+	background: white;
+	padding: 20px;
+	border-radius: 10px;
+	width: 80% !important;
+	max-width: 350px;
+	position: relative;
+}
+
+#confirm-booking-modal .modal-heading {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+#confirm-booking-modal .modal-heading .modal-title {
+	font-weight: 600;
+	font-size: 20px;
+}
+
+#confirm-booking-modal .modal-heading .close-modal-button {
+	cursor: pointer;
+}
+
+#confirm-booking-modal .modal-body {
+	margin-bottom: 10px;
+	background-color: var(--secondaryColorLight);
+	border-radius: 5px;
+}
+
+#confirm-booking-modal .modal-body p {
+	padding: 10px;
+}
+
+#confirm-booking-modal .modal-footer {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	gap: 10px;
+}

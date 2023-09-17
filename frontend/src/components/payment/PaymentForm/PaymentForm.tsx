@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 const PaymentForm = () => {
 	const navigate = useNavigate()
+
 	return (
 		<div id="payment-form">
 			<form action="">

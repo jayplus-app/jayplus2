@@ -45,10 +45,6 @@ const Router = createBrowserRouter([
 		),
 		children: [
 			{
-				path: '',
-				element: <DashboardPage />,
-			},
-			{
 				path: 'booking-management',
 				element: (
 					<BookingProvider>

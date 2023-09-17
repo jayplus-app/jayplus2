@@ -9,3 +9,28 @@
 	width: 250px;
 	margin: 15px auto;
 }
+
+#admin-booking-selection-page .confirm-message {
+	border-radius: 5px;
+	margin: 0 auto;
+	width: 90%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+}
+
+#admin-booking-selection-page .confirm-message.success {
+	color: green;
+	background-color: #e6ffe6;
+}
+
+#admin-booking-selection-page .confirm-message.fail {
+	color: red;
+	background-color: #ffe6e6;
+}
+
+#admin-booking-selection-page .confirm-message .confirm-message-icon {
+	cursor: pointer;
+	color: inherit;
+}
