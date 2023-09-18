@@ -1,4 +1,5 @@
 import './SelectListInline.css'
+import { FaSquareFull } from 'react-icons/fa6'
 import { ChangeEvent, useContext, useState } from 'react'
 import BookingContext from '../../../context/BookingContext/BookingContext'
 
@@ -48,12 +49,7 @@ const SelectListInline = ({
 						htmlFor={`${name}${option.id}`}
 						className="select-list-label"
 					>
-						{option.icon && (
-							<img
-								src={option.icon}
-								alt={`${option.name} icon`}
-							/>
-						)}
+						{option.icon && <img src={option.icon} alt={''} />}
 						<span>{option.name}</span>
 					</label>
 				</li>
