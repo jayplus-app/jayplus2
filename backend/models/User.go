@@ -13,3 +13,14 @@ type User struct {
 	CreatedAt   time.Time `json:"-"`
 	UpdatedAt   time.Time `json:"-"`
 }
+
+type User1 struct {
+	ID             int64
+	Email          string
+	PhoneNumber    string
+	HashedPassword string
+	FirstName      string
+	LastName       string
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
+}
