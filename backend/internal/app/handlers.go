@@ -3,6 +3,7 @@ package app
 import (
 	"backend/contracts/common"
 	"backend/utils"
+	"log"
 	"net/http"
 )
 
@@ -25,6 +26,14 @@ func (app *App) UICOnfig(w http.ResponseWriter, r *http.Request, db common.AppDB
 			"disableColor":            "#f3f3f3",
 		},
 	}
+
+	subdomain, err := utils.GetSubdomain(r)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	log.Println("subdomain: ", subdomain)
 
 	utils.WriteJSON(w, http.StatusOK, uiConfig)
 }
