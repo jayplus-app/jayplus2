@@ -105,7 +105,7 @@ func (a *Auth) getExpiredRefreshCookie() *http.Cookie {
 }
 
 func passwordMatches(user *models.User, password string) (bool, error) {
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	err := bcrypt.CompareHashAndPassword([]byte(user.HashedPassword), []byte(password))
 	if err != nil {
 		switch {
 		case errors.Is(err, bcrypt.ErrMismatchedHashAndPassword):
