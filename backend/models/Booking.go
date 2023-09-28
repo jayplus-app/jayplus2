@@ -18,15 +18,15 @@ type Booking struct {
 }
 
 type Booking1 struct {
-	ID            int64
-	BusinessID    int64
-	UserID        int64
-	VehicleTypeID int64
-	ServiceTypeID int64
+	ID            int
+	BusinessID    int
+	UserID        int
+	VehicleTypeID int
+	ServiceTypeID int
 	Datetime      time.Time
 	Cost          int
 	Discount      int
 	Deposit       int
-	BillNumber    int64
+	BillNumber    int
 	Status        string
 }

@@ -2,7 +2,7 @@ INSERT INTO users(email, phone_number, hashed_password, first_name, last_name, c
 VALUES ('test@test.test', '+1234567890', '$2a$10$dbN2LIdj.CRCignp0ePzuu5SpQJOzXR5fHh/HxKQqD.FgiONnc2Hu', 'TestUser', 'TestLastname', current_timestamp, current_timestamp);
 
 INSERT INTO businesses(name, business_name, timezone, created_at, updated_at)
-VALUES ('Business One', 'bsuiness1', 'America/Toronto', current_timestamp, current_timestamp);
+VALUES ('Business One', 'business1', 'America/Toronto', current_timestamp, current_timestamp);
 
 INSERT INTO permissions(action) VALUES ('Add a booking');
 INSERT INTO permissions(action) VALUES ('Cancel a booking');

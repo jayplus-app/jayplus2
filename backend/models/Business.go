@@ -3,7 +3,7 @@ package models
 import "time"
 
 type Business struct {
-	ID           int64
+	ID           int
 	Name         string
 	BusinessName string
 	Timezone     string

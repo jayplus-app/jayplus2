@@ -3,7 +3,7 @@ package models
 import "time"
 
 type RolePermission struct {
-	RoleID       int64
-	PermissionID int64
+	RoleID       int
+	PermissionID int
 	CreatedAt    time.Time
 }

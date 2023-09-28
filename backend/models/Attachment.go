@@ -1,7 +1,7 @@
 package models
 
 type Attachment struct {
-	ID              int64
-	CommunicationID int64
+	ID              int
+	CommunicationID int
 	URL             string
 }

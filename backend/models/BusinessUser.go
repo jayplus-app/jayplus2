@@ -3,9 +3,9 @@ package models
 import "time"
 
 type BusinessUser struct {
-	BusinessID int64
-	UserID     int64
-	RoleID     int64
+	BusinessID int
+	UserID     int
+	RoleID     int
 	FirstName  string
 	LastName   string
 	CreatedAt  time.Time

@@ -18,4 +18,6 @@ type AuthInterface interface {
 type AuthDBInterface interface {
 	GetUserByEmail(email string) (*models.User, error)
 	GetUserByID(id int) (*models.User, error)
+	GetBusinessByBusinessName(businessName string) (*models.Business, error)
+	IsUserInBusiness(userID, businessID int) (bool, error)
 }

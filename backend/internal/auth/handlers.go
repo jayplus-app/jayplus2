@@ -35,6 +35,20 @@ func (a *Auth) Login(w http.ResponseWriter, r *http.Request, db auth.AuthDBInter
 		return
 	}
 
+	businessName := r.Header.Get("Business-Name")
+
+	business, err := db.GetBusinessByBusinessName(businessName)
+	if err != nil {
+		utils.ErrorJSON(w, errors.New("invalid business"), http.StatusBadRequest)
+		return
+	}
+
+	isUserInBusiness, err := db.IsUserInBusiness(user.ID, business.ID)
+	if err != nil || !isUserInBusiness {
+		utils.ErrorJSON(w, errors.New("user not associated with the business"), http.StatusBadRequest)
+		return
+	}
+
 	// create JWT user
 	u := auth.AuthUser{
 		ID:        user.ID,
@@ -96,7 +110,6 @@ func (a *Auth) RefreshToken(w http.ResponseWriter, r *http.Request, db auth.Auth
 			http.SetCookie(w, a.getRefreshCookie(tokenPair.RefreshToken))
 
 			utils.WriteJSON(w, http.StatusOK, tokenPair)
-			log.Println("Refresh endpoint hit")
 		}
 	}
 }
@@ -105,5 +118,4 @@ func (a *Auth) Logout(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, a.getExpiredRefreshCookie())
 	w.WriteHeader(http.StatusAccepted)
 	utils.WriteJSON(w, http.StatusOK, "Logged out")
-	log.Println("Logout endpoint hit")
 }

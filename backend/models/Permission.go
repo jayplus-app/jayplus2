@@ -1,6 +1,6 @@
 package models
 
 type Permission struct {
-	ID     int64
+	ID     int
 	Action string
 }

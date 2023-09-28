@@ -10,8 +10,8 @@ type ServiceType struct {
 }
 
 type ServiceType1 struct {
-	ID          int64
-	BusinessID  int64
+	ID          int
+	BusinessID  int
 	Name        string
 	Icon        string
 	Description string
