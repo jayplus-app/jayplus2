@@ -17,7 +17,7 @@ const LoginForm = () => {
 			e.preventDefault()
 			const data = await login(email, password)
 			if (data.error) {
-				setLoginError(data.message || 'Failed to login')
+				setLoginError(data.error || 'Failed to login')
 			} else {
 				setLoginError('')
 				navigate('/admin')
