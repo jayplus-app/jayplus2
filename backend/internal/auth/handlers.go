@@ -101,6 +101,20 @@ func (a *Auth) RefreshToken(w http.ResponseWriter, r *http.Request, db auth.Auth
 				LastName:  user.LastName,
 			}
 
+			businessName := r.Header.Get("Business-Name")
+
+			business, err := db.GetBusinessByBusinessName(businessName)
+			if err != nil {
+				utils.ErrorJSON(w, errors.New("invalid business"), http.StatusBadRequest)
+				return
+			}
+
+			isUserInBusiness, err := db.IsUserInBusiness(user.ID, business.ID)
+			if err != nil || !isUserInBusiness {
+				utils.ErrorJSON(w, errors.New("user not associated with the business"), http.StatusBadRequest)
+				return
+			}
+
 			tokenPair, err := a.generateSignedTokenPair(&u)
 			if err != nil {
 				utils.ErrorJSON(w, errors.New("error generating token pair"), http.StatusInternalServerError)
