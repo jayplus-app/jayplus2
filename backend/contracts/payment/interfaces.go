@@ -1,15 +1,11 @@
 package payment
 
 import (
-	"backend/models"
+	"backend/contracts/db"
 	"net/http"
 )
 
 type PaymentInterface interface {
-	PayBooking(w http.ResponseWriter, r *http.Request, db PaymentDBInterface)
-	GetInvoice(w http.ResponseWriter, r *http.Request, db PaymentDBInterface)
-}
-
-type PaymentDBInterface interface {
-	RecordPayment(payment *models.Payment) error
+	PayBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface)
+	GetInvoice(w http.ResponseWriter, r *http.Request, db db.DBInterface)
 }

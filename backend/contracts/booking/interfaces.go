@@ -1,22 +1,18 @@
 package booking
 
 import (
-	"backend/models"
+	"backend/contracts/db"
 	"net/http"
 )
 
 type BookingInterface interface {
 	// Handlers
-	VehicleTypes(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
-	ServiceTypes(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
-	TimeSlots(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
-	ServiceCost(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
-	CreateBooking(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
-	Bookings(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
-	Booking(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
-	CancelBooking(w http.ResponseWriter, r *http.Request, db BookingDBInterface)
-}
-
-type BookingDBInterface interface {
-	GetVehicleTypes() ([]*models.VehicleType, error)
+	VehicleTypes(w http.ResponseWriter, r *http.Request, db db.DBInterface)
+	ServiceTypes(w http.ResponseWriter, r *http.Request, db db.DBInterface)
+	TimeSlots(w http.ResponseWriter, r *http.Request, db db.DBInterface)
+	ServiceCost(w http.ResponseWriter, r *http.Request, db db.DBInterface)
+	CreateBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface)
+	Bookings(w http.ResponseWriter, r *http.Request, db db.DBInterface)
+	Booking(w http.ResponseWriter, r *http.Request, db db.DBInterface)
+	CancelBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface)
 }

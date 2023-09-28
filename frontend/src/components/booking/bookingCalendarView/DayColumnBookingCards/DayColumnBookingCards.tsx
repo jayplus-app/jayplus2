@@ -51,15 +51,15 @@ const DayColumnBookingCards = ({ date }: DayColumnBookingCardsProps) => {
 					bookings?.map((booking) => (
 						<li
 							id="card-list-item"
-							key={booking.Date + booking.Time}
+							key={booking.date + booking.time}
 							onClick={() => {
-								setBookingIdToCancel(booking.ID)
+								setBookingIdToCancel(booking.id)
 								setShowBookingdetailsModal(true)
 							}}
 						>
-							<span>{booking.Time}</span>
-							<span>{booking.VehicleType}</span>
-							<span>{booking.TypeOfService}</span>
+							<span>{booking.time}</span>
+							<span>{booking.vehicleType}</span>
+							<span>{booking.typeOfService}</span>
 						</li>
 					))
 				)}

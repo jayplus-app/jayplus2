@@ -2,6 +2,7 @@ package auth
 
 import (
 	"backend/contracts/auth"
+	"backend/contracts/db"
 	"backend/utils"
 	"errors"
 	"log"
@@ -11,7 +12,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-func (a *Auth) Login(w http.ResponseWriter, r *http.Request, db auth.AuthDBInterface) {
+func (a *Auth) Login(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	var reqPayload struct {
 		Email    string `json:"email"`
 		Password string `json:"password"`
@@ -69,7 +70,7 @@ func (a *Auth) Login(w http.ResponseWriter, r *http.Request, db auth.AuthDBInter
 	utils.WriteJSON(w, http.StatusAccepted, tokenPair)
 }
 
-func (a *Auth) RefreshToken(w http.ResponseWriter, r *http.Request, db auth.AuthDBInterface) {
+func (a *Auth) RefreshToken(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	for _, cookie := range r.Cookies() {
 		if cookie.Name == a.CookieName {
 			claims := &auth.JWTClaims{}

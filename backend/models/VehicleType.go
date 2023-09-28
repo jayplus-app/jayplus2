@@ -10,10 +10,10 @@ type VehicleType struct {
 }
 
 type VehicleType1 struct {
-	ID          int
-	BusinessID  int
-	Name        string
-	Icon        string
-	Description string
-	CreatedAt   time.Time
+	ID          int       `json:"id"`
+	BusinessID  int       `json:"businessId"`
+	Name        string    `json:"name"`
+	Icon        string    `json:"icon"`
+	Description string    `json:"description"`
+	CreatedAt   time.Time `json:"createdAt"`
 }

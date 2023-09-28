@@ -3,11 +3,11 @@ import { apiGet } from '../../utils/apiUtils'
 
 interface Timeslot {
 	id: number
-	start_time: string
-	end_time: string
-	free_minutes: number
+	startTime: string
+	endTime: string
+	freeMinutes: number
 	available: boolean
-	is_past: boolean
+	isPast: boolean
 }
 
 interface TimeslotsResponse {

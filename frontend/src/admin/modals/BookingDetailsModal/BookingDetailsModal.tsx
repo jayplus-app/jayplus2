@@ -54,51 +54,51 @@ const BookingDetailsModal = ({
 							<tbody>
 								<tr>
 									<td>ID</td>
-									<td>{booking?.ID}</td>
+									<td>{booking?.id}</td>
 								</tr>
 								<tr>
 									<td>Transaction Number</td>
-									<td>{booking?.TransactionNumber}</td>
+									<td>{booking?.transactionNumber}</td>
 								</tr>
 								<tr>
 									<td>Bill Number</td>
-									<td>{booking?.BillNumber}</td>
+									<td>{booking?.billNumber}</td>
 								</tr>
 								<tr>
 									<td>Type of Service</td>
-									<td>{booking?.TypeOfService}</td>
+									<td>{booking?.typeOfService}</td>
 								</tr>
 								<tr>
 									<td>Vehicle Type</td>
-									<td>{booking?.VehicleType}</td>
+									<td>{booking?.vehicleType}</td>
 								</tr>
 								<tr>
 									<td>Date</td>
-									<td>{booking?.Date}</td>
+									<td>{booking?.date}</td>
 								</tr>
 								<tr>
 									<td>Time</td>
-									<td>{booking?.Time}</td>
+									<td>{booking?.time}</td>
 								</tr>
 								<tr>
 									<td>Service Cost</td>
-									<td>{booking?.ServiceCost}</td>
+									<td>{booking?.serviceCost}</td>
 								</tr>
 								<tr>
 									<td>Discount</td>
-									<td>{booking?.Discount}</td>
+									<td>{booking?.discount}</td>
 								</tr>
 								<tr>
 									<td>Total</td>
-									<td>{booking?.Total}</td>
+									<td>{booking?.total}</td>
 								</tr>
 								<tr>
 									<td>Deposit</td>
-									<td>{booking?.Deposit}</td>
+									<td>{booking?.deposit}</td>
 								</tr>
 								<tr>
 									<td>Remaining</td>
-									<td>{booking?.Remaining}</td>
+									<td>{booking?.remaining}</td>
 								</tr>
 							</tbody>
 						</table>

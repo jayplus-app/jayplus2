@@ -1,18 +1,18 @@
 import { createContext } from 'react'
 
 export interface Booking {
-	ID: string
-	TransactionNumber: string
-	BillNumber: string
-	TypeOfService: string
-	VehicleType: string
-	Date: string
-	Time: string
-	ServiceCost: string
-	Discount: string
-	Total: string
-	Deposit: string
-	Remaining: string
+	id: string
+	transactionNumber: string
+	billNumber: string
+	typeOfService: string
+	vehicleType: string
+	date: string
+	time: string
+	serviceCost: string
+	discount: string
+	total: string
+	deposit: string
+	remaining: string
 }
 
 interface BookingManagementContextProps {

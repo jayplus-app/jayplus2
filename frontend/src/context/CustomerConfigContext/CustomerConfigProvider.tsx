@@ -27,12 +27,22 @@ const CustomerConfigProvider = ({ children }: CustomerConfigProviderProps) => {
 	useEffect(() => {
 		apiGet('/api/app/ui-config')
 			.then((data) => {
-				setAppConfig(data.appConfig)
-				setCssConfig(data.cssConfig)
+				setCssConfig(data)
 				setIsLoadingConfig(false)
 			})
 			.catch((err) => {
 				console.error('Failed to fetch UI config:', err)
+				setIsLoadingConfig(false)
+			})
+
+		apiGet('/api/app/booking-config')
+			.then((data) => {
+				console.log('booking config:', data)
+				setAppConfig(data)
+				setIsLoadingConfig(false)
+			})
+			.catch((err) => {
+				console.error('Failed to fetch booking config:', err)
 				setIsLoadingConfig(false)
 			})
 	}, [])

@@ -2,13 +2,13 @@ package booking
 
 import (
 	"backend/contracts/auth"
-	"backend/contracts/booking"
+	"backend/contracts/db"
 	"net/http"
 
 	"github.com/gorilla/mux"
 )
 
-func BookingRoutes(r *mux.Router, auth auth.AuthInterface, db booking.BookingDBInterface) {
+func BookingRoutes(r *mux.Router, auth auth.AuthInterface, db db.DBInterface) {
 	bookingRouter := r.PathPrefix("/booking").Subrouter()
 
 	bookingRouter.HandleFunc("/vehicle-types", func(w http.ResponseWriter, r *http.Request) {

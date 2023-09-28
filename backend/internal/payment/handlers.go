@@ -1,12 +1,12 @@
 package payment
 
 import (
-	"backend/contracts/payment"
+	"backend/contracts/db"
 	"backend/utils"
 	"net/http"
 )
 
-func PayBooking(w http.ResponseWriter, r *http.Request, db payment.PaymentDBInterface) {
+func PayBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	payment := map[string]string{
 		"booking_id": "1",
 		"amount":     "100",
@@ -15,7 +15,7 @@ func PayBooking(w http.ResponseWriter, r *http.Request, db payment.PaymentDBInte
 	utils.WriteJSON(w, http.StatusOK, payment)
 }
 
-func GetInvoice(w http.ResponseWriter, r *http.Request, db payment.PaymentDBInterface) {
+func GetInvoice(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	invoice := map[string]string{
 		"transactionNumber": "1",
 		"billNumber":        "1",

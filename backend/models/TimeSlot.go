@@ -4,9 +4,9 @@ import "time"
 
 type TimeSlot struct {
 	ID          string    `json:"id"`
-	StartTime   time.Time `json:"start_time"`
-	EndTime     time.Time `json:"end_time"`
-	FreeMinutes int       `json:"free_minutes"`
+	StartTime   time.Time `json:"startTime"`
+	EndTime     time.Time `json:"endTime"`
+	FreeMinutes int       `json:"freeMinutes"`
 	Available   bool      `json:"available"`
-	IsPast      bool      `json:"is_past"`
+	IsPast      bool      `json:"isPast"`
 }

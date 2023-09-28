@@ -2,6 +2,7 @@ package booking
 
 import (
 	"backend/contracts/booking"
+	"backend/contracts/db"
 	"backend/models"
 	"backend/utils"
 	"net/http"
@@ -9,7 +10,7 @@ import (
 )
 
 // VehicleTypes handler returns a list of vehicle types.
-func VehicleTypes(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+func VehicleTypes(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	vehicleTypes := booking.VehicleTypes{
 		Name: "Vehicle Types",
 		Types: []*models.VehicleType{
@@ -44,7 +45,7 @@ func VehicleTypes(w http.ResponseWriter, r *http.Request, db booking.BookingDBIn
 }
 
 // ServiceTypes handler returns a list of service types.
-func ServiceTypes(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+func ServiceTypes(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	serviceTypes := booking.ServiceTypes{
 		Name: "Service Types",
 		Types: []*models.ServiceType{
@@ -79,7 +80,7 @@ func ServiceTypes(w http.ResponseWriter, r *http.Request, db booking.BookingDBIn
 }
 
 // Timeslots handler returns a list of time slots.
-func TimeSlots(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+func TimeSlots(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	// Sample data for a single date, replace this with database retrieval logic
 	timeSlots := []*models.TimeSlot{
 		{
@@ -173,7 +174,7 @@ func TimeSlots(w http.ResponseWriter, r *http.Request, db booking.BookingDBInter
 }
 
 // ServiceCost handler returns the cost of a service.
-func ServiceCost(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+func ServiceCost(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	serviceCost := map[string]int{
 		"cost": 100,
 	}
@@ -182,7 +183,7 @@ func ServiceCost(w http.ResponseWriter, r *http.Request, db booking.BookingDBInt
 }
 
 // CreateBookings handler creates bookings.
-func CreateBooking(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+func CreateBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	bookingNumber := map[string]string{
 		"booking_number": "123456",
 	}
@@ -191,7 +192,7 @@ func CreateBooking(w http.ResponseWriter, r *http.Request, db booking.BookingDBI
 }
 
 // Bookings handler returns a list of bookings.
-func Bookings(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+func Bookings(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	bookings := []*models.Booking{
 		{
 			ID:                "1",
@@ -238,7 +239,7 @@ func Bookings(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterf
 	}
 
 	bookingsResponse := booking.Bookings{
-		Date:	 "2023-01-20",
+		Date:     "2023-01-20",
 		Bookings: bookings,
 	}
 
@@ -246,7 +247,7 @@ func Bookings(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterf
 }
 
 // Booking handler returns a booking.
-func Booking(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+func Booking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	booking := models.Booking{
 		ID:                "1",
 		TransactionNumber: "13",
@@ -266,7 +267,7 @@ func Booking(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterfa
 }
 
 // CancelBooking handler cancels a booking.
-func CancelBooking(w http.ResponseWriter, r *http.Request, db booking.BookingDBInterface) {
+func CancelBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	message := map[string]string{
 		"message": "Booking cancelled successfully",
 	}

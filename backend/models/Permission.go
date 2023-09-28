@@ -1,6 +1,6 @@
 package models
 
 type Permission struct {
-	ID     int
-	Action string
+	ID     int    `json:"id"`
+	Action string `json:"action"`
 }

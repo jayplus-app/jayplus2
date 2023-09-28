@@ -1,39 +1,48 @@
 package app
 
 import (
-	"backend/contracts/common"
+	"backend/contracts/db"
 	"backend/utils"
-	"log"
 	"net/http"
 )
 
-func (app *App) UICOnfig(w http.ResponseWriter, r *http.Request, db common.AppDBInterface) {
+func (app *App) UICOnfig(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	w.Header().Set("Content-Type", "application/json")
 
-	uiConfig := map[string]interface{}{
-		"appConfig": map[string]interface{}{
-			"maxFutureBookingDays": 5,
-		},
-		"cssConfig": map[string]string{
-			"primaryColorLight":       "#ffd27a",
-			"primaryColorDark":        "#ffaf14",
-			"secondaryColorLight":     "#e9edf0",
-			"secondaryColorDark":      "#ced4da",
-			"secondaryColorDarker":    "#b1bbc4",
-			"secondaryColorDarkest":   "#404040",
-			"complementaryColorLight": "#eaf0f0",
-			"complementaryColorDark":  "#45645b",
-			"disableColor":            "#f3f3f3",
-		},
-	}
+	businessName := r.Header.Get("Business-Name")
 
-	subdomain, err := utils.GetSubdomain(r)
+	business, err := db.GetBusinessByBusinessName(businessName)
 	if err != nil {
 		utils.ErrorJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
-	log.Println("subdomain: ", subdomain)
+	uiConfig, err := db.GetBusinessUIConfigByID(business.ID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	utils.WriteJSON(w, http.StatusOK, uiConfig)
+}
+
+func (app *App) BookingConfig(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
+	w.Header().Set("Content-Type", "application/json")
+
+	businessName := r.Header.Get("Business-Name")
+
+	business, err := db.GetBusinessByBusinessName(businessName)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	uiConfig, err := db.GetBusinessBookingConfigByID(business.ID)
+
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
 
 	utils.WriteJSON(w, http.StatusOK, uiConfig)
 }

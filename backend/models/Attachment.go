@@ -1,7 +1,7 @@
 package models
 
 type Attachment struct {
-	ID              int
-	CommunicationID int
-	URL             string
+	ID              int    `json:"id"`
+	CommunicationID int    `json:"communicationId"`
+	URL             string `json:"url"`
 }

@@ -22,6 +22,6 @@ type TimeSlots struct {
 }
 
 type Bookings struct {
-	Date	 string             `json:"date"`
+	Date     string            `json:"date"`
 	Bookings []*models.Booking `json:"bookings"`
 }

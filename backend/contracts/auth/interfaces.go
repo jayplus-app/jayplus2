@@ -1,23 +1,16 @@
 package auth
 
 import (
-	"backend/models"
+	"backend/contracts/db"
 	"net/http"
 )
 
 type AuthInterface interface {
 	// Handlers
-	Login(w http.ResponseWriter, r *http.Request, db AuthDBInterface)
-	RefreshToken(w http.ResponseWriter, r *http.Request, db AuthDBInterface)
+	Login(w http.ResponseWriter, r *http.Request, db db.DBInterface)
+	RefreshToken(w http.ResponseWriter, r *http.Request, db db.DBInterface)
 	Logout(w http.ResponseWriter, r *http.Request)
 
 	// Middleware
 	AuthRequired(next http.Handler) http.Handler
-}
-
-type AuthDBInterface interface {
-	GetUserByEmail(email string) (*models.User, error)
-	GetUserByID(id int) (*models.User, error)
-	GetBusinessByBusinessName(businessName string) (*models.Business, error)
-	IsUserInBusiness(userID, businessID int) (bool, error)
 }
