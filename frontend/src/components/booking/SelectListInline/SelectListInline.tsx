@@ -1,5 +1,4 @@
 import './SelectListInline.css'
-import { FaSquareFull } from 'react-icons/fa6'
 import { ChangeEvent, useContext, useState } from 'react'
 import BookingContext from '../../../context/BookingContext/BookingContext'
 
@@ -22,7 +21,7 @@ const SelectListInline = ({
 	className,
 	select,
 }: SelectListInlineProps) => {
-	const [selected, setSelected] = useState(options[0].id)
+	const [selected, setSelected] = useState(`${name}-${options[0].id}`)
 	const { setServiceCost, setDateTimeSelected } = useContext(BookingContext)
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,14 +38,14 @@ const SelectListInline = ({
 					<input
 						className="select-list-input"
 						type="radio"
-						id={`${name}${option.id}`}
+						id={`${name}-${option.id}`}
 						name={name}
-						value={option.id}
-						checked={selected === option.id}
+						value={`${name}-${option.id}`}
+						checked={selected === `${name}-${option.id}`}
 						onChange={handleChange}
 					/>
 					<label
-						htmlFor={`${name}${option.id}`}
+						htmlFor={`${name}-${option.id}`}
 						className="select-list-label"
 					>
 						{option.icon && <img src={option.icon} alt={''} />}

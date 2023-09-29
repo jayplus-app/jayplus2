@@ -13,7 +13,7 @@ const ServiceTypes = () => {
 	} = useContext(BookingContext)
 
 	const selectedDescription = serviceTypes.find(
-		(st) => st.id === serviceTypeSelected
+		(st) => `st-${st.id}` === serviceTypeSelected
 	)?.description
 
 	return (
@@ -24,7 +24,7 @@ const ServiceTypes = () => {
 			) : (
 				<SelectListInline
 					options={serviceTypes}
-					name="service-types"
+					name="st"
 					className="service-types-list"
 					select={(option) => setServiceTypeSelected(option)}
 				/>

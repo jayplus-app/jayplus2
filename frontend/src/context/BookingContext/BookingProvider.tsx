@@ -17,13 +17,13 @@ const BookingProvider = ({ children }: BookingProviderProps) => {
 
 	useEffect(() => {
 		if (!isLoadingVehicleTypes && vehicleTypes.length > 0) {
-			setVehicleTypeSelected(vehicleTypes[0].id)
+			setVehicleTypeSelected(`vt-${vehicleTypes[0].id}`)
 		}
 	}, [isLoadingVehicleTypes, vehicleTypes])
 
 	useEffect(() => {
 		if (!isLoadingServiceTypes && serviceTypes.length > 0) {
-			setServiceTypeSelected(serviceTypes[0].id)
+			setServiceTypeSelected(`st-${serviceTypes[0].id}`)
 		}
 	}, [isLoadingServiceTypes, serviceTypes])
 
