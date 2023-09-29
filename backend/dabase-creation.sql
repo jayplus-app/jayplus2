@@ -119,6 +119,7 @@ CREATE TABLE service_types (
   name VARCHAR(250) NOT NULL,
   icon VARCHAR(250) NOT NULL,
   description TEXT NOT NULL,
+  position INTEGER NOT NULL DEFAULT 1,
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 
@@ -128,5 +129,6 @@ CREATE TABLE vehicle_types (
   name VARCHAR(250) NOT NULL,
   icon VARCHAR(250) NOT NULL,
   description TEXT NOT NULL,
+  position INTEGER NOT NULL DEFAULT 1,
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );

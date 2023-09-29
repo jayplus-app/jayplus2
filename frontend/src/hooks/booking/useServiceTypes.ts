@@ -3,14 +3,11 @@ import { apiGet } from '../../utils/apiUtils'
 
 export interface ServiceType {
 	id: string
+	businessId: string
 	name: string
 	icon: string
 	description: string
-}
-
-export interface ServiceTypeResponse {
-	name: string
-	types: ServiceType[]
+	position: number
 }
 
 export const useServiceTypes = () => {
@@ -19,8 +16,11 @@ export const useServiceTypes = () => {
 
 	useEffect(() => {
 		apiGet('/api/booking/service-types')
-			.then((data: ServiceTypeResponse) => {
-				setServiceTypes(data.types)
+			.then((data: ServiceType[]) => {
+				const sortedServiceTypes = data.sort(
+					(a, b) => a.position - b.position
+				)
+				setServiceTypes(sortedServiceTypes)
 				setIsLoadingServiceTypes(false)
 			})
 			.catch((error) => {

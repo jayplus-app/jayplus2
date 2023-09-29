@@ -3,14 +3,11 @@ import { apiGet } from '../../utils/apiUtils'
 
 export interface VehicleType {
 	id: string
+	businessId: string
 	name: string
 	icon: string
 	description: string
-}
-
-export interface VehicleTypeResponse {
-	name: string
-	types: VehicleType[]
+	position: number
 }
 
 export const useVehicleTypes = () => {
@@ -19,8 +16,11 @@ export const useVehicleTypes = () => {
 
 	useEffect(() => {
 		apiGet('/api/booking/vehicle-types')
-			.then((data: VehicleTypeResponse) => {
-				setVehicleTypes(data.types)
+			.then((data: VehicleType[]) => {
+				const sortedVehicleTypes = data.sort(
+					(a, b) => a.position - b.position
+				)
+				setVehicleTypes(sortedVehicleTypes)
 				setIsLoadingVehicleTypes(false)
 			})
 			.catch((error) => {

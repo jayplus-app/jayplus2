@@ -5,40 +5,25 @@ import (
 	"backend/contracts/db"
 	"backend/models"
 	"backend/utils"
+	"errors"
 	"net/http"
 	"time"
 )
 
 // VehicleTypes handler returns a list of vehicle types.
 func VehicleTypes(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
-	vehicleTypes := booking.VehicleTypes{
-		Name: "Vehicle Types",
-		Types: []*models.VehicleType{
-			{
-				ID:          "1",
-				Name:        "Sedan",
-				Icon:        "sedan_icon",
-				Description: "A small to medium-sized vehicle with comfortable seating for 4-5 passengers.",
-			},
-			{
-				ID:          "2",
-				Name:        "SUV",
-				Icon:        "suv_icon",
-				Description: "A medium to large-sized vehicle suitable for families, with optional all-wheel drive.",
-			},
-			{
-				ID:          "3",
-				Name:        "Large SUV / Truck",
-				Icon:        "large_suv_truck_icon",
-				Description: "A large vehicle with ample cargo space, often used for towing or off-road activities.",
-			},
-			{
-				ID:          "4",
-				Name:        "Motorcycle",
-				Icon:        "motorcycle_icon",
-				Description: "A two-wheeler suitable for individual riders or a couple, fuel-efficient and quick.",
-			},
-		},
+	businessName := r.Header.Get("Business-Name")
+
+	business, err := db.GetBusinessByBusinessName(businessName)
+	if err != nil {
+		utils.ErrorJSON(w, errors.New("invalid business"), http.StatusBadRequest)
+		return
+	}
+
+	vehicleTypes, err := db.GetVehicleTypes(business.ID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
 	}
 
 	utils.WriteJSON(w, http.StatusOK, vehicleTypes)
@@ -46,34 +31,18 @@ func VehicleTypes(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 
 // ServiceTypes handler returns a list of service types.
 func ServiceTypes(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
-	serviceTypes := booking.ServiceTypes{
-		Name: "Service Types",
-		Types: []*models.ServiceType{
-			{
-				ID:          "1",
-				Name:        "Show Room",
-				Icon:        "show_room_icon",
-				Description: "A premium service to make your vehicle look as good as new.",
-			},
-			{
-				ID:          "2",
-				Name:        "Basic",
-				Icon:        "basic_icon",
-				Description: "Basic cleaning and maintenance, ideal for quick touch-ups.",
-			},
-			{
-				ID:          "3",
-				Name:        "Interior",
-				Icon:        "interior_icon",
-				Description: "Focused on cleaning and sanitizing the vehicle's interior.",
-			},
-			{
-				ID:          "4",
-				Name:        "Exterior",
-				Icon:        "exterior_icon",
-				Description: "Focused on exterior wash and wax, to make your vehicle shine.",
-			},
-		},
+	businessName := r.Header.Get("Business-Name")
+
+	business, err := db.GetBusinessByBusinessName(businessName)
+	if err != nil {
+		utils.ErrorJSON(w, errors.New("invalid business"), http.StatusBadRequest)
+		return
+	}
+
+	serviceTypes, err := db.GetServiceTypes(business.ID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
 	}
 
 	utils.WriteJSON(w, http.StatusOK, serviceTypes)

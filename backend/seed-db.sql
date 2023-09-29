@@ -42,19 +42,19 @@ VALUES
   "maxFutureBookingDays": 5
 }', current_timestamp, current_timestamp);
 
-INSERT INTO service_types (business_id, name, icon, description, created_at)
+INSERT INTO service_types (business_id, name, icon, description, position, created_at)
 VALUES 
-(1, 'Show Room', 'show_room_icon', 'A premium service to make your vehicle look as good as new.', current_timestamp),
-(1, 'Basic', 'basic_icon', 'Basic cleaning and maintenance, ideal for quick touch-ups.', current_timestamp),
-(1, 'Interior', 'interior_icon', 'Focused on cleaning and sanitizing the vehicle''s interior.', current_timestamp),
-(1, 'Exterior', 'exterior_icon', 'Focused on exterior wash and wax, to make your vehicle shine.', current_timestamp);
+(1, 'Show Room', 'show_room_icon', 'A premium service to make your vehicle look as good as new.', 1, current_timestamp),
+(1, 'Basic', 'basic_icon', 'Basic cleaning and maintenance, ideal for quick touch-ups.', 2, current_timestamp),
+(1, 'Interior', 'interior_icon', 'Focused on cleaning and sanitizing the vehicle''s interior.', 3, current_timestamp),
+(1, 'Exterior', 'exterior_icon', 'Focused on exterior wash and wax, to make your vehicle shine.', 4, current_timestamp);
 
-INSERT INTO vehicle_types (business_id, name, icon, description, created_at)
+INSERT INTO vehicle_types (business_id, name, icon, description, position, created_at)
 VALUES 
-(1, 'Sedan', 'sedan_icon', 'A small to medium-sized vehicle with comfortable seating for 4-5 passengers.', current_timestamp),
-(1, 'SUV', 'suv_icon', 'A medium to large-sized vehicle suitable for families, with optional all-wheel drive.', current_timestamp),
-(1, 'Large SUV / Truck', 'large_suv_truck_icon', 'A large vehicle with ample cargo space, often used for towing or off-road activities.', current_timestamp),
-(1, 'Motorcycle', 'motorcycle_icon', 'A two-wheeler suitable for individual riders or a couple, fuel-efficient and quick.', current_timestamp);
+(1, 'Sedan', 'sedan_icon', 'A small to medium-sized vehicle with comfortable seating for 4-5 passengers.', 1, current_timestamp),
+(1, 'SUV', 'suv_icon', 'A medium to large-sized vehicle suitable for families, with optional all-wheel drive.', 2, current_timestamp),
+(1, 'Large SUV / Truck', 'large_suv_truck_icon', 'A large vehicle with ample cargo space, often used for towing or off-road activities.', 3, current_timestamp),
+(1, 'Motorcycle', 'motorcycle_icon', 'A two-wheeler suitable for individual riders or a couple, fuel-efficient and quick.', 4, current_timestamp);
 
 INSERT INTO users (email, phone_number, hashed_password, first_name, last_name)
 VALUES ('unknown@customer.com', '0000000000', 'hashed_password_for_unknown', 'Unknown', 'Customer');
