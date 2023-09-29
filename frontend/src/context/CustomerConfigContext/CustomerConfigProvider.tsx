@@ -37,7 +37,6 @@ const CustomerConfigProvider = ({ children }: CustomerConfigProviderProps) => {
 
 		apiGet('/api/app/booking-config')
 			.then((data) => {
-				console.log('booking config:', data)
 				setAppConfig(data)
 				setIsLoadingConfig(false)
 			})
