@@ -18,12 +18,13 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 					.then((data) => {
 						if (data.access_token) {
 							setAuthToken(data.access_token)
+							localStorage.setItem('authToken', data.access_token)
 						}
 					})
 					.catch((err) => {
 						console.log(err.message)
 					})
-			}, 900000) // 15 minutes
+			}, 840000) // 14 minutes
 		} else {
 			if (tickIntervalRef.current) {
 				clearInterval(tickIntervalRef.current)

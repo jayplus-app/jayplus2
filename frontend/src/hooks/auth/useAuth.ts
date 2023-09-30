@@ -37,6 +37,7 @@ const useAuth = () => {
 				})
 				.catch((err) => {
 					console.log('User not logged in')
+					logOut()
 					reject(err)
 				})
 		})

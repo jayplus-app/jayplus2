@@ -4,7 +4,6 @@ import (
 	"backend/contracts/db"
 	"backend/utils"
 	"errors"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -21,7 +20,6 @@ func (a *Auth) AuthRequired(db db.DBInterface) mux.MiddlewareFunc {
 			}
 
 			tokenBusinessID := claims.BusinessID
-			log.Println("tokenBusinessID", tokenBusinessID)
 
 			requestBusinessName := r.Header.Get("Business-Name")
 			business, err := db.GetBusinessByBusinessName(requestBusinessName)
