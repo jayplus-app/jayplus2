@@ -134,7 +134,6 @@ CREATE TABLE vehicle_types (
 );
 
 CREATE TABLE service_costs (
-  id BIGSERIAL PRIMARY KEY,
   business_id BIGINT NOT NULL REFERENCES businesses(id),
   vehicle_type_id BIGINT NOT NULL REFERENCES vehicle_types(id),
   service_type_id BIGINT NOT NULL REFERENCES service_types(id),
