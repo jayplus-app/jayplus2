@@ -28,7 +28,7 @@ const BookingDetailsModal = ({
 				setBooking(booking)
 			})
 			.catch((error) => {
-				console.error('Error fetching booking:', error)
+				console.error(error)
 			})
 			.finally(() => {
 				setIsLoadingBookingDetails(false)

@@ -50,6 +50,7 @@ func (a *Auth) generateSignedTokenPair(user *auth.AuthUser) (auth.JWTTokenPair, 
 	accessTokenClaims["iat"] = time.Now().UTC().Unix()
 	accessTokenClaims["typ"] = "JWT"
 	accessTokenClaims["exp"] = time.Now().UTC().Add(a.AccessTokenExpiry).Unix()
+	accessTokenClaims["BusinessID"] = user.BusinessID
 
 	signedAccessToken, err := accessToken.SignedString([]byte(a.Secret))
 	if err != nil {
@@ -75,7 +76,7 @@ func (a *Auth) generateSignedTokenPair(user *auth.AuthUser) (auth.JWTTokenPair, 
 	}, nil
 }
 
-func (a *Auth) getRefreshCookie(refreshToken string) *http.Cookie {
+func (a *Auth) getRefreshCookie(refreshToken string, host string) *http.Cookie {
 	return &http.Cookie{
 		Name:     a.CookieName,
 		Value:    refreshToken,
@@ -83,13 +84,13 @@ func (a *Auth) getRefreshCookie(refreshToken string) *http.Cookie {
 		Expires:  time.Now().UTC().Add(a.RefreshTokenExpiry),
 		MaxAge:   int(a.RefreshTokenExpiry.Seconds()),
 		SameSite: http.SameSiteStrictMode,
-		Domain:   a.CookieDomain,
+		Domain:   host,
 		HttpOnly: true,
 		Secure:   false,
 	}
 }
 
-func (a *Auth) getExpiredRefreshCookie() *http.Cookie {
+func (a *Auth) getExpiredRefreshCookie(domain string) *http.Cookie {
 	return &http.Cookie{
 		Name:     a.CookieName,
 		Value:    "",
@@ -97,11 +98,10 @@ func (a *Auth) getExpiredRefreshCookie() *http.Cookie {
 		Expires:  time.Unix(0, 0),
 		MaxAge:   -1,
 		SameSite: http.SameSiteStrictMode,
-		Domain:   a.CookieDomain,
+		Domain:   domain,
 		HttpOnly: true,
 		Secure:   false,
 	}
-
 }
 
 func passwordMatches(user *models.User, password string) (bool, error) {
@@ -145,7 +145,7 @@ func (a *Auth) getHeaderFromTokenAndVerify(w http.ResponseWriter, r *http.Reques
 		return []byte(a.Secret), nil
 	})
 	if err != nil {
-		if strings.HasPrefix(err.Error(), "token is expired by") {
+		if strings.Contains(err.Error(), "token is expired") {
 			return "", nil, errors.New("token is expired")
 		}
 		return "", nil, err

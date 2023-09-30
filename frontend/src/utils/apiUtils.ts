@@ -1,3 +1,8 @@
+interface ErrorResponse {
+	Error: boolean
+	Message: string
+}
+
 /**
  * Sends a GET request to the given URL.
  *
@@ -57,7 +62,7 @@ const apiRequest = async (
 		}
 
 		return res.json()
-	} catch (error) {
-		throw error
+	} catch (error: ErrorResponse | any) {
+		throw error.message
 	}
 }

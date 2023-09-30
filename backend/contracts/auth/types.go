@@ -18,9 +18,10 @@ type Auth struct {
 }
 
 type AuthUser struct {
-	ID        int    `json:"id"`
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
+	ID         int    `json:"id"`
+	FirstName  string `json:"first_name"`
+	LastName   string `json:"last_name"`
+	BusinessID int    `json:"businessID"`
 }
 
 type JWTTokenPair struct {
@@ -30,4 +31,5 @@ type JWTTokenPair struct {
 
 type JWTClaims struct {
 	jwt.RegisteredClaims
+	BusinessID int `json:"businessID"`
 }

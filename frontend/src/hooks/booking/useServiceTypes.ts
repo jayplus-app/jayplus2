@@ -24,7 +24,7 @@ export const useServiceTypes = () => {
 				setIsLoadingServiceTypes(false)
 			})
 			.catch((error) => {
-				console.error('Error fetching data:', error)
+				console.error(error)
 				setIsLoadingServiceTypes(false)
 			})
 	}, [])

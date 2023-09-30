@@ -52,9 +52,10 @@ func (a *Auth) Login(w http.ResponseWriter, r *http.Request, db db.DBInterface) 
 
 	// create JWT user
 	u := auth.AuthUser{
-		ID:        user.ID,
-		FirstName: user.FirstName,
-		LastName:  user.LastName,
+		ID:         user.ID,
+		FirstName:  user.FirstName,
+		LastName:   user.LastName,
+		BusinessID: business.ID,
 	}
 
 	// generate JWT tokens
@@ -63,8 +64,10 @@ func (a *Auth) Login(w http.ResponseWriter, r *http.Request, db db.DBInterface) 
 		log.Fatalf("Error generating token pair: %v", err)
 	}
 
+	host := r.Host
+
 	// set refresh cookie
-	refreshCookie := a.getRefreshCookie(tokenPair.RefreshToken)
+	refreshCookie := a.getRefreshCookie(tokenPair.RefreshToken, host)
 	http.SetCookie(w, refreshCookie)
 
 	utils.WriteJSON(w, http.StatusAccepted, tokenPair)
@@ -96,12 +99,6 @@ func (a *Auth) RefreshToken(w http.ResponseWriter, r *http.Request, db db.DBInte
 				return
 			}
 
-			u := auth.AuthUser{
-				ID:        user.ID,
-				FirstName: user.FirstName,
-				LastName:  user.LastName,
-			}
-
 			businessName := r.Header.Get("Business-Name")
 
 			business, err := db.GetBusinessByBusinessName(businessName)
@@ -116,13 +113,22 @@ func (a *Auth) RefreshToken(w http.ResponseWriter, r *http.Request, db db.DBInte
 				return
 			}
 
+			u := auth.AuthUser{
+				ID:         user.ID,
+				FirstName:  user.FirstName,
+				LastName:   user.LastName,
+				BusinessID: business.ID,
+			}
+
 			tokenPair, err := a.generateSignedTokenPair(&u)
 			if err != nil {
 				utils.ErrorJSON(w, errors.New("error generating token pair"), http.StatusInternalServerError)
 				return
 			}
 
-			http.SetCookie(w, a.getRefreshCookie(tokenPair.RefreshToken))
+			host := r.Host
+
+			http.SetCookie(w, a.getRefreshCookie(tokenPair.RefreshToken, host))
 
 			utils.WriteJSON(w, http.StatusOK, tokenPair)
 		}
@@ -130,7 +136,8 @@ func (a *Auth) RefreshToken(w http.ResponseWriter, r *http.Request, db db.DBInte
 }
 
 func (a *Auth) Logout(w http.ResponseWriter, r *http.Request) {
-	http.SetCookie(w, a.getExpiredRefreshCookie())
+	domain := r.Host
+	http.SetCookie(w, a.getExpiredRefreshCookie(domain))
 	w.WriteHeader(http.StatusAccepted)
 	utils.WriteJSON(w, http.StatusOK, "Logged out")
 }

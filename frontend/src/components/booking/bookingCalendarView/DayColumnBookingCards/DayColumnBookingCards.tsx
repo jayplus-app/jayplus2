@@ -35,7 +35,7 @@ const DayColumnBookingCards = ({ date }: DayColumnBookingCardsProps) => {
 				setBookings(fetchedBookings)
 			})
 			.catch((error) => {
-				console.error('Error fetching bookings:', error)
+				console.error(error)
 			})
 			.finally(() => {
 				setIsLoadingBookings(false)

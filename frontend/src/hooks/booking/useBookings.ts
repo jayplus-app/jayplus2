@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import { apiGet } from '../../utils/apiUtils'
 import AuthContext from '../../context/AuthContext/AuthContext'
 import { Booking } from '../../context/BookingManagementContext/BookingManagementContext'
+import useAuth from '../auth/useAuth'
 
 interface BookingsResponse {
 	date: string
@@ -10,6 +11,7 @@ interface BookingsResponse {
 
 export const useBookings = () => {
 	const { authToken } = useContext(AuthContext)
+	const { logOut } = useAuth()
 
 	const getBookings = async (date: string): Promise<Booking[]> => {
 		try {
@@ -19,7 +21,11 @@ export const useBookings = () => {
 			)
 			return data.bookings
 		} catch (error) {
-			console.error('Error fetching data:', error)
+			if (error === 'token is expired') {
+				logOut()
+			} else {
+				console.log(error)
+			}
 			return []
 		}
 	}

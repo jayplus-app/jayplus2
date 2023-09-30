@@ -3,6 +3,8 @@ package auth
 import (
 	"backend/contracts/db"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 type AuthInterface interface {
@@ -12,5 +14,5 @@ type AuthInterface interface {
 	Logout(w http.ResponseWriter, r *http.Request)
 
 	// Middleware
-	AuthRequired(next http.Handler) http.Handler
+	AuthRequired(db db.DBInterface) mux.MiddlewareFunc
 }

@@ -21,7 +21,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 						}
 					})
 					.catch((err) => {
-						console.error('Error:', err.message)
+						console.log(err.message)
 					})
 			}, 900000) // 15 minutes
 		} else {

@@ -32,7 +32,7 @@ export const useTimeslots = ({ selectedDate }: UseTimeslotsProps) => {
 				setIsLoadingTimeslots(false)
 			})
 			.catch((error) => {
-				console.error('Error fetching data:', error)
+				console.error(error)
 				setIsLoadingTimeslots(false)
 			})
 	}, [selectedDate])
