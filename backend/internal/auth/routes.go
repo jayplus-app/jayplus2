@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"log"
 	"net/http"
 
 	"backend/contracts/auth"
@@ -17,7 +16,6 @@ func AuthRoutes(r *mux.Router, auth auth.AuthInterface, db db.DBInterface) {
 		auth.Login(w, r, db)
 	}).Methods("POST")
 	authRouter.HandleFunc("/refresh", func(w http.ResponseWriter, r *http.Request) {
-		log.Println("refresh token")
 		auth.RefreshToken(w, r, db)
 	}).Methods("GET")
 	authRouter.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {

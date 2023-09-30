@@ -99,3 +99,36 @@ VALUES
 ('user', 1, '123 Owner St., City', '+1234567890', 'test@test.test'),
 ('user', 2, 'Unknown Address', '0000000000', 'unknown@customer.com'),
 ('business', 1, '123 Business St., City', '+1111111111', 'business@yourdomain.com'); -- business entry
+
+
+-- For Sedan
+INSERT INTO service_costs (business_id, vehicle_type_id, service_type_id, price)
+VALUES 
+(1, 1, 1, 10000),  -- Show Room service for Sedan ($100 in cents)
+(1, 1, 2, 2000),   -- Basic service for Sedan ($20 in cents)
+(1, 1, 3, 4000),   -- Interior service for Sedan ($40 in cents)
+(1, 1, 4, 6000);   -- Exterior service for Sedan ($60 in cents)
+
+-- For SUV
+INSERT INTO service_costs (business_id, vehicle_type_id, service_type_id, price)
+VALUES 
+(1, 2, 1, 15000),  -- Show Room service for SUV ($150 in cents)
+(1, 2, 2, 2500),   -- Basic service for SUV ($25 in cents)
+(1, 2, 3, 5000),   -- Interior service for SUV ($50 in cents)
+(1, 2, 4, 7000);   -- Exterior service for SUV ($70 in cents)
+
+-- For Large SUV / Truck
+INSERT INTO service_costs (business_id, vehicle_type_id, service_type_id, price)
+VALUES 
+(1, 3, 1, 20000),  -- Show Room service for Large SUV / Truck ($200 in cents)
+(1, 3, 2, 3000),   -- Basic service for Large SUV / Truck ($30 in cents)
+(1, 3, 3, 5500),   -- Interior service for Large SUV / Truck ($55 in cents)
+(1, 3, 4, 8000);   -- Exterior service for Large SUV / Truck ($80 in cents)
+
+-- For Motorcycle
+INSERT INTO service_costs (business_id, vehicle_type_id, service_type_id, price)
+VALUES 
+(1, 4, 1, 8000),   -- Show Room service for Motorcycle ($80 in cents)
+(1, 4, 2, 1500),   -- Basic service for Motorcycle ($15 in cents)
+(1, 4, 3, 2500),   -- Interior service for Motorcycle ($25 in cents)
+(1, 4, 4, 4000);   -- Exterior service for Motorcycle ($40 in cents)

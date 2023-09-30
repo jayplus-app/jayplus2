@@ -132,3 +132,15 @@ CREATE TABLE vehicle_types (
   position INTEGER NOT NULL DEFAULT 1,
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
+
+CREATE TABLE service_costs (
+  id BIGSERIAL PRIMARY KEY,
+  business_id BIGINT NOT NULL REFERENCES businesses(id),
+  vehicle_type_id BIGINT NOT NULL REFERENCES vehicle_types(id),
+  service_type_id BIGINT NOT NULL REFERENCES service_types(id),
+  price INTEGER NOT NULL, -- Price in cents
+  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+  updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
+
+  UNIQUE(business_id, vehicle_type_id, service_type_id)  -- This ensures that combinations are unique
+);
