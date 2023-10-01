@@ -11,13 +11,13 @@ func (app *App) UICOnfig(w http.ResponseWriter, r *http.Request, db db.DBInterfa
 
 	businessName := r.Header.Get("Business-Name")
 
-	business, err := db.GetBusinessByBusinessName(businessName)
+	business, err := app.GetBusinessByBusinessName(businessName)
 	if err != nil {
 		utils.ErrorJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
-	uiConfig, err := db.GetBusinessUIConfigByID(business.ID)
+	uiConfig, err := app.GetBusinessUIConfigByID(business.ID)
 	if err != nil {
 		utils.ErrorJSON(w, err, http.StatusBadRequest)
 		return
@@ -31,13 +31,13 @@ func (app *App) BookingConfig(w http.ResponseWriter, r *http.Request, db db.DBIn
 
 	businessName := r.Header.Get("Business-Name")
 
-	business, err := db.GetBusinessByBusinessName(businessName)
+	business, err := app.GetBusinessByBusinessName(businessName)
 	if err != nil {
 		utils.ErrorJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
-	uiConfig, err := db.GetBusinessBookingConfigByID(business.ID)
+	uiConfig, err := app.GetBusinessBookingConfigByID(business.ID)
 
 	if err != nil {
 		utils.ErrorJSON(w, err, http.StatusBadRequest)
