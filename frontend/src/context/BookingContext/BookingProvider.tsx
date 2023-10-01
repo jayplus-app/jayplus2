@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useMemo, useState } from 'react'
 import { useVehicleTypes } from '../../hooks/booking/useVehicleTypes'
 import BookingContext from './BookingContext'
 import { useServiceTypes } from '../../hooks/booking/useServiceTypes'
+import { useServiceCost } from '../../hooks/booking/useServiceCost'
 
 interface BookingProviderProps {
 	children: ReactNode
@@ -10,6 +11,7 @@ interface BookingProviderProps {
 const BookingProvider = ({ children }: BookingProviderProps) => {
 	const { vehicleTypes, isLoadingVehicleTypes } = useVehicleTypes()
 	const { serviceTypes, isLoadingServiceTypes } = useServiceTypes()
+	const { getServiceCost } = useServiceCost()
 	const [vehicleTypeSelected, setVehicleTypeSelected] = useState('')
 	const [serviceTypeSelected, setServiceTypeSelected] = useState('')
 	const [dateTimeSelected, setDateTimeSelected] = useState('')
@@ -26,6 +28,26 @@ const BookingProvider = ({ children }: BookingProviderProps) => {
 			setServiceTypeSelected(`st-${serviceTypes[0].id}`)
 		}
 	}, [isLoadingServiceTypes, serviceTypes])
+
+	useEffect(() => {
+		if (
+			!isLoadingServiceTypes &&
+			serviceTypes.length > 0 &&
+			!isLoadingVehicleTypes &&
+			vehicleTypes.length > 0
+		) {
+			getServiceCost(
+				serviceTypeSelected.split('-')[1],
+				vehicleTypeSelected.split('-')[1]
+			)
+				.then((res) => {
+					setServiceCost(res)
+				})
+				.catch((err) => {
+					console.error(err)
+				})
+		}
+	}, [serviceTypeSelected, vehicleTypeSelected])
 
 	const contextValue = useMemo(
 		() => ({

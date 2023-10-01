@@ -6,6 +6,7 @@ import VehicleTypes from './VehicleTypes'
 import { useNavigate } from 'react-router-dom'
 import BookingContext from '../../../../context/BookingContext/BookingContext'
 import { useContext } from 'react'
+import { centsToDollars } from '../../../../utils/currencyUtils'
 
 const CustomerBookingSelectionPage = () => {
 	const {
@@ -22,13 +23,15 @@ const CustomerBookingSelectionPage = () => {
 
 	const navigate = useNavigate()
 
+	const formattedServiceCost = centsToDollars(serviceCost)
+
 	return (
 		<div id="customer-booking-selection-page">
 			<VehicleTypes />
 			<ServiceTypes />
 			<TimeSelection />
 			<div id="footer">
-				<div>Price {serviceCost}$</div>
+				<div>Price ${formattedServiceCost}</div>
 				<div className="footer-button">
 					<ButtonMD
 						onClick={() => {
