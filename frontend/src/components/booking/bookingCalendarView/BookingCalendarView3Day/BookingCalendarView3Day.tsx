@@ -36,7 +36,10 @@ const BookingCalendarView3Day = ({ type }: BookingCalendarView3DayProps) => {
 		<div id="booking-calendar-view-3-day">
 			<PreviousDayButton
 				onClick={() => setStartDate(addDaysToDate(startDate, -1))}
-				disabled={dateToNumber(startDate) <= dateToNumber(todaysDate())}
+				disabled={
+					type === 'select' &&
+					dateToNumber(startDate) <= dateToNumber(todaysDate())
+				}
 			/>
 
 			<div id="day-columns">
@@ -60,13 +63,14 @@ const BookingCalendarView3Day = ({ type }: BookingCalendarView3DayProps) => {
 			<NextDayButton
 				onClick={() => setStartDate(addDaysToDate(startDate, +1))}
 				disabled={
+					type === 'select' &&
 					dateToNumber(startDate) >=
-					dateToNumber(
-						addDaysToDate(
-							todaysDate(),
-							+appConfig.maxFutureBookingDays
+						dateToNumber(
+							addDaysToDate(
+								todaysDate(),
+								+appConfig.maxFutureBookingDays
+							)
 						)
-					)
 				}
 			/>
 		</div>
