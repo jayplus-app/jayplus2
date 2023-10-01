@@ -8,9 +8,11 @@ import (
 type DBInterface interface {
 	SetupDB() error
 
-	// App
-	GetBusinessUIConfigByID(business_id int) (*models.UIConfig, error)
-	GetBusinessBookingConfigByID(business_id int) (*models.BookingConfig, error)
+	First(table string, criteria string, args []interface{}, orderBy string) ([]byte, error)
+	All(table string, criteria string, args []interface{}, orderBy string, limit int, page int) ([][]byte, error)
+	Insert(table string, data interface{}) error
+	Update(table string, criteria string, args []interface{}, data interface{}) error
+	Delete(table string, criteria string, args []interface{}) error
 
 	// Common
 	GetBusinessByBusinessName(businessName string) (*models.Business, error)
