@@ -7,7 +7,7 @@ import { Booking } from '../../../context/BookingManagementContext/BookingManage
 import { useBooking } from '../../../hooks/booking/useBooking'
 
 interface BookingDetailsModalProps {
-	bookingID: string
+	bookingID: number
 	onClose: () => void
 	onCancelBooking: () => void
 }

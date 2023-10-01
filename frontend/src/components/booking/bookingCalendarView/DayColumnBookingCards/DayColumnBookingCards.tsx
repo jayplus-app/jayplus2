@@ -4,16 +4,22 @@ import { useContext, useEffect, useState } from 'react'
 import BookingDetailsModal from '../../../../admin/modals/BookingDetailsModal'
 import ConfirmCancelBookingModal from '../../../../admin/modals/ConfirmCancelBookingModal'
 import { useCancelBooking } from '../../../../hooks/booking/useCancelBooking'
-import BookingManagementContext from '../../../../context/BookingManagementContext/BookingManagementContext'
+import BookingManagementContext, {
+	Booking1,
+} from '../../../../context/BookingManagementContext/BookingManagementContext'
 import { Booking } from '../../../../context/BookingManagementContext/BookingManagementContext'
+import {
+	extractDateFromISOString,
+	extractTimeFromISOString,
+} from '../../../../utils'
 
 interface DayColumnBookingCardsProps {
 	date: string
 }
 
 const DayColumnBookingCards = ({ date }: DayColumnBookingCardsProps) => {
-	const { getBookings } = useBookings()
-	const [bookings, setBookings] = useState<Booking[] | null>(null)
+	const { getBookings, getBookings1 } = useBookings()
+	const [bookings, setBookings] = useState<Booking1[] | null>(null)
 	const [isLoadingBookings, setIsLoadingBookings] = useState(true)
 
 	const { cancelBooking } = useCancelBooking()
@@ -30,7 +36,18 @@ const DayColumnBookingCards = ({ date }: DayColumnBookingCardsProps) => {
 		useState(false)
 
 	useEffect(() => {
-		getBookings(date)
+		// getBookings(date)
+		// 	.then((fetchedBookings) => {
+		// 		setBookings(fetchedBookings)
+		// 	})
+		// 	.catch((error) => {
+		// 		console.error(error)
+		// 	})
+		// 	.finally(() => {
+		// 		setIsLoadingBookings(false)
+		// 	})
+
+		getBookings1(date)
 			.then((fetchedBookings) => {
 				setBookings(fetchedBookings)
 			})
@@ -51,25 +68,27 @@ const DayColumnBookingCards = ({ date }: DayColumnBookingCardsProps) => {
 					bookings?.map((booking) => (
 						<li
 							id="card-list-item"
-							key={booking.date + booking.time}
+							key={extractDateFromISOString(booking.datetime)}
 							onClick={() => {
 								setBookingIdToCancel(booking.id)
 								setShowBookingdetailsModal(true)
 							}}
 						>
-							<span>{booking.time}</span>
+							<span>
+								{extractTimeFromISOString(booking.datetime)}
+							</span>
 							<span>{booking.vehicleType}</span>
-							<span>{booking.typeOfService}</span>
+							<span>{booking.serviceType}</span>
 						</li>
 					))
 				)}
 			</ul>
 			{showBookingDetailsModal && (
 				<BookingDetailsModal
-					bookingID={bookingIdToCancel || '-1'}
+					bookingID={bookingIdToCancel || -1}
 					onClose={() => {
 						setShowBookingdetailsModal(false)
-						setBookingIdToCancel('')
+						setBookingIdToCancel(0)
 					}}
 					onCancelBooking={() => {
 						setShowBookingdetailsModal(false)
@@ -81,11 +100,11 @@ const DayColumnBookingCards = ({ date }: DayColumnBookingCardsProps) => {
 				<ConfirmCancelBookingModal
 					onClose={() => {
 						setShowConfirmCancelBookingModal(false)
-						setBookingIdToCancel('')
+						setBookingIdToCancel(0)
 					}}
 					onConfirmCancelBooking={() => {
 						setIsCanceling(true)
-						cancelBooking(bookingIdToCancel || '-1')
+						cancelBooking(bookingIdToCancel || -1)
 							.then(() => {
 								setIsCanceled(true)
 							})
@@ -96,7 +115,7 @@ const DayColumnBookingCards = ({ date }: DayColumnBookingCardsProps) => {
 								setIsCanceling(false)
 							})
 						setShowConfirmCancelBookingModal(false)
-						setBookingIdToCancel('')
+						setBookingIdToCancel(0)
 					}}
 				/>
 			)}

@@ -11,7 +11,7 @@ const BookingManagementProvider = ({
 	const [bookingSelected, setBookingSelected] = useState<Booking | null>(null)
 	const [isCanceling, setIsCanceling] = useState<boolean | null>(null)
 	const [isCanceled, setIsCanceled] = useState<boolean | null>(null)
-	const [bookingIdToCancel, setBookingIdToCancel] = useState<string | null>(
+	const [bookingIdToCancel, setBookingIdToCancel] = useState<number | null>(
 		null
 	)
 	const [isLoadingBooking, setIsLoadingBooking] = useState<boolean | null>(

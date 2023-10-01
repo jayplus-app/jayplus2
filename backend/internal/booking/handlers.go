@@ -195,10 +195,18 @@ func CreateBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	utils.WriteJSON(w, http.StatusOK, bookingNumber)
 }
 
+type bookingResponse struct {
+	ID          int       `json:"id"`
+	VehicleType string    `json:"vehicleType"`
+	ServiceType string    `json:"serviceType"`
+	Datetime    time.Time `json:"datetime"`
+	Status      string    `json:"status"`
+}
+
 // Bookings1 handler returns a list of bookings.
 func Bookings1(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
-	date := r.URL.Query().Get("date")
-	if date == "" {
+	dateInput := r.URL.Query().Get("date")
+	if dateInput == "" {
 		utils.ErrorJSON(w, errors.New("invalid date"), http.StatusBadRequest)
 		return
 	}
@@ -210,19 +218,45 @@ func Bookings1(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 		return
 	}
 
-	dateTime, err := time.Parse("2006-01-02", date)
+	date, err := time.Parse("2006-01-02", dateInput)
 	if err != nil {
 		utils.ErrorJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
-	bookings, err := db.GetBookingsByDate(business.ID, dateTime)
+	var bookingsResponse []bookingResponse
+
+	bookings, err := db.GetBookingsByDate(business.ID, date)
 	if err != nil {
 		utils.ErrorJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
-	utils.WriteJSON(w, http.StatusOK, bookings)
+	for _, booking := range bookings {
+		vehicleType, err := db.GetVehicleTypeByID(booking.VehicleTypeID)
+		if err != nil {
+			utils.ErrorJSON(w, err, http.StatusBadRequest)
+			return
+		}
+
+		serviceType, err := db.GetServiceTypeByID(booking.ServiceTypeID)
+		if err != nil {
+			utils.ErrorJSON(w, err, http.StatusBadRequest)
+			return
+		}
+
+		bookingResponse := bookingResponse{
+			ID:          booking.ID,
+			VehicleType: vehicleType.Name,
+			ServiceType: serviceType.Name,
+			Datetime:    booking.Datetime,
+			Status:      booking.Status,
+		}
+
+		bookingsResponse = append(bookingsResponse, bookingResponse)
+	}
+
+	utils.WriteJSON(w, http.StatusOK, bookingsResponse)
 }
 
 // Bookings handler returns a list of bookings.

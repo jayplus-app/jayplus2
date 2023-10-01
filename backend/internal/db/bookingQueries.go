@@ -56,6 +56,44 @@ func (db *DB) GetVehicleTypes(businessID int) ([]*models.VehicleType, error) {
 	return vehicleTypes, nil
 }
 
+// GetVehicleTypeByID retrieves a vehicle type by ID.
+func (db *DB) GetVehicleTypeByID(vehicleTypeID int) (*models.VehicleType, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
+	defer cancel()
+
+	query := `SELECT
+				id,
+				business_id,
+				name,
+				icon,
+				description,
+				position,
+				created_at
+			FROM
+				vehicle_types
+			WHERE
+				id = $1`
+
+	row := db.QueryRowContext(ctx, query, vehicleTypeID)
+
+	var vehicleType models.VehicleType
+
+	err := row.Scan(
+		&vehicleType.ID,
+		&vehicleType.BusinessID,
+		&vehicleType.Name,
+		&vehicleType.Icon,
+		&vehicleType.Description,
+		&vehicleType.Position,
+		&vehicleType.CreatedAt,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &vehicleType, nil
+}
+
 // GetServiceTypes retrieves all service types.
 func (db *DB) GetServiceTypes(businessID int) ([]*models.ServiceType, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
@@ -104,6 +142,44 @@ func (db *DB) GetServiceTypes(businessID int) ([]*models.ServiceType, error) {
 	}
 
 	return serviceTypes, nil
+}
+
+// GetServiceTypeByID retrieves a service type by ID.
+func (db *DB) GetServiceTypeByID(serviceTypeID int) (*models.ServiceType, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
+	defer cancel()
+
+	query := `SELECT
+				id,
+				business_id,
+				name,
+				icon,
+				description,
+				position,
+				created_at
+			FROM
+				service_types
+			WHERE
+				id = $1`
+
+	row := db.QueryRowContext(ctx, query, serviceTypeID)
+
+	var serviceType models.ServiceType
+
+	err := row.Scan(
+		&serviceType.ID,
+		&serviceType.BusinessID,
+		&serviceType.Name,
+		&serviceType.Icon,
+		&serviceType.Description,
+		&serviceType.Position,
+		&serviceType.CreatedAt,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &serviceType, nil
 }
 
 // GetServiceCost retrieves the cost of a service.

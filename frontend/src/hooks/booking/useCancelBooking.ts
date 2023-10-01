@@ -6,7 +6,7 @@ export const useCancelBooking = () => {
 	const { authToken } = useContext(AuthContext)
 
 	const cancelBooking = async (
-		bookingId: string
+		bookingId: number
 	): Promise<{ success: boolean; message?: string }> => {
 		try {
 			const response = await apiGet(

@@ -15,13 +15,21 @@ export interface Booking {
 	remaining: string
 }
 
+export interface Booking1 {
+	id: number
+	vehicleType: string
+	serviceType: string
+	datetime: string
+	status: string
+}
+
 interface BookingManagementContextProps {
 	isCanceling: boolean | null
 	setIsCanceling: (isCanceling: boolean | null) => void
 	isCanceled: boolean | null
 	setIsCanceled: (isCanceled: boolean | null) => void
-	bookingIdToCancel: string | null
-	setBookingIdToCancel: (bookingId: string) => void
+	bookingIdToCancel: number | null
+	setBookingIdToCancel: (bookingId: number) => void
 	isLoadingBooking: boolean | null
 	setIsLoadingBooking: (isLoadingBooking: boolean | null) => void
 	bookingSelected: Booking | null
