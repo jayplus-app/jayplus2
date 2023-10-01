@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 // VehicleTypes handler returns a list of vehicle types.
@@ -195,10 +197,18 @@ func CreateBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	utils.WriteJSON(w, http.StatusOK, bookingNumber)
 }
 
-// Bookings1 handler returns a list of bookings.
-func Bookings1(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
-	date := r.URL.Query().Get("date")
-	if date == "" {
+type BookingsResponse struct {
+	ID          int       `json:"id"`
+	VehicleType string    `json:"vehicleType"`
+	ServiceType string    `json:"serviceType"`
+	Datetime    time.Time `json:"datetime"`
+	Status      string    `json:"status"`
+}
+
+// Bookings handler returns a list of bookings.
+func Bookings(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
+	dateInput := r.URL.Query().Get("date")
+	if dateInput == "" {
 		utils.ErrorJSON(w, errors.New("invalid date"), http.StatusBadRequest)
 		return
 	}
@@ -210,94 +220,102 @@ func Bookings1(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 		return
 	}
 
-	dateTime, err := time.Parse("2006-01-02", date)
+	date, err := time.Parse("2006-01-02", dateInput)
 	if err != nil {
 		utils.ErrorJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
-	bookings, err := db.GetBookingsByDate(business.ID, dateTime)
+	var bookingsResponse []BookingsResponse
+
+	bookings, err := db.GetBookingsByDate(business.ID, date)
 	if err != nil {
 		utils.ErrorJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
-	utils.WriteJSON(w, http.StatusOK, bookings)
-}
+	for _, booking := range bookings {
+		vehicleType, err := db.GetVehicleTypeByID(booking.VehicleTypeID)
+		if err != nil {
+			utils.ErrorJSON(w, err, http.StatusBadRequest)
+			return
+		}
 
-// Bookings handler returns a list of bookings.
-func Bookings(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
-	bookings := []*models.Booking{
-		{
-			ID:                "1",
-			TransactionNumber: "13",
-			BillNumber:        "37",
-			TypeOfService:     "Show Room",
-			VehicleType:       "Sedan",
-			Date:              "14 Mar 2023",
-			Time:              "15:00",
-			ServiceCost:       "169.00 $",
-			Discount:          "Not Specified",
-			Total:             "169.00 $",
-			Deposit:           "30.00 $",
-			Remaining:         "139.00 $",
-		},
-		{
-			ID:                "2",
-			TransactionNumber: "14",
-			BillNumber:        "38",
-			TypeOfService:     "Show Room",
-			VehicleType:       "Sedan",
-			Date:              "14 Mar 2023",
-			Time:              "15:00",
-			ServiceCost:       "169.00 $",
-			Discount:          "Not Specified",
-			Total:             "169.00 $",
-			Deposit:           "30.00 $",
-			Remaining:         "139.00 $",
-		},
-		{
-			ID:                "3",
-			TransactionNumber: "15",
-			BillNumber:        "39",
-			TypeOfService:     "Show Room",
-			VehicleType:       "Sedan",
-			Date:              "14 Mar 2023",
-			Time:              "15:00",
-			ServiceCost:       "169.00 $",
-			Discount:          "Not Specified",
-			Total:             "169.00 $",
-			Deposit:           "30.00 $",
-			Remaining:         "139.00 $",
-		},
-	}
+		serviceType, err := db.GetServiceTypeByID(booking.ServiceTypeID)
+		if err != nil {
+			utils.ErrorJSON(w, err, http.StatusBadRequest)
+			return
+		}
 
-	bookingsResponse := booking.Bookings{
-		Date:     "2023-01-20",
-		Bookings: bookings,
+		bookingResponse := BookingsResponse{
+			ID:          booking.ID,
+			VehicleType: vehicleType.Name,
+			ServiceType: serviceType.Name,
+			Datetime:    booking.Datetime,
+			Status:      booking.Status,
+		}
+
+		bookingsResponse = append(bookingsResponse, bookingResponse)
 	}
 
 	utils.WriteJSON(w, http.StatusOK, bookingsResponse)
 }
 
+type BookingResponse struct {
+	ID          int       `json:"id"`
+	UserID      int       `json:"userID"`
+	VehicleType string    `json:"vehicleType"`
+	ServiceType string    `json:"serviceType"`
+	Datetime    time.Time `json:"datetime"`
+	Cost        int       `json:"cost"`
+	Discount    int       `json:"discount"`
+	Deposit     int       `json:"deposit"`
+	BillNumber  int       `json:"billNumber"`
+	Status      string    `json:"status"`
+}
+
 // Booking handler returns a booking.
 func Booking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
-	booking := models.Booking{
-		ID:                "1",
-		TransactionNumber: "13",
-		BillNumber:        "37",
-		TypeOfService:     "Show Room",
-		VehicleType:       "Sedan",
-		Date:              "14 Mar 2023",
-		Time:              "15:00",
-		ServiceCost:       "169.00 $",
-		Discount:          "Not Specified",
-		Total:             "169.00 $",
-		Deposit:           "30.00 $",
-		Remaining:         "139.00 $",
+	vars := mux.Vars(r)
+
+	bookingID, err := strconv.Atoi(vars["id"])
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
 	}
 
-	utils.WriteJSON(w, http.StatusOK, booking)
+	booking, err := db.GetBookingByID(bookingID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	vehicleType, err := db.GetVehicleTypeByID(booking.VehicleTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	serviceType, err := db.GetServiceTypeByID(booking.ServiceTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	bookingResponse := BookingResponse{
+		ID:          booking.ID,
+		UserID:      booking.UserID,
+		VehicleType: vehicleType.Name,
+		ServiceType: serviceType.Name,
+		Datetime:    booking.Datetime,
+		Cost:        booking.Cost,
+		Discount:    booking.Discount,
+		Deposit:     booking.Deposit,
+		BillNumber:  booking.BillNumber,
+		Status:      booking.Status,
+	}
+
+	utils.WriteJSON(w, http.StatusOK, bookingResponse)
 }
 
 // CancelBooking handler cancels a booking.

@@ -5,9 +5,13 @@ import ButtonMD from '../../../components/system/buttons/ButtonMD'
 import { useEffect, useState } from 'react'
 import { Booking } from '../../../context/BookingManagementContext/BookingManagementContext'
 import { useBooking } from '../../../hooks/booking/useBooking'
+import {
+	extractDateFromISOString,
+	extractTimeFromISOString,
+} from '../../../utils'
 
 interface BookingDetailsModalProps {
-	bookingID: string
+	bookingID: number
 	onClose: () => void
 	onCancelBooking: () => void
 }
@@ -49,59 +53,65 @@ const BookingDetailsModal = ({
 				<div className="booking-table">
 					{isLoadingBookingDetails ? (
 						<p>Loading...</p>
-					) : (
+					) : booking ? (
 						<table>
 							<tbody>
 								<tr>
 									<td>ID</td>
-									<td>{booking?.id}</td>
+									<td>{booking.id}</td>
 								</tr>
 								<tr>
-									<td>Transaction Number</td>
-									<td>{booking?.transactionNumber}</td>
-								</tr>
-								<tr>
-									<td>Bill Number</td>
-									<td>{booking?.billNumber}</td>
-								</tr>
-								<tr>
-									<td>Type of Service</td>
-									<td>{booking?.typeOfService}</td>
+									<td>User ID</td>
+									<td>{booking.userID}</td>
 								</tr>
 								<tr>
 									<td>Vehicle Type</td>
-									<td>{booking?.vehicleType}</td>
+									<td>{booking.vehicleType}</td>
+								</tr>
+								<tr>
+									<td>Service Type</td>
+									<td>{booking.serviceType}</td>
 								</tr>
 								<tr>
 									<td>Date</td>
-									<td>{booking?.date}</td>
+									<td>
+										{extractDateFromISOString(
+											booking.datetime
+										)}
+									</td>
 								</tr>
 								<tr>
 									<td>Time</td>
-									<td>{booking?.time}</td>
+									<td>
+										{extractTimeFromISOString(
+											booking.datetime
+										)}
+									</td>
 								</tr>
 								<tr>
-									<td>Service Cost</td>
-									<td>{booking?.serviceCost}</td>
+									<td>Cost</td>
+									<td>{booking.cost}</td>
 								</tr>
 								<tr>
 									<td>Discount</td>
-									<td>{booking?.discount}</td>
-								</tr>
-								<tr>
-									<td>Total</td>
-									<td>{booking?.total}</td>
+									<td>{booking.discount}</td>
 								</tr>
 								<tr>
 									<td>Deposit</td>
-									<td>{booking?.deposit}</td>
+									<td>{booking.deposit}</td>
 								</tr>
 								<tr>
-									<td>Remaining</td>
-									<td>{booking?.remaining}</td>
+									<td>Bill Number</td>
+									<td>{booking.billNumber}</td>
+								</tr>
+								<tr>
+									<td>Status</td>
+									<td>{booking.status}</td>
 								</tr>
 							</tbody>
 						</table>
+					) : (
+						<p>Booking not found</p>
 					)}
 				</div>
 				<div className="modal-footer">

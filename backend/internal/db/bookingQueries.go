@@ -56,6 +56,44 @@ func (db *DB) GetVehicleTypes(businessID int) ([]*models.VehicleType, error) {
 	return vehicleTypes, nil
 }
 
+// GetVehicleTypeByID retrieves a vehicle type by ID.
+func (db *DB) GetVehicleTypeByID(vehicleTypeID int) (*models.VehicleType, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
+	defer cancel()
+
+	query := `SELECT
+				id,
+				business_id,
+				name,
+				icon,
+				description,
+				position,
+				created_at
+			FROM
+				vehicle_types
+			WHERE
+				id = $1`
+
+	row := db.QueryRowContext(ctx, query, vehicleTypeID)
+
+	var vehicleType models.VehicleType
+
+	err := row.Scan(
+		&vehicleType.ID,
+		&vehicleType.BusinessID,
+		&vehicleType.Name,
+		&vehicleType.Icon,
+		&vehicleType.Description,
+		&vehicleType.Position,
+		&vehicleType.CreatedAt,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &vehicleType, nil
+}
+
 // GetServiceTypes retrieves all service types.
 func (db *DB) GetServiceTypes(businessID int) ([]*models.ServiceType, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
@@ -106,6 +144,44 @@ func (db *DB) GetServiceTypes(businessID int) ([]*models.ServiceType, error) {
 	return serviceTypes, nil
 }
 
+// GetServiceTypeByID retrieves a service type by ID.
+func (db *DB) GetServiceTypeByID(serviceTypeID int) (*models.ServiceType, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
+	defer cancel()
+
+	query := `SELECT
+				id,
+				business_id,
+				name,
+				icon,
+				description,
+				position,
+				created_at
+			FROM
+				service_types
+			WHERE
+				id = $1`
+
+	row := db.QueryRowContext(ctx, query, serviceTypeID)
+
+	var serviceType models.ServiceType
+
+	err := row.Scan(
+		&serviceType.ID,
+		&serviceType.BusinessID,
+		&serviceType.Name,
+		&serviceType.Icon,
+		&serviceType.Description,
+		&serviceType.Position,
+		&serviceType.CreatedAt,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &serviceType, nil
+}
+
 // GetServiceCost retrieves the cost of a service.
 func (db *DB) GetServiceCost(businessID, vehicleTypeID, serviceTypeID int) (*models.ServiceCost, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
@@ -145,7 +221,7 @@ func (db *DB) GetServiceCost(businessID, vehicleTypeID, serviceTypeID int) (*mod
 }
 
 // GetBookings retrieves all bookings.
-func (db *DB) GetBookingsByDate(businessID int, date time.Time) ([]*models.Booking1, error) {
+func (db *DB) GetBookingsByDate(businessID int, date time.Time) ([]*models.Booking, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
 	defer cancel()
 
@@ -173,10 +249,10 @@ func (db *DB) GetBookingsByDate(businessID int, date time.Time) ([]*models.Booki
 	}
 	defer rows.Close()
 
-	var bookings []*models.Booking1
+	var bookings []*models.Booking
 
 	for rows.Next() {
-		var booking models.Booking1
+		var booking models.Booking
 
 		err := rows.Scan(
 			&booking.ID,
@@ -199,4 +275,50 @@ func (db *DB) GetBookingsByDate(businessID int, date time.Time) ([]*models.Booki
 	}
 
 	return bookings, nil
+}
+
+// GetBookingByID retrieves a booking by ID.
+func (db *DB) GetBookingByID(bookingID int) (*models.Booking, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
+	defer cancel()
+
+	query := `SELECT
+				id,
+				business_id,
+				user_id,
+				vehicle_type_id,
+				service_type_id,
+				datetime,
+				cost,
+				discount,
+				deposit,
+				bill_number,
+				status
+			FROM
+				bookings
+			WHERE
+				id = $1`
+
+	row := db.QueryRowContext(ctx, query, bookingID)
+
+	var booking models.Booking
+
+	err := row.Scan(
+		&booking.ID,
+		&booking.BusinessID,
+		&booking.UserID,
+		&booking.VehicleTypeID,
+		&booking.ServiceTypeID,
+		&booking.Datetime,
+		&booking.Cost,
+		&booking.Discount,
+		&booking.Deposit,
+		&booking.BillNumber,
+		&booking.Status,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &booking, nil
 }

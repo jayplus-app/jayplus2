@@ -1,18 +1,24 @@
 import { createContext } from 'react'
 
 export interface Booking {
-	id: string
-	transactionNumber: string
-	billNumber: string
-	typeOfService: string
+	id: number
+	userID: number
 	vehicleType: string
-	date: string
-	time: string
-	serviceCost: string
-	discount: string
-	total: string
-	deposit: string
-	remaining: string
+	serviceType: string
+	datetime: string
+	cost: number
+	discount: number
+	deposit: number
+	billNumber: number
+	status: string
+}
+
+export interface Bookings {
+	id: number
+	vehicleType: string
+	serviceType: string
+	datetime: string
+	status: string
 }
 
 interface BookingManagementContextProps {
@@ -20,8 +26,8 @@ interface BookingManagementContextProps {
 	setIsCanceling: (isCanceling: boolean | null) => void
 	isCanceled: boolean | null
 	setIsCanceled: (isCanceled: boolean | null) => void
-	bookingIdToCancel: string | null
-	setBookingIdToCancel: (bookingId: string) => void
+	bookingIdToCancel: number | null
+	setBookingIdToCancel: (bookingId: number) => void
 	isLoadingBooking: boolean | null
 	setIsLoadingBooking: (isLoadingBooking: boolean | null) => void
 	bookingSelected: Booking | null

@@ -6,7 +6,7 @@ import { Booking } from '../../context/BookingManagementContext/BookingManagemen
 export const useBooking = () => {
 	const { authToken } = useContext(AuthContext)
 
-	const getBooking = async (bookingId: string): Promise<Booking> => {
+	const getBooking = async (bookingId: number): Promise<Booking> => {
 		try {
 			const data: Booking = await apiGet(
 				`/api/booking/booking/${bookingId}`,

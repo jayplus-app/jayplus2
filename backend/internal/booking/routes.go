@@ -33,9 +33,6 @@ func BookingRoutes(r *mux.Router, auth auth.AuthInterface, db db.DBInterface) {
 	adminOnlyRouter.HandleFunc("/bookings", func(w http.ResponseWriter, r *http.Request) {
 		Bookings(w, r, db)
 	}).Methods("GET")
-	adminOnlyRouter.HandleFunc("/bookings1", func(w http.ResponseWriter, r *http.Request) {
-		Bookings1(w, r, db)
-	}).Methods("GET")
 	adminOnlyRouter.HandleFunc("/booking/{id}", func(w http.ResponseWriter, r *http.Request) {
 		Booking(w, r, db)
 	}).Methods("GET")
