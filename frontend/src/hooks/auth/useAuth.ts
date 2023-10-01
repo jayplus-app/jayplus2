@@ -58,8 +58,8 @@ const useAuth = () => {
 					return data
 				})
 				.catch((err) => {
-					console.error('Error logging in', err)
-					return { error: err.message }
+					console.error(err)
+					return { error: err || 'An error occurred' }
 				})
 		},
 		[setAuthToken, setRefreshInterval]

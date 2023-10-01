@@ -19,6 +19,7 @@ const LoginForm = () => {
 			if (data.error) {
 				setLoginError(data.error || 'Failed to login')
 			} else {
+				console.log('Login successful')
 				setLoginError('')
 				navigate('/admin')
 			}

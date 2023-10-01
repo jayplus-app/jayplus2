@@ -20,8 +20,9 @@ type DBInterface interface {
 	IsUserInBusiness(userID, businessID int) (bool, error)
 
 	// Booking
-	GetVehicleTypes(business_id int) ([]*models.VehicleType, error)
-	GetServiceTypes(business_id int) ([]*models.ServiceType, error)
+	GetVehicleTypes(businessID int) ([]*models.VehicleType, error)
+	GetServiceTypes(businessID int) ([]*models.ServiceType, error)
+	GetServiceCost(businessID, vehicleTypeID, serviceTypeID int) (*models.ServiceCost, error)
 
 	// Payment
 	RecordPayment(payment *models.Payment) error

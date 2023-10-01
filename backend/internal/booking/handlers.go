@@ -7,6 +7,7 @@ import (
 	"backend/utils"
 	"errors"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -144,8 +145,42 @@ func TimeSlots(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 
 // ServiceCost handler returns the cost of a service.
 func ServiceCost(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
-	serviceCost := map[string]int{
-		"cost": 100,
+	// post request body
+	type RequestBody struct {
+		ServiceTypeID string `json:"serviceTypeID"`
+		VehicleTypeID string `json:"vehicleTypeID"`
+	}
+
+	var requestBody RequestBody
+	err := utils.ReadJSON(w, r, &requestBody)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	businessName := r.Header.Get("Business-Name")
+	business, err := db.GetBusinessByBusinessName(businessName)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	vehicleTypeID, err := strconv.Atoi(requestBody.VehicleTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	serviceTypeID, err := strconv.Atoi(requestBody.ServiceTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	serviceCost, err := db.GetServiceCost(business.ID, vehicleTypeID, serviceTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
 	}
 
 	utils.WriteJSON(w, http.StatusOK, serviceCost)

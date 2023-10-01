@@ -7,12 +7,18 @@ import (
 )
 
 // GetVehicleTypes retrieves all vehicle types.
-func (db *DB) GetVehicleTypes(business_id int) ([]*models.VehicleType, error) {
+func (db *DB) GetVehicleTypes(businessID int) ([]*models.VehicleType, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
 	defer cancel()
 
 	query := `SELECT
-				*
+				id,
+				business_id,
+				name,
+				icon,
+				description,
+				position,
+				created_at
 			FROM
 				vehicle_types
 			WHERE
@@ -20,7 +26,7 @@ func (db *DB) GetVehicleTypes(business_id int) ([]*models.VehicleType, error) {
 			ORDER BY
 				position`
 
-	rows, err := db.QueryContext(ctx, query, business_id)
+	rows, err := db.QueryContext(ctx, query, businessID)
 	if err != nil {
 		return nil, err
 	}
@@ -51,12 +57,18 @@ func (db *DB) GetVehicleTypes(business_id int) ([]*models.VehicleType, error) {
 }
 
 // GetServiceTypes retrieves all service types.
-func (db *DB) GetServiceTypes(business_id int) ([]*models.ServiceType, error) {
+func (db *DB) GetServiceTypes(businessID int) ([]*models.ServiceType, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
 	defer cancel()
 
 	query := `SELECT
-				*
+				id,
+				business_id,
+				name,
+				icon,
+				description,
+				position,
+				created_at
 			FROM
 				service_types
 			WHERE
@@ -64,7 +76,7 @@ func (db *DB) GetServiceTypes(business_id int) ([]*models.ServiceType, error) {
 			ORDER BY
 				position`
 
-	rows, err := db.QueryContext(ctx, query, business_id)
+	rows, err := db.QueryContext(ctx, query, businessID)
 	if err != nil {
 		return nil, err
 	}
@@ -92,4 +104,42 @@ func (db *DB) GetServiceTypes(business_id int) ([]*models.ServiceType, error) {
 	}
 
 	return serviceTypes, nil
+}
+
+// GetServiceCost retrieves the cost of a service.
+func (db *DB) GetServiceCost(businessID, vehicleTypeID, serviceTypeID int) (*models.ServiceCost, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
+	defer cancel()
+
+	query := `SELECT
+				business_id,
+				vehicle_type_id,
+				service_type_id,
+				price,
+				created_at,
+				updated_at
+			FROM
+				service_costs
+			WHERE
+				business_id = $1 AND
+				vehicle_type_id = $2 AND
+				service_type_id = $3`
+
+	row := db.QueryRowContext(ctx, query, businessID, vehicleTypeID, serviceTypeID)
+
+	var serviceCost models.ServiceCost
+
+	err := row.Scan(
+		&serviceCost.BusinessID,
+		&serviceCost.VehicleTypeID,
+		&serviceCost.ServiceTypeID,
+		&serviceCost.Price,
+		&serviceCost.CreatedAt,
+		&serviceCost.UpdatedAt,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &serviceCost, nil
 }
