@@ -5,9 +5,8 @@ import BookingDetailsModal from '../../../../admin/modals/BookingDetailsModal'
 import ConfirmCancelBookingModal from '../../../../admin/modals/ConfirmCancelBookingModal'
 import { useCancelBooking } from '../../../../hooks/booking/useCancelBooking'
 import BookingManagementContext, {
-	Booking1,
+	Bookings,
 } from '../../../../context/BookingManagementContext/BookingManagementContext'
-import { Booking } from '../../../../context/BookingManagementContext/BookingManagementContext'
 import {
 	extractDateFromISOString,
 	extractTimeFromISOString,
@@ -18,8 +17,8 @@ interface DayColumnBookingCardsProps {
 }
 
 const DayColumnBookingCards = ({ date }: DayColumnBookingCardsProps) => {
-	const { getBookings, getBookings1 } = useBookings()
-	const [bookings, setBookings] = useState<Booking1[] | null>(null)
+	const { getBookings } = useBookings()
+	const [bookings, setBookings] = useState<Bookings[] | null>(null)
 	const [isLoadingBookings, setIsLoadingBookings] = useState(true)
 
 	const { cancelBooking } = useCancelBooking()
@@ -36,18 +35,7 @@ const DayColumnBookingCards = ({ date }: DayColumnBookingCardsProps) => {
 		useState(false)
 
 	useEffect(() => {
-		// getBookings(date)
-		// 	.then((fetchedBookings) => {
-		// 		setBookings(fetchedBookings)
-		// 	})
-		// 	.catch((error) => {
-		// 		console.error(error)
-		// 	})
-		// 	.finally(() => {
-		// 		setIsLoadingBookings(false)
-		// 	})
-
-		getBookings1(date)
+		getBookings(date)
 			.then((fetchedBookings) => {
 				setBookings(fetchedBookings)
 			})

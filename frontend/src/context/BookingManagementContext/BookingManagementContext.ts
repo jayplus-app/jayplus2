@@ -1,21 +1,19 @@
 import { createContext } from 'react'
 
 export interface Booking {
-	id: string
-	transactionNumber: string
-	billNumber: string
-	typeOfService: string
+	id: number
+	userID: number
 	vehicleType: string
-	date: string
-	time: string
-	serviceCost: string
-	discount: string
-	total: string
-	deposit: string
-	remaining: string
+	serviceType: string
+	datetime: string
+	cost: number
+	discount: number
+	deposit: number
+	billNumber: number
+	status: string
 }
 
-export interface Booking1 {
+export interface Bookings {
 	id: number
 	vehicleType: string
 	serviceType: string

@@ -221,7 +221,7 @@ func (db *DB) GetServiceCost(businessID, vehicleTypeID, serviceTypeID int) (*mod
 }
 
 // GetBookings retrieves all bookings.
-func (db *DB) GetBookingsByDate(businessID int, date time.Time) ([]*models.Booking1, error) {
+func (db *DB) GetBookingsByDate(businessID int, date time.Time) ([]*models.Booking, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
 	defer cancel()
 
@@ -249,10 +249,10 @@ func (db *DB) GetBookingsByDate(businessID int, date time.Time) ([]*models.Booki
 	}
 	defer rows.Close()
 
-	var bookings []*models.Booking1
+	var bookings []*models.Booking
 
 	for rows.Next() {
-		var booking models.Booking1
+		var booking models.Booking
 
 		err := rows.Scan(
 			&booking.ID,
@@ -275,4 +275,50 @@ func (db *DB) GetBookingsByDate(businessID int, date time.Time) ([]*models.Booki
 	}
 
 	return bookings, nil
+}
+
+// GetBookingByID retrieves a booking by ID.
+func (db *DB) GetBookingByID(bookingID int) (*models.Booking, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
+	defer cancel()
+
+	query := `SELECT
+				id,
+				business_id,
+				user_id,
+				vehicle_type_id,
+				service_type_id,
+				datetime,
+				cost,
+				discount,
+				deposit,
+				bill_number,
+				status
+			FROM
+				bookings
+			WHERE
+				id = $1`
+
+	row := db.QueryRowContext(ctx, query, bookingID)
+
+	var booking models.Booking
+
+	err := row.Scan(
+		&booking.ID,
+		&booking.BusinessID,
+		&booking.UserID,
+		&booking.VehicleTypeID,
+		&booking.ServiceTypeID,
+		&booking.Datetime,
+		&booking.Cost,
+		&booking.Discount,
+		&booking.Deposit,
+		&booking.BillNumber,
+		&booking.Status,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &booking, nil
 }
