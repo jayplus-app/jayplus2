@@ -39,6 +39,23 @@ func (app *App) GetBusinessBookingConfigByID(businessID int) (*models.BookingCon
 	return &bookingConfig, nil
 }
 
+func (app *App) GetBusinessByBusinessName(businessName string) (*models.Business, error) {
+	var business models.Business
+
+	args := []interface{}{businessName}
+
+	jsonResults, err := app.DB.First("businesses", "business_name = $1", args, "")
+	if err != nil {
+		return nil, err
+	}
+
+	if err := json.Unmarshal(jsonResults, &business); err != nil {
+		return nil, err
+	}
+
+	return &business, nil
+}
+
 func (app *App) GetAllBusinesses() ([]*models.Business, error) {
 	var businesses []*models.Business
 

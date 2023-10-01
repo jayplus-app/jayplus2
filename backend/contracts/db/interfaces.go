@@ -14,9 +14,6 @@ type DBInterface interface {
 	Update(table string, criteria string, args []interface{}, data interface{}) error
 	Delete(table string, criteria string, args []interface{}) error
 
-	// Common
-	GetBusinessByBusinessName(businessName string) (*models.Business, error)
-
 	// Auth
 	GetUserByEmail(email string) (*models.User, error)
 	GetUserByID(id int) (*models.User, error)
