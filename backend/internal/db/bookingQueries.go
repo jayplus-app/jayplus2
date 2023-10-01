@@ -143,3 +143,60 @@ func (db *DB) GetServiceCost(businessID, vehicleTypeID, serviceTypeID int) (*mod
 
 	return &serviceCost, nil
 }
+
+// GetBookings retrieves all bookings.
+func (db *DB) GetBookingsByDate(businessID int, date time.Time) ([]*models.Booking1, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
+	defer cancel()
+
+	query := `SELECT
+				id,
+				business_id,
+				user_id,
+				vehicle_type_id,
+				service_type_id,
+				datetime,
+				cost,
+				discount,
+				deposit,
+				bill_number,
+				status
+			FROM
+				bookings
+			WHERE
+				business_id = $1 AND
+				datetime::date = $2::date`
+
+	rows, err := db.QueryContext(ctx, query, businessID, date)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var bookings []*models.Booking1
+
+	for rows.Next() {
+		var booking models.Booking1
+
+		err := rows.Scan(
+			&booking.ID,
+			&booking.BusinessID,
+			&booking.UserID,
+			&booking.VehicleTypeID,
+			&booking.ServiceTypeID,
+			&booking.Datetime,
+			&booking.Cost,
+			&booking.Discount,
+			&booking.Deposit,
+			&booking.BillNumber,
+			&booking.Status,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		bookings = append(bookings, &booking)
+	}
+
+	return bookings, nil
+}

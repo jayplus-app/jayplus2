@@ -2,6 +2,7 @@ package db
 
 import (
 	"backend/models"
+	"time"
 )
 
 type DBInterface interface {
@@ -23,6 +24,7 @@ type DBInterface interface {
 	GetVehicleTypes(businessID int) ([]*models.VehicleType, error)
 	GetServiceTypes(businessID int) ([]*models.ServiceType, error)
 	GetServiceCost(businessID, vehicleTypeID, serviceTypeID int) (*models.ServiceCost, error)
+	GetBookingsByDate(businessID int, date time.Time) ([]*models.Booking1, error)
 
 	// Payment
 	RecordPayment(payment *models.Payment) error

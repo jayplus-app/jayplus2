@@ -195,6 +195,36 @@ func CreateBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	utils.WriteJSON(w, http.StatusOK, bookingNumber)
 }
 
+// Bookings1 handler returns a list of bookings.
+func Bookings1(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
+	date := r.URL.Query().Get("date")
+	if date == "" {
+		utils.ErrorJSON(w, errors.New("invalid date"), http.StatusBadRequest)
+		return
+	}
+
+	businessName := r.Header.Get("Business-Name")
+	business, err := db.GetBusinessByBusinessName(businessName)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	dateTime, err := time.Parse("2006-01-02", date)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	bookings, err := db.GetBookingsByDate(business.ID, dateTime)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	utils.WriteJSON(w, http.StatusOK, bookings)
+}
+
 // Bookings handler returns a list of bookings.
 func Bookings(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	bookings := []*models.Booking{
