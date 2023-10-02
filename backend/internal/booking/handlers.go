@@ -54,92 +54,56 @@ func ServiceTypes(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 
 // Timeslots handler returns a list of time slots.
 func TimeSlots(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
-	// Sample data for a single date, replace this with database retrieval logic
-	timeSlots := []*models.TimeSlot{
-		{
-			ID:          "1",
-			StartTime:   time.Date(2023, 1, 20, 9, 0, 0, 0, time.UTC),
-			EndTime:     time.Date(2023, 1, 20, 10, 0, 0, 0, time.UTC),
-			FreeMinutes: 270,
-			Available:   false,
-			IsPast:      false,
-		},
-		{
-			ID:          "2",
-			StartTime:   time.Date(2023, 1, 20, 10, 0, 0, 0, time.UTC),
-			EndTime:     time.Date(2023, 1, 20, 11, 0, 0, 0, time.UTC),
-			FreeMinutes: 270,
-			Available:   true,
-			IsPast:      false,
-		},
-		{
-			ID:          "3",
-			StartTime:   time.Date(2023, 1, 20, 11, 0, 0, 0, time.UTC),
-			EndTime:     time.Date(2023, 1, 20, 12, 0, 0, 0, time.UTC),
-			FreeMinutes: 270,
-			Available:   true,
-			IsPast:      false,
-		},
-		{
-			ID:          "4",
-			StartTime:   time.Date(2023, 1, 20, 12, 0, 0, 0, time.UTC),
-			EndTime:     time.Date(2023, 1, 20, 13, 0, 0, 0, time.UTC),
-			FreeMinutes: 270,
-			Available:   true,
-			IsPast:      false,
-		},
-		{
-			ID:          "5",
-			StartTime:   time.Date(2023, 1, 20, 13, 0, 0, 0, time.UTC),
-			EndTime:     time.Date(2023, 1, 20, 14, 0, 0, 0, time.UTC),
-			FreeMinutes: 270,
-			Available:   true,
-			IsPast:      false,
-		},
-		{
-			ID:          "6",
-			StartTime:   time.Date(2023, 1, 20, 14, 0, 0, 0, time.UTC),
-			EndTime:     time.Date(2023, 1, 20, 15, 0, 0, 0, time.UTC),
-			FreeMinutes: 270,
-			Available:   true,
-			IsPast:      false,
-		},
-		{
-			ID:          "7",
-			StartTime:   time.Date(2023, 1, 20, 15, 0, 0, 0, time.UTC),
-			EndTime:     time.Date(2023, 1, 20, 16, 0, 0, 0, time.UTC),
-			FreeMinutes: 270,
-			Available:   true,
-			IsPast:      false,
-		},
-		{
-			ID:          "8",
-			StartTime:   time.Date(2023, 1, 20, 16, 0, 0, 0, time.UTC),
-			EndTime:     time.Date(2023, 1, 20, 17, 0, 0, 0, time.UTC),
-			FreeMinutes: 270,
-			Available:   true,
-			IsPast:      false,
-		},
-		{
-			ID:          "9",
-			StartTime:   time.Date(2023, 1, 20, 17, 0, 0, 0, time.UTC),
-			EndTime:     time.Date(2023, 1, 20, 18, 0, 0, 0, time.UTC),
-			FreeMinutes: 270,
-			Available:   false,
-			IsPast:      false,
-		},
-		{
-			ID:          "10",
-			StartTime:   time.Date(2023, 1, 20, 18, 0, 0, 0, time.UTC),
-			EndTime:     time.Date(2023, 1, 20, 19, 0, 0, 0, time.UTC),
-			FreeMinutes: 270,
-			Available:   false,
-			IsPast:      false,
-		},
+	type RequestBody struct {
+		StartDate     string `json:"dateTime"`
+		ServiceTypeID string `json:"serviceTypeID"`
+		VehicleTypeID string `json:"vehicleTypeID"`
+	}
+
+	var requestBody RequestBody
+	if err := utils.ReadJSON(w, r, &requestBody); err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	businessName := r.Header.Get("Business-Name")
+	business, err := db.GetBusinessByBusinessName(businessName)
+	if err != nil {
+		// TODO: log error
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	vehicleTypeID, err := strconv.Atoi(requestBody.VehicleTypeID)
+	if err != nil {
+		// TODO: log error
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	serviceTypeID, err := strconv.Atoi(requestBody.ServiceTypeID)
+	if err != nil {
+		// TODO: log error
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	d, err := time.Parse(time.DateOnly, requestBody.StartDate)
+	if err != nil {
+		// TODO: log error
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	timeSlots, err := db.GetBookingTimeslots(business.ID, serviceTypeID, vehicleTypeID, d)
+	if err != nil {
+		// TODO: log error
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
 	}
 
 	timeSlotsResponse := booking.TimeSlots{
-		Date:  "2023-01-20",
+		Date:  d.Format(time.DateOnly),
 		Slots: timeSlots,
 	}
 
