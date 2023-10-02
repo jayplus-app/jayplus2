@@ -4,6 +4,10 @@ import (
 	"backend/contracts/db"
 	"backend/utils"
 	"net/http"
+	"strconv"
+	"time"
+
+	"github.com/gorilla/mux"
 )
 
 func PayBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
@@ -15,20 +19,67 @@ func PayBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	utils.WriteJSON(w, http.StatusOK, payment)
 }
 
+type GetInvoiceResponse struct {
+	BookingID     int       `json:"bookingID"`
+	TransactionID int       `json:"transactionID"`
+	BillNumber    int       `json:"billNumber"`
+	Status        string    `json:"status"`
+	VehicleType   string    `json:"vehicleType"`
+	ServiceType   string    `json:"serviceType"`
+	Datetime      time.Time `json:"datetime"`
+	ServiceCost   int       `json:"serviceCost"`
+	Discount      int       `json:"discount"`
+	Total         int       `json:"total"`
+	Deposit       int       `json:"deposit"`
+	Remaining     int       `json:"remaining"`
+}
+
+// GetInvoice handler returns an invoice.
 func GetInvoice(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
-	invoice := map[string]string{
-		"transactionNumber": "1",
-		"billNumber":        "1",
-		"typeOfService":     "Show Room",
-		"vehicleType":       "Sedan",
-		"date":              "2023-03-14",
-		"time":              "15:00",
-		"serviceCost":       "169.00",
-		"discount":          "Not Specified",
-		"total":             "169.00",
-		"deposit":           "30.00",
-		"remaining":         "139.00",
+	bookingID, err := strconv.Atoi(mux.Vars(r)["booking-id"])
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
 	}
 
-	utils.WriteJSON(w, http.StatusOK, invoice)
+	booking, err := db.GetBookingByID(bookingID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	transaction, err := db.GetTransactionByBookingID(bookingID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	vehicleType, err := db.GetVehicleTypeByID(booking.VehicleTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	serviceType, err := db.GetServiceTypeByID(booking.ServiceTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	invoiceResponse := GetInvoiceResponse{
+		BookingID:     booking.ID,
+		TransactionID: transaction.ID,
+		BillNumber:    booking.BillNumber,
+		Status:        transaction.Status,
+		VehicleType:   vehicleType.Name,
+		ServiceType:   serviceType.Name,
+		Datetime:      booking.Datetime,
+		ServiceCost:   booking.Cost,
+		Discount:      booking.Discount,
+		Total:         booking.Cost - booking.Discount,
+		Deposit:       booking.Deposit,
+		Remaining:     booking.Cost - booking.Discount - booking.Deposit,
+	}
+
+	utils.WriteJSON(w, http.StatusOK, invoiceResponse)
 }

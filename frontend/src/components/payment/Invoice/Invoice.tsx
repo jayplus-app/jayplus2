@@ -1,39 +1,48 @@
+import {
+	extractDateFromISOString,
+	extractTimeFromISOString,
+} from '../../../utils'
 import { apiGet } from '../../../utils/apiUtils'
 import './Invoice.css'
 import { useEffect, useState } from 'react'
 
 interface Invoice {
-	transactionNumber: number
+	bookingID: number
+	transactionID: number
 	billNumber: number
-	typeOfService: string
+	status: string
 	vehicleType: string
-	date: string
-	time: string
-	serviceCost: string
-	discount: string
-	total: string
-	deposit: string
-	remaining: string
+	serviceType: string
+	datetime: string
+	serviceCost: number
+	discount: number
+	total: number
+	deposit: number
+	remaining: number
 }
 
 const Invoice = () => {
 	const [invoice, setInvoice] = useState<Invoice>({
-		transactionNumber: 0,
+		bookingID: 0,
+		transactionID: 0,
 		billNumber: 0,
-		typeOfService: 'N/A',
-		vehicleType: 'N/A',
-		date: 'N/A',
-		time: 'N/A',
-		serviceCost: '0.00 $',
-		discount: 'N/A',
-		total: '0.00 $',
-		deposit: '0.00 $',
-		remaining: '0.00 $',
+		status: '',
+		vehicleType: '',
+		serviceType: '',
+		datetime: '',
+		serviceCost: 0,
+		discount: 0,
+		total: 0,
+		deposit: 0,
+		remaining: 0,
 	})
 
 	useEffect(() => {
-		apiGet('/api/payment/invoice')
-			.then(setInvoice)
+		apiGet('/api/payment/invoice/1')
+			.then((res) => {
+				console.log(res)
+				setInvoice(res)
+			})
 			.catch((err) => console.error(err))
 	}, [])
 
@@ -42,28 +51,36 @@ const Invoice = () => {
 			<table>
 				<tbody>
 					<tr>
+						<td>Booking Number</td>
+						<td>{invoice.bookingID}</td>
+					</tr>
+					<tr>
 						<td>Transaction Number</td>
-						<td>{invoice.transactionNumber}</td>
+						<td>{invoice.transactionID}</td>
 					</tr>
 					<tr>
 						<td>Bill Number</td>
 						<td>{invoice.billNumber}</td>
 					</tr>
 					<tr>
-						<td>Type of Service</td>
-						<td>{invoice.typeOfService}</td>
+						<td>Status</td>
+						<td>{invoice.status}</td>
 					</tr>
 					<tr>
 						<td>Vehicle Type</td>
 						<td>{invoice.vehicleType}</td>
 					</tr>
 					<tr>
+						<td>Service Type</td>
+						<td>{invoice.serviceType}</td>
+					</tr>
+					<tr>
 						<td>Date</td>
-						<td>{invoice.date}</td>
+						<td>{extractDateFromISOString(invoice.datetime)}</td>
 					</tr>
 					<tr>
 						<td>Time</td>
-						<td>{invoice.time}</td>
+						<td>{extractTimeFromISOString(invoice.datetime)}</td>
 					</tr>
 					<tr>
 						<td>Service Cost</td>

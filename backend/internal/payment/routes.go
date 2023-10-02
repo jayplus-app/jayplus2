@@ -13,7 +13,7 @@ func PaymentRoutes(r *mux.Router, db db.DBInterface) {
 	paymentRouter.HandleFunc("/pay-booking", func(w http.ResponseWriter, r *http.Request) {
 		PayBooking(w, r, db)
 	}).Methods("GET")
-	paymentRouter.HandleFunc("/invoice", func(w http.ResponseWriter, r *http.Request) {
+	paymentRouter.HandleFunc("/invoice/{booking-id}", func(w http.ResponseWriter, r *http.Request) {
 		GetInvoice(w, r, db)
 	}).Methods("GET")
 }

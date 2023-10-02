@@ -31,6 +31,7 @@ type DBInterface interface {
 
 	// Payment
 	RecordPayment(payment *models.Payment) error
+	GetTransactionByBookingID(transactionID int) (*models.Transaction, error)
 
 	// SMS
 	RecordSMS(sms *models.SMS) error
