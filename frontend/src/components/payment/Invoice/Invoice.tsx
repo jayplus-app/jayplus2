@@ -39,10 +39,7 @@ const Invoice = () => {
 
 	useEffect(() => {
 		apiGet('/api/payment/invoice/1')
-			.then((res) => {
-				console.log(res)
-				setInvoice(res)
-			})
+			.then((res) => setInvoice(res))
 			.catch((err) => console.error(err))
 	}, [])
 

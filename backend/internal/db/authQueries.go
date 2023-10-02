@@ -89,3 +89,34 @@ func (db *DB) IsUserInBusiness(userID, businessID int) (bool, error) {
 
 	return exists, nil
 }
+
+// GetRoleNameByBusinessIDAndUserID retrieves a role name by business ID and user ID.
+func (db *DB) GetRoleByBusinessIDAndUserID(businessID, userID int) (*models.Role, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
+	defer cancel()
+
+	query := `SELECT
+				r.id,
+				r.name
+			FROM
+				roles r
+			INNER JOIN
+				business_users bu ON bu.role_id = r.id
+			WHERE
+				bu.business_id = $1 AND
+				bu.user_id = $2`
+
+	row := db.QueryRowContext(ctx, query, businessID, userID)
+
+	var role models.Role
+
+	err := row.Scan(
+		&role.ID,
+		&role.Name,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &role, nil
+}

@@ -1,6 +1,7 @@
 package booking
 
 import (
+	"backend/contracts/auth"
 	"backend/contracts/booking"
 	"backend/contracts/db"
 	"backend/models"
@@ -318,11 +319,71 @@ func Booking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	utils.WriteJSON(w, http.StatusOK, bookingResponse)
 }
 
+type CancelBookingResponse struct {
+	Message string `json:"message"`
+}
+
 // CancelBooking handler cancels a booking.
 func CancelBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
-	message := map[string]string{
-		"message": "Booking cancelled successfully",
+	bookingID, err := strconv.Atoi(mux.Vars(r)["id"])
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
 	}
 
-	utils.WriteJSON(w, http.StatusOK, message)
+	booking, err := db.GetBookingByID(bookingID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	if booking.Status == "cancelled" {
+		utils.ErrorJSON(w, errors.New("booking already cancelled"), http.StatusBadRequest)
+		return
+	}
+
+	claims, ok := r.Context().Value("claims").((*auth.JWTClaims))
+	if !ok {
+		utils.ErrorJSON(w, errors.New("failed to retrieve claims"), http.StatusBadRequest)
+		return
+	}
+
+	userID, err := strconv.Atoi(claims.Subject)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	businessID := claims.BusinessID
+
+	role, err := db.GetRoleByBusinessIDAndUserID(businessID, userID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	err = db.UpdateBookingStatus(bookingID, "cancelled")
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	bookingLog := models.BookingLog{
+		BookingID: bookingID,
+		UserID:    userID,
+		State:     "cancelled",
+		Details:   "Booking cancelled by " + role.Name + " with UserID " + strconv.Itoa(userID),
+	}
+
+	err = db.CreateBookingLog(&bookingLog)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	cancelBookingResponse := CancelBookingResponse{
+		Message: "Booking cancelled successfully",
+	}
+
+	utils.WriteJSON(w, http.StatusOK, cancelBookingResponse)
 }

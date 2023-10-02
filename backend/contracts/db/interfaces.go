@@ -19,6 +19,7 @@ type DBInterface interface {
 	GetUserByEmail(email string) (*models.User, error)
 	GetUserByID(id int) (*models.User, error)
 	IsUserInBusiness(userID, businessID int) (bool, error)
+	GetRoleByBusinessIDAndUserID(businessID, userID int) (*models.Role, error)
 
 	// Booking
 	GetVehicleTypes(businessID int) ([]*models.VehicleType, error)
@@ -28,6 +29,8 @@ type DBInterface interface {
 	GetServiceCost(businessID, vehicleTypeID, serviceTypeID int) (*models.ServiceCost, error)
 	GetBookingsByDate(businessID int, date time.Time) ([]*models.Booking, error)
 	GetBookingByID(bookingID int) (*models.Booking, error)
+	CreateBookingLog(bookingLog *models.BookingLog) error
+	UpdateBookingStatus(bookingID int, status string) error
 
 	// Payment
 	RecordPayment(payment *models.Payment) error

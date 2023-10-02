@@ -3,6 +3,7 @@ package auth
 import (
 	"backend/contracts/db"
 	"backend/utils"
+	"context"
 	"errors"
 	"net/http"
 	"strconv"
@@ -18,6 +19,9 @@ func (a *Auth) AuthRequired(db db.DBInterface) mux.MiddlewareFunc {
 				utils.ErrorJSON(w, err, http.StatusUnauthorized)
 				return
 			}
+
+			ctx := context.WithValue(r.Context(), "claims", claims)
+			r = r.WithContext(ctx)
 
 			tokenBusinessID := claims.BusinessID
 

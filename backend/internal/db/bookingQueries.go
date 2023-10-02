@@ -322,3 +322,55 @@ func (db *DB) GetBookingByID(bookingID int) (*models.Booking, error) {
 
 	return &booking, nil
 }
+
+// CancelBooking cancels a booking.
+func (db *DB) UpdateBookingStatus(bookingID int, status string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
+	defer cancel()
+
+	query := `UPDATE
+				bookings
+			SET
+				status = $1
+			WHERE
+				id = $2`
+
+	_, err := db.ExecContext(ctx, query, status, bookingID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// CreateBookingLog creates a booking log.
+func (db *DB) CreateBookingLog(bookingLog *models.BookingLog) error {
+	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
+	defer cancel()
+
+	query := `INSERT INTO booking_logs (
+				booking_id,
+				user_id,
+				state,
+				details
+			) VALUES (
+				$1,
+				$2,
+				$3,
+				$4
+			) RETURNING id`
+
+	err := db.QueryRowContext(
+		ctx,
+		query,
+		bookingLog.BookingID,
+		bookingLog.UserID,
+		bookingLog.State,
+		bookingLog.Details,
+	).Scan(&bookingLog.ID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
