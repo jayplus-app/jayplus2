@@ -15,6 +15,7 @@ const DayColumnSelectTime = ({ date }: DayColumnSelectTimeProps) => {
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setDateTimeSelected(e.currentTarget.value)
+		console.log(e.currentTarget.value)
 	}
 
 	return (
@@ -31,15 +32,15 @@ const DayColumnSelectTime = ({ date }: DayColumnSelectTimeProps) => {
 						<input
 							className="select-list-input"
 							type="radio"
-							id={`${date}${slot.startTime}`}
+							id={`${slot.startTime}`}
 							name={date}
-							value={date + slot.startTime}
-							checked={dateTimeSelected === date + slot.startTime}
+							value={slot.startTime}
+							checked={dateTimeSelected === slot.startTime}
 							onChange={handleChange}
 							disabled={!slot.available}
 						/>
 						<label
-							htmlFor={`${date}${slot.startTime}`}
+							htmlFor={`${slot.startTime}`}
 							className={`select-list-label ${
 								!slot.available && 'label-disabled'
 							}`}

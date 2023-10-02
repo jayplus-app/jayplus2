@@ -42,6 +42,19 @@ VALUES
   "maxFutureBookingDays": 5
 }', current_timestamp, current_timestamp);
 
+INSERT INTO business_config (business_id, key, value, created_at, updated_at)
+VALUES 
+(1, 'business-hours', 
+'{
+  "monday": { "start": "09:00", "end": "19:00" },
+  "tuesday": { "start": "09:00", "end": "19:00" },
+  "wednesday": { "start": "09:00", "end": "19:00" },
+  "thursday": { "start": "09:00", "end": "19:00" },
+  "friday": { "start": "09:00", "end": "19:00" },
+  "saturday": { "start": "09:00", "end": "17:00" },
+  "sunday": { "closed": true }
+}',current_timestamp, current_timestamp);
+
 INSERT INTO service_types (business_id, name, icon, description, position, created_at)
 VALUES 
 (1, 'Show Room', 'show_room_icon', 'A premium service to make your vehicle look as good as new.', 1, current_timestamp),
