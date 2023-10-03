@@ -196,7 +196,7 @@ func (db *DB) GetServiceDetail(businessID, vehicleTypeID, serviceTypeID int) (*m
 				created_at,
 				updated_at
 			FROM
-				service_costs
+				service_details
 			WHERE
 				business_id = $1 AND
 				vehicle_type_id = $2 AND
