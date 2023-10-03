@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { apiGet } from '../../utils/apiUtils'
+import { apiGet, apiPost } from '../../utils/apiUtils'
 
 interface Timeslot {
 	id: number
@@ -17,16 +17,26 @@ interface TimeslotsResponse {
 
 interface UseTimeslotsProps {
 	selectedDate: string
+	vehicleType: string
+	serviceType: string
 }
 
-export const useTimeslots = ({ selectedDate }: UseTimeslotsProps) => {
+export const useTimeslots = ({
+	selectedDate,
+	vehicleType,
+	serviceType,
+}: UseTimeslotsProps) => {
 	const [timeslots, setTimeslots] = useState<Timeslot[] | null>(null)
 	const [isLoadingTimeslots, setIsLoadingTimeslots] = useState(true)
 
 	useEffect(() => {
 		setIsLoadingTimeslots(true)
 
-		apiGet(`/api/booking/timeslots?date=${selectedDate}`)
+		apiPost(`/api/booking/timeslots`, {
+			datetime: selectedDate,
+			vehicleTypeID: vehicleType,
+			serviceTypeID: serviceType,
+		})
 			.then((data: TimeslotsResponse) => {
 				setTimeslots(data.slots)
 				setIsLoadingTimeslots(false)

@@ -8,10 +8,17 @@ interface DayColumnSelectTimeProps {
 }
 
 const DayColumnSelectTime = ({ date }: DayColumnSelectTimeProps) => {
+	const {
+		dateTimeSelected,
+		setDateTimeSelected,
+		vehicleTypeSelected,
+		serviceTypeSelected,
+	} = useContext(BookingContext)
 	const { timeslots, isLoadingTimeslots } = useTimeslots({
 		selectedDate: date,
+		vehicleType: vehicleTypeSelected.split('-')[1],
+		serviceType: serviceTypeSelected.split('-')[1],
 	})
-	const { dateTimeSelected, setDateTimeSelected } = useContext(BookingContext)
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		setDateTimeSelected(e.currentTarget.value)

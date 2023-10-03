@@ -290,6 +290,7 @@ func (db *DB) CreateBooking(booking *models.Booking) (*models.Booking, error) {
 				vehicle_type_id,
 				service_type_id,
 				datetime,
+				estimated_minutes,
 				cost,
 				discount,
 				deposit,
@@ -305,7 +306,8 @@ func (db *DB) CreateBooking(booking *models.Booking) (*models.Booking, error) {
 				$7,
 				$8,
 				$9,
-				$10
+				$10,
+				$11
 			) RETURNING id`
 
 	err := db.QueryRowContext(
@@ -316,6 +318,7 @@ func (db *DB) CreateBooking(booking *models.Booking) (*models.Booking, error) {
 		booking.VehicleTypeID,
 		booking.ServiceTypeID,
 		booking.Datetime,
+		booking.EstimatedMinutes,
 		booking.Cost,
 		booking.Discount,
 		booking.Deposit,

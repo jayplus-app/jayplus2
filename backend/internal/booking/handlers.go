@@ -344,16 +344,17 @@ func CancelBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 }
 
 type CreateBookingResponse struct {
-	ID          int       `json:"id"`
-	UserID      int       `json:"userID"`
-	VehicleType string    `json:"vehicleType"`
-	ServiceType string    `json:"serviceType"`
-	Datetime    time.Time `json:"datetime"`
-	Cost        int       `json:"cost"`
-	Discount    int       `json:"discount"`
-	Deposit     int       `json:"deposit"`
-	BillNumber  int       `json:"billNumber"`
-	Status      string    `json:"status"`
+	ID               int       `json:"id"`
+	UserID           int       `json:"userID"`
+	VehicleType      string    `json:"vehicleType"`
+	ServiceType      string    `json:"serviceType"`
+	Datetime         time.Time `json:"datetime"`
+	EstimatedMinutes int       `json:"estimatedMinutes"`
+	Cost             int       `json:"cost"`
+	Discount         int       `json:"discount"`
+	Deposit          int       `json:"deposit"`
+	BillNumber       int       `json:"billNumber"`
+	Status           string    `json:"status"`
 }
 
 // CreateBooking handler creates bookings.
@@ -428,16 +429,17 @@ func CreateBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	deposit := serviceDetail.Price * 20 / 100
 
 	booking := models.Booking{
-		BusinessID:    business.ID,
-		UserID:        userID,
-		VehicleTypeID: vehicleTypeID,
-		ServiceTypeID: serviceTypeID,
-		Datetime:      datetime,
-		Cost:          serviceDetail.Price,
-		Discount:      discount,
-		Deposit:       deposit,
-		BillNumber:    0,
-		Status:        "pending",
+		BusinessID:       business.ID,
+		UserID:           userID,
+		VehicleTypeID:    vehicleTypeID,
+		ServiceTypeID:    serviceTypeID,
+		Datetime:         datetime,
+		EstimatedMinutes: serviceDetail.DurationMinutes,
+		Cost:             serviceDetail.Price,
+		Discount:         discount,
+		Deposit:          deposit,
+		BillNumber:       0,
+		Status:           "pending",
 	}
 
 	returnedBooking, err := db.CreateBooking(&booking)
@@ -472,16 +474,17 @@ func CreateBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	}
 
 	bookingResponse := CreateBookingResponse{
-		ID:          returnedBooking.ID,
-		UserID:      returnedBooking.UserID,
-		VehicleType: vehicleType.Name,
-		ServiceType: serviceType.Name,
-		Datetime:    returnedBooking.Datetime,
-		Cost:        returnedBooking.Cost,
-		Discount:    returnedBooking.Discount,
-		Deposit:     returnedBooking.Deposit,
-		BillNumber:  returnedBooking.BillNumber,
-		Status:      returnedBooking.Status,
+		ID:               returnedBooking.ID,
+		UserID:           returnedBooking.UserID,
+		VehicleType:      vehicleType.Name,
+		ServiceType:      serviceType.Name,
+		Datetime:         returnedBooking.Datetime,
+		EstimatedMinutes: returnedBooking.EstimatedMinutes,
+		Cost:             returnedBooking.Cost,
+		Discount:         returnedBooking.Discount,
+		Deposit:          returnedBooking.Deposit,
+		BillNumber:       returnedBooking.BillNumber,
+		Status:           returnedBooking.Status,
 	}
 
 	utils.WriteJSON(w, http.StatusOK, bookingResponse)
@@ -571,16 +574,17 @@ func CreateBookingAdmin(w http.ResponseWriter, r *http.Request, db db.DBInterfac
 	deposit := 0
 
 	booking := models.Booking{
-		BusinessID:    business.ID,
-		UserID:        userID,
-		VehicleTypeID: vehicleTypeID,
-		ServiceTypeID: serviceTypeID,
-		Datetime:      datetime,
-		Cost:          serviceDetail.Price,
-		Discount:      discount,
-		Deposit:       deposit,
-		BillNumber:    0,
-		Status:        "active",
+		BusinessID:       business.ID,
+		UserID:           userID,
+		VehicleTypeID:    vehicleTypeID,
+		ServiceTypeID:    serviceTypeID,
+		Datetime:         datetime,
+		EstimatedMinutes: serviceDetail.DurationMinutes,
+		Cost:             serviceDetail.Price,
+		Discount:         discount,
+		Deposit:          deposit,
+		BillNumber:       0,
+		Status:           "active",
 	}
 
 	returnedBooking, err := db.CreateBooking(&booking)
@@ -621,16 +625,17 @@ func CreateBookingAdmin(w http.ResponseWriter, r *http.Request, db db.DBInterfac
 	}
 
 	bookingResponse := CreateBookingResponse{
-		ID:          returnedBooking.ID,
-		UserID:      returnedBooking.UserID,
-		VehicleType: vehicleType.Name,
-		ServiceType: serviceType.Name,
-		Datetime:    returnedBooking.Datetime,
-		Cost:        returnedBooking.Cost,
-		Discount:    returnedBooking.Discount,
-		Deposit:     returnedBooking.Deposit,
-		BillNumber:  returnedBooking.BillNumber,
-		Status:      returnedBooking.Status,
+		ID:               returnedBooking.ID,
+		UserID:           returnedBooking.UserID,
+		VehicleType:      vehicleType.Name,
+		ServiceType:      serviceType.Name,
+		Datetime:         returnedBooking.Datetime,
+		EstimatedMinutes: returnedBooking.EstimatedMinutes,
+		Cost:             returnedBooking.Cost,
+		Discount:         returnedBooking.Discount,
+		Deposit:          returnedBooking.Deposit,
+		BillNumber:       returnedBooking.BillNumber,
+		Status:           returnedBooking.Status,
 	}
 
 	utils.WriteJSON(w, http.StatusOK, bookingResponse)
