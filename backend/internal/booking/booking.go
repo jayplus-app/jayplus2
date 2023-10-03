@@ -13,8 +13,8 @@ func GetBookingTimeslots(db db.DBInterface, businessID int, serviceTypeID int, v
 		return nil, err
 	}
 
-	// TODO: Rename GetServiceCost to GetServiceDetails
-	serviceDetails, err := db.GetServiceCost(businessID, vehicleTypeID, serviceTypeID)
+	// TODO: Rename GetServiceDetail to GetServiceDetails
+	serviceDetails, err := db.GetServiceDetail(businessID, vehicleTypeID, serviceTypeID)
 	if err != nil {
 		return nil, err
 	}
