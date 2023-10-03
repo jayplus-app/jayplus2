@@ -281,6 +281,8 @@ func (db *DB) GetBookingsByDate(businessID int, date time.Time) ([]*models.Booki
 
 // CreateBooking creates a booking and returns the created booking.
 func (db *DB) CreateBooking(booking *models.Booking) (*models.Booking, error) {
+	dbTimezone, err := time.LoadLocation("UTC")
+
 	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
 	defer cancel()
 
@@ -308,14 +310,14 @@ func (db *DB) CreateBooking(booking *models.Booking) (*models.Booking, error) {
 				$10
 			) RETURNING id`
 
-	err := db.QueryRowContext(
+	err = db.QueryRowContext(
 		ctx,
 		query,
 		booking.BusinessID,
 		booking.UserID,
 		booking.VehicleTypeID,
 		booking.ServiceTypeID,
-		booking.Datetime,
+		booking.Datetime.In(dbTimezone),
 		booking.Cost,
 		booking.Discount,
 		booking.Deposit,
