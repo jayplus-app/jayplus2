@@ -20,6 +20,7 @@ type DBInterface interface {
 	GetUserByID(id int) (*models.User, error)
 	IsUserInBusiness(userID, businessID int) (bool, error)
 	GetRoleByBusinessIDAndUserID(businessID, userID int) (*models.Role, error)
+	GetBusinessHoursByBusinessID(businessID int) (*models.BusinessHours, error)
 
 	// Booking
 	GetVehicleTypes(businessID int) ([]*models.VehicleType, error)
@@ -29,6 +30,7 @@ type DBInterface interface {
 	GetServiceCost(businessID, vehicleTypeID, serviceTypeID int) (*models.ServiceCost, error)
 	GetBookingsByDate(businessID int, date time.Time) ([]*models.Booking, error)
 	GetBookingByID(bookingID int) (*models.Booking, error)
+	CreateBooking(booking *models.Booking) (*models.Booking, error)
 	CreateBookingLog(bookingLog *models.BookingLog) error
 	UpdateBookingStatus(bookingID int, status string) error
 	GetBookingTimeslots(businessID int, serviceTypeID int, vehicleTypeID int, date time.Time) ([]*models.TimeSlot, error)

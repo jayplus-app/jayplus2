@@ -4,9 +4,9 @@ import ServiceTypes from './ServiceTypes'
 import TimeSelection from './TimeSelection'
 import VehicleTypes from './VehicleTypes'
 import BookingContext from '../../../../context/BookingContext/BookingContext'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import ConfirmBookingModal from '../../../modals/ConfirmBookingModal'
-import { useCreateBooking } from '../../../../hooks/booking/useCreateBooking'
+import { useCreateBookingAdmin } from '../../../../hooks/booking/useCreateBookingAdmin'
 import { FaXmark } from 'react-icons/fa6'
 
 const AdminBookingSelectionPage = () => {
@@ -17,8 +17,8 @@ const AdminBookingSelectionPage = () => {
 		dateTimeSelected,
 	} = useContext(BookingContext)
 
-	const { bookingNumber, isLoadingCreateBooking, createBooking } =
-		useCreateBooking()
+	const { booking, isLoadingCreateBooking, createBooking } =
+		useCreateBookingAdmin()
 
 	const [showConfirmBookingModal, setShowConfirmBookingModal] =
 		useState(false)
@@ -39,8 +39,8 @@ const AdminBookingSelectionPage = () => {
 	) => {
 		setShowConfirmBookingModal(false)
 		createBooking(
-			vehicleTypeSelected,
-			serviceTypeSelected,
+			vehicleTypeSelected.split('-')[1],
+			serviceTypeSelected.split('-')[1],
 			dateTimeSelected
 		)
 		setShowConfirmCreateBookingMessage(true)
@@ -55,13 +55,13 @@ const AdminBookingSelectionPage = () => {
 					) : (
 						<div
 							className={`confirm-message ${
-								bookingNumber ? 'success' : 'fail'
+								booking ? 'success' : 'fail'
 							}`}
 						>
-							{bookingNumber ? (
+							{booking ? (
 								<span>
 									Booking created successfully. Booking
-									number: {bookingNumber}
+									number: {booking.ID}
 								</span>
 							) : (
 								<span>Booking failed to create.</span>
@@ -69,7 +69,7 @@ const AdminBookingSelectionPage = () => {
 							<FaXmark
 								size="20px"
 								className={`confirm-message-icon ${
-									bookingNumber ? 'success' : 'fail'
+									booking ? 'success' : 'fail'
 								}`}
 								onClick={() =>
 									setShowConfirmCreateBookingMessage(false)

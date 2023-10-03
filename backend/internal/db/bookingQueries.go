@@ -277,6 +277,56 @@ func (db *DB) GetBookingsByDate(businessID int, date time.Time) ([]*models.Booki
 	return bookings, nil
 }
 
+// CreateBooking creates a booking and returns the created booking.
+func (db *DB) CreateBooking(booking *models.Booking) (*models.Booking, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
+	defer cancel()
+
+	query := `INSERT INTO bookings (
+				business_id,
+				user_id,
+				vehicle_type_id,
+				service_type_id,
+				datetime,
+				cost,
+				discount,
+				deposit,
+				bill_number,
+				status
+			) VALUES (
+				$1,
+				$2,
+				$3,
+				$4,
+				$5,
+				$6,
+				$7,
+				$8,
+				$9,
+				$10
+			) RETURNING id`
+
+	err := db.QueryRowContext(
+		ctx,
+		query,
+		booking.BusinessID,
+		booking.UserID,
+		booking.VehicleTypeID,
+		booking.ServiceTypeID,
+		booking.Datetime,
+		booking.Cost,
+		booking.Discount,
+		booking.Deposit,
+		booking.BillNumber,
+		booking.Status,
+	).Scan(&booking.ID)
+	if err != nil {
+		return nil, err
+	}
+
+	return booking, nil
+}
+
 // GetBookingByID retrieves a booking by ID.
 func (db *DB) GetBookingByID(bookingID int) (*models.Booking, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)

@@ -3,6 +3,7 @@ package db
 import (
 	"backend/models"
 	"context"
+	"encoding/json"
 	"time"
 )
 
@@ -119,4 +120,33 @@ func (db *DB) GetRoleByBusinessIDAndUserID(businessID, userID int) (*models.Role
 	}
 
 	return &role, nil
+}
+
+// GetBusinessHoursByBusinessID retrieves business hours by business ID.
+func (db *DB) GetBusinessHoursByBusinessID(businessID int) (*models.BusinessHours, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
+	defer cancel()
+
+	query := `SELECT
+            value
+        FROM
+            business_config
+        WHERE
+            business_id = $1 AND key = 'business-hours'`
+
+	var jsonData []byte
+
+	row := db.QueryRowContext(ctx, query, businessID)
+
+	err := row.Scan(&jsonData)
+	if err != nil {
+		return nil, err
+	}
+
+	var businessHours models.BusinessHours
+	if err := json.Unmarshal(jsonData, &businessHours); err != nil {
+		return nil, err
+	}
+
+	return &businessHours, nil
 }

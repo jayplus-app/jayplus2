@@ -25,7 +25,7 @@ func BookingRoutes(r *mux.Router, auth auth.AuthInterface, db db.DBInterface) {
 	}).Methods("POST")
 	bookingRouter.HandleFunc("/create-booking", func(w http.ResponseWriter, r *http.Request) {
 		CreateBooking(w, r, db)
-	}).Methods("GET")
+	}).Methods("POST")
 
 	adminOnlyRouter := bookingRouter.PathPrefix("/").Subrouter()
 	adminOnlyRouter.Use(auth.AuthRequired(db))
@@ -36,6 +36,9 @@ func BookingRoutes(r *mux.Router, auth auth.AuthInterface, db db.DBInterface) {
 	adminOnlyRouter.HandleFunc("/booking/{id}", func(w http.ResponseWriter, r *http.Request) {
 		Booking(w, r, db)
 	}).Methods("GET")
+	adminOnlyRouter.HandleFunc("/create-booking-admin", func(w http.ResponseWriter, r *http.Request) {
+		CreateBookingAdmin(w, r, db)
+	}).Methods("POST")
 	adminOnlyRouter.HandleFunc("/cancel-booking/{id}", func(w http.ResponseWriter, r *http.Request) {
 		CancelBooking(w, r, db)
 	}).Methods("GET")

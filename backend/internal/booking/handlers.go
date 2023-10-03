@@ -153,15 +153,6 @@ func ServiceCost(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	utils.WriteJSON(w, http.StatusOK, serviceCost)
 }
 
-// CreateBookings handler creates bookings.
-func CreateBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
-	bookingNumber := map[string]string{
-		"booking_number": "123456",
-	}
-
-	utils.WriteJSON(w, http.StatusOK, bookingNumber)
-}
-
 type BookingsResponse struct {
 	ID          int       `json:"id"`
 	VehicleType string    `json:"vehicleType"`
@@ -350,4 +341,297 @@ func CancelBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	}
 
 	utils.WriteJSON(w, http.StatusOK, cancelBookingResponse)
+}
+
+type CreateBookingResponse struct {
+	ID          int       `json:"id"`
+	UserID      int       `json:"userID"`
+	VehicleType string    `json:"vehicleType"`
+	ServiceType string    `json:"serviceType"`
+	Datetime    time.Time `json:"datetime"`
+	Cost        int       `json:"cost"`
+	Discount    int       `json:"discount"`
+	Deposit     int       `json:"deposit"`
+	BillNumber  int       `json:"billNumber"`
+	Status      string    `json:"status"`
+}
+
+// CreateBooking handler creates bookings.
+func CreateBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
+	type RequestBody struct {
+		VehicleTypeID string `json:"vehicleTypeID"`
+		ServiceTypeID string `json:"serviceTypeID"`
+		Datetime      string `json:"datetime"`
+	}
+
+	var requestBody RequestBody
+	err := utils.ReadJSON(w, r, &requestBody)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	businessName := r.Header.Get("Business-Name")
+	business, err := db.GetBusinessByBusinessName(businessName)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	userID := 2
+
+	vehicleTypeID, err := strconv.Atoi(requestBody.VehicleTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	serviceTypeID, err := strconv.Atoi(requestBody.ServiceTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	datetime, err := time.Parse("2006-01-02T15:04:05Z", requestBody.Datetime)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	// Check if booking is in the past
+	if datetime.Before(time.Now()) {
+		utils.ErrorJSON(w, errors.New("booking is in the past"), http.StatusBadRequest)
+		return
+	}
+
+	// Check if booking is within business hours
+	businessHours, err := db.GetBusinessHoursByBusinessID(business.ID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	// Check if booking is within business hours
+	if !utils.IsWithinBusinessHours(datetime, businessHours) {
+		utils.ErrorJSON(w, errors.New("booking is not within business hours"), http.StatusBadRequest)
+		return
+	}
+
+	serviceCost, err := db.GetServiceCost(business.ID, vehicleTypeID, serviceTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	discount := 0
+
+	deposit := serviceCost.Price * 20 / 100
+
+	booking := models.Booking{
+		BusinessID:    business.ID,
+		UserID:        userID,
+		VehicleTypeID: vehicleTypeID,
+		ServiceTypeID: serviceTypeID,
+		Datetime:      datetime,
+		Cost:          serviceCost.Price,
+		Discount:      discount,
+		Deposit:       deposit,
+		BillNumber:    0,
+		Status:        "pending",
+	}
+
+	returnedBooking, err := db.CreateBooking(&booking)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	bookingLog := models.BookingLog{
+		BookingID: returnedBooking.ID,
+		UserID:    userID,
+		State:     "created",
+		Details:   "Booking created by " + "unknown" + " with UserID " + strconv.Itoa(userID),
+	}
+
+	err = db.CreateBookingLog(&bookingLog)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	vehicleType, err := db.GetVehicleTypeByID(returnedBooking.VehicleTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	serviceType, err := db.GetServiceTypeByID(returnedBooking.ServiceTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	bookingResponse := CreateBookingResponse{
+		ID:          returnedBooking.ID,
+		UserID:      returnedBooking.UserID,
+		VehicleType: vehicleType.Name,
+		ServiceType: serviceType.Name,
+		Datetime:    returnedBooking.Datetime,
+		Cost:        returnedBooking.Cost,
+		Discount:    returnedBooking.Discount,
+		Deposit:     returnedBooking.Deposit,
+		BillNumber:  returnedBooking.BillNumber,
+		Status:      returnedBooking.Status,
+	}
+
+	utils.WriteJSON(w, http.StatusOK, bookingResponse)
+}
+
+// CreateBookingAdmin handler creates bookings.
+func CreateBookingAdmin(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
+	type RequestBody struct {
+		VehicleTypeID string `json:"vehicleTypeID"`
+		ServiceTypeID string `json:"serviceTypeID"`
+		Datetime      string `json:"datetime"`
+	}
+
+	var requestBody RequestBody
+	err := utils.ReadJSON(w, r, &requestBody)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	businessName := r.Header.Get("Business-Name")
+	business, err := db.GetBusinessByBusinessName(businessName)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	var userID int
+
+	claims, ok := r.Context().Value("claims").((*auth.JWTClaims))
+	if !ok {
+		utils.ErrorJSON(w, errors.New("failed to retrieve claims"), http.StatusBadRequest)
+		return
+	}
+
+	userID, err = strconv.Atoi(claims.Subject)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	vehicleTypeID, err := strconv.Atoi(requestBody.VehicleTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	serviceTypeID, err := strconv.Atoi(requestBody.ServiceTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	datetime, err := time.Parse("2006-01-02T15:04:05Z", requestBody.Datetime)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	// Check if booking is in the past
+	if datetime.Before(time.Now()) {
+		utils.ErrorJSON(w, errors.New("booking is in the past"), http.StatusBadRequest)
+		return
+	}
+
+	// Check if booking is within business hours
+	businessHours, err := db.GetBusinessHoursByBusinessID(business.ID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	// Check if booking is within business hours
+	if !utils.IsWithinBusinessHours(datetime, businessHours) {
+		utils.ErrorJSON(w, errors.New("booking is not within business hours"), http.StatusBadRequest)
+		return
+	}
+
+	serviceCost, err := db.GetServiceCost(business.ID, vehicleTypeID, serviceTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	discount := 0
+
+	deposit := 0
+
+	booking := models.Booking{
+		BusinessID:    business.ID,
+		UserID:        userID,
+		VehicleTypeID: vehicleTypeID,
+		ServiceTypeID: serviceTypeID,
+		Datetime:      datetime,
+		Cost:          serviceCost.Price,
+		Discount:      discount,
+		Deposit:       deposit,
+		BillNumber:    0,
+		Status:        "active",
+	}
+
+	returnedBooking, err := db.CreateBooking(&booking)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	role, err := db.GetRoleByBusinessIDAndUserID(returnedBooking.BusinessID, userID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	bookingLog := models.BookingLog{
+		BookingID: returnedBooking.ID,
+		UserID:    userID,
+		State:     "created",
+		Details:   "Booking created by " + role.Name + " with UserID " + strconv.Itoa(userID),
+	}
+
+	err = db.CreateBookingLog(&bookingLog)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	vehicleType, err := db.GetVehicleTypeByID(returnedBooking.VehicleTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	serviceType, err := db.GetServiceTypeByID(returnedBooking.ServiceTypeID)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
+	bookingResponse := CreateBookingResponse{
+		ID:          returnedBooking.ID,
+		UserID:      returnedBooking.UserID,
+		VehicleType: vehicleType.Name,
+		ServiceType: serviceType.Name,
+		Datetime:    returnedBooking.Datetime,
+		Cost:        returnedBooking.Cost,
+		Discount:    returnedBooking.Discount,
+		Deposit:     returnedBooking.Deposit,
+		BillNumber:  returnedBooking.BillNumber,
+		Status:      returnedBooking.Status,
+	}
+
+	utils.WriteJSON(w, http.StatusOK, bookingResponse)
 }

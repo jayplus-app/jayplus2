@@ -1,5 +1,5 @@
-import { useContext, useState } from 'react'
-import { apiPost } from '../../utils/apiUtils'
+import { useContext, useEffect, useState } from 'react'
+import { apiGet, apiPost } from '../../utils/apiUtils'
 import AuthContext from '../../context/AuthContext/AuthContext'
 
 interface CreateBookingResponse {
@@ -15,35 +15,42 @@ interface CreateBookingResponse {
 	Status: string
 }
 
-export const useCreateBooking = () => {
+export const useCreateBookingAdmin = () => {
 	const [booking, setBooking] = useState<CreateBookingResponse | null>(null)
 	const [isLoadingCreateBooking, setIsLoadingCreateBooking] = useState(false)
 
-	const createBooking = async (
+	const { authToken } = useContext(AuthContext)
+
+	const createBookingAdmin = (
 		vehicleType: string,
 		serviceType: string,
 		dateTime: string
-	): Promise<CreateBookingResponse | void> => {
+	) => {
 		setIsLoadingCreateBooking(true)
 
-		try {
-			const res = await apiPost('/api/booking/create-booking', {
+		apiPost(
+			'/api/booking/create-booking-admin',
+			{
 				vehicleTypeID: vehicleType,
 				serviceTypeID: serviceType,
 				datetime: dateTime,
+			},
+			authToken
+		)
+			.then((res) => {
+				setBooking(res)
 			})
-			setBooking(res)
-			return res
-		} catch (err) {
-			throw err
-		} finally {
-			setIsLoadingCreateBooking(false)
-		}
+			.catch((err) => {
+				console.log(err)
+			})
+			.finally(() => {
+				setIsLoadingCreateBooking(false)
+			})
 	}
 
 	return {
 		booking,
 		isLoadingCreateBooking,
-		createBooking: createBooking,
+		createBooking: createBookingAdmin,
 	}
 }
