@@ -95,7 +95,7 @@ func TimeSlots(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 		return
 	}
 
-	timeSlots, err := db.GetBookingTimeslots(business.ID, serviceTypeID, vehicleTypeID, d)
+	timeSlots, err := GetBookingTimeslots(db, business.ID, serviceTypeID, vehicleTypeID, d)
 	if err != nil {
 		// TODO: log error
 		utils.ErrorJSON(w, err, http.StatusBadRequest)

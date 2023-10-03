@@ -33,7 +33,6 @@ type DBInterface interface {
 	CreateBooking(booking *models.Booking) (*models.Booking, error)
 	CreateBookingLog(bookingLog *models.BookingLog) error
 	UpdateBookingStatus(bookingID int, status string) error
-	GetBookingTimeslots(businessID int, serviceTypeID int, vehicleTypeID int, date time.Time) ([]*models.TimeSlot, error)
 
 	// Payment
 	RecordPayment(payment *models.Payment) error
