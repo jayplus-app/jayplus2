@@ -27,7 +27,7 @@ type DBInterface interface {
 	GetVehicleTypeByID(vehicleTypeID int) (*models.VehicleType, error)
 	GetServiceTypes(businessID int) ([]*models.ServiceType, error)
 	GetServiceTypeByID(serviceTypeID int) (*models.ServiceType, error)
-	GetServiceCost(businessID, vehicleTypeID, serviceTypeID int) (*models.ServiceCost, error)
+	GetServiceDetail(businessID, vehicleTypeID, serviceTypeID int) (*models.ServiceDetail, error)
 	GetBookingsByDate(businessID int, date time.Time) ([]*models.Booking, error)
 	GetBookingByID(bookingID int) (*models.Booking, error)
 	CreateBooking(booking *models.Booking) (*models.Booking, error)
