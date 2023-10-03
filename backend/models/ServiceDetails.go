@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type ServiceCost struct {
+type ServiceDetail struct {
 	BusinessID      int       `json:"businessID"`
 	VehicleTypeID   int       `json:"vehicleTypeID"`
 	ServiceTypeID   int       `json:"serviceTypeID"`

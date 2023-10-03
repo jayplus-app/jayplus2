@@ -144,13 +144,13 @@ func ServiceCost(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 		return
 	}
 
-	serviceCost, err := db.GetServiceCost(business.ID, vehicleTypeID, serviceTypeID)
+	serviceDetail, err := db.GetServiceDetail(business.ID, vehicleTypeID, serviceTypeID)
 	if err != nil {
 		utils.ErrorJSON(w, err, http.StatusBadRequest)
 		return
 	}
 
-	utils.WriteJSON(w, http.StatusOK, serviceCost)
+	utils.WriteJSON(w, http.StatusOK, serviceDetail)
 }
 
 type BookingsResponse struct {
@@ -417,7 +417,7 @@ func CreateBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 		return
 	}
 
-	serviceCost, err := db.GetServiceCost(business.ID, vehicleTypeID, serviceTypeID)
+	serviceDetail, err := db.GetServiceDetail(business.ID, vehicleTypeID, serviceTypeID)
 	if err != nil {
 		utils.ErrorJSON(w, err, http.StatusBadRequest)
 		return
@@ -425,7 +425,7 @@ func CreateBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 
 	discount := 0
 
-	deposit := serviceCost.Price * 20 / 100
+	deposit := serviceDetail.Price * 20 / 100
 
 	booking := models.Booking{
 		BusinessID:    business.ID,
@@ -433,7 +433,7 @@ func CreateBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 		VehicleTypeID: vehicleTypeID,
 		ServiceTypeID: serviceTypeID,
 		Datetime:      datetime,
-		Cost:          serviceCost.Price,
+		Cost:          serviceDetail.Price,
 		Discount:      discount,
 		Deposit:       deposit,
 		BillNumber:    0,
@@ -560,7 +560,7 @@ func CreateBookingAdmin(w http.ResponseWriter, r *http.Request, db db.DBInterfac
 		return
 	}
 
-	serviceCost, err := db.GetServiceCost(business.ID, vehicleTypeID, serviceTypeID)
+	serviceDetail, err := db.GetServiceDetail(business.ID, vehicleTypeID, serviceTypeID)
 	if err != nil {
 		utils.ErrorJSON(w, err, http.StatusBadRequest)
 		return
@@ -576,7 +576,7 @@ func CreateBookingAdmin(w http.ResponseWriter, r *http.Request, db db.DBInterfac
 		VehicleTypeID: vehicleTypeID,
 		ServiceTypeID: serviceTypeID,
 		Datetime:      datetime,
-		Cost:          serviceCost.Price,
+		Cost:          serviceDetail.Price,
 		Discount:      discount,
 		Deposit:       deposit,
 		BillNumber:    0,

@@ -75,13 +75,18 @@ VALUES ('unknown@customer.com', '0000000000', 'hashed_password_for_unknown', 'Un
 INSERT INTO channels (name)
 VALUES ('sms'), ('email');
 
-INSERT INTO bookings (business_id, user_id, vehicle_type_id, service_type_id, datetime, cost, discount, deposit, bill_number, status)
+INSERT INTO bookings (business_id, user_id, vehicle_type_id, service_type_id, datetime, cost, discount, deposit, bill_number, status, estimated_minutes)
 VALUES 
-(1, 1, 1, 1, current_timestamp, 100, 10, 10, 1001, 'pending_payment'),
-(1, 1, 2, 2, current_timestamp, 120, 15, 10, 1002, 'pending_payment'),
-(1, 2, 3, 3, current_timestamp, 150, 20, 10, 1003, 'pending_payment'),
-(1, 2, 4, 4, current_timestamp, 130, 10, 10, 1004, 'active'),
-(1, 2, 2, 1, current_timestamp, 110, 5,  10, 1005, 'cancelled');
+(1, 1, 1, 1, '2023-10-02 10:00:00', 100, 10, 10, 1001, 'pending_payment', 180),
+(1, 1, 2, 2, '2023-10-02 14:00:00', 120, 15, 10, 1002, 'pending_payment', 60),
+(1, 2, 3, 3, '2023-10-03 09:30:00', 150, 20, 10, 1003, 'pending_payment', 90),
+(1, 2, 4, 4, '2023-10-04 15:00:00', 130, 10, 10, 1004, 'active', 120),
+(1, 2, 2, 1, '2023-10-05 13:00:00', 110, 5,  10, 1005, 'cancelled', 180),
+(1, 1, 1, 2, '2023-10-06 12:00:00', 90, 10, 10, 1006, 'pending_payment', 60),
+(1, 2, 2, 3, '2023-10-07 10:30:00', 130, 15, 10, 1007, 'active', 90),
+(1, 1, 3, 1, '2023-10-08 09:00:00', 190, 10, 10, 1008, 'active', 180),
+(1, 1, 4, 4, '2023-10-09 16:00:00', 90, 5, 10, 1009, 'cancelled', 120),
+(1, 2, 3, 2, '2023-10-10 11:00:00', 140, 15, 10, 1010, 'pending_payment', 60);
 
 INSERT INTO booking_logs (booking_id, user_id, state, details)
 VALUES 
@@ -115,33 +120,33 @@ VALUES
 
 
 -- For Sedan
-INSERT INTO service_costs (business_id, vehicle_type_id, service_type_id, price)
+INSERT INTO service_details (business_id, vehicle_type_id, service_type_id, price, duration_minutes)
 VALUES 
-(1, 1, 1, 10000),  -- Show Room service for Sedan ($100 in cents)
-(1, 1, 2, 2000),   -- Basic service for Sedan ($20 in cents)
-(1, 1, 3, 4000),   -- Interior service for Sedan ($40 in cents)
-(1, 1, 4, 6000);   -- Exterior service for Sedan ($60 in cents)
+(1, 1, 1, 10000, 180),  -- Show Room service for Sedan ($100 in cents)
+(1, 1, 2, 2000, 60),   -- Basic service for Sedan ($20 in cents)
+(1, 1, 3, 4000, 90),   -- Interior service for Sedan ($40 in cents)
+(1, 1, 4, 6000, 120);  -- Exterior service for Sedan ($60 in cents)
 
 -- For SUV
-INSERT INTO service_costs (business_id, vehicle_type_id, service_type_id, price)
+INSERT INTO service_details (business_id, vehicle_type_id, service_type_id, price, duration_minutes)
 VALUES 
-(1, 2, 1, 15000),  -- Show Room service for SUV ($150 in cents)
-(1, 2, 2, 2500),   -- Basic service for SUV ($25 in cents)
-(1, 2, 3, 5000),   -- Interior service for SUV ($50 in cents)
-(1, 2, 4, 7000);   -- Exterior service for SUV ($70 in cents)
+(1, 2, 1, 15000, 180),  -- Show Room service for SUV ($150 in cents)
+(1, 2, 2, 2500, 60),   -- Basic service for SUV ($25 in cents)
+(1, 2, 3, 5000, 90),   -- Interior service for SUV ($50 in cents)
+(1, 2, 4, 7000, 120);  -- Exterior service for SUV ($70 in cents)
 
 -- For Large SUV / Truck
-INSERT INTO service_costs (business_id, vehicle_type_id, service_type_id, price)
+INSERT INTO service_details (business_id, vehicle_type_id, service_type_id, price, duration_minutes)
 VALUES 
-(1, 3, 1, 20000),  -- Show Room service for Large SUV / Truck ($200 in cents)
-(1, 3, 2, 3000),   -- Basic service for Large SUV / Truck ($30 in cents)
-(1, 3, 3, 5500),   -- Interior service for Large SUV / Truck ($55 in cents)
-(1, 3, 4, 8000);   -- Exterior service for Large SUV / Truck ($80 in cents)
+(1, 3, 1, 20000, 180),  -- Show Room service for Large SUV / Truck ($200 in cents)
+(1, 3, 2, 3000, 60),   -- Basic service for Large SUV / Truck ($30 in cents)
+(1, 3, 3, 5500, 90),   -- Interior service for Large SUV / Truck ($55 in cents)
+(1, 3, 4, 8000, 120);  -- Exterior service for Large SUV / Truck ($80 in cents)
 
 -- For Motorcycle
-INSERT INTO service_costs (business_id, vehicle_type_id, service_type_id, price)
+INSERT INTO service_details (business_id, vehicle_type_id, service_type_id, price, duration_minutes)
 VALUES 
-(1, 4, 1, 8000),   -- Show Room service for Motorcycle ($80 in cents)
-(1, 4, 2, 1500),   -- Basic service for Motorcycle ($15 in cents)
-(1, 4, 3, 2500),   -- Interior service for Motorcycle ($25 in cents)
-(1, 4, 4, 4000);   -- Exterior service for Motorcycle ($40 in cents)
+(1, 4, 1, 8000, 180),   -- Show Room service for Motorcycle ($80 in cents)
+(1, 4, 2, 1500, 60),   -- Basic service for Motorcycle ($15 in cents)
+(1, 4, 3, 2500, 90),   -- Interior service for Motorcycle ($25 in cents)
+(1, 4, 4, 4000, 120);  -- Exterior service for Motorcycle ($40 in cents)

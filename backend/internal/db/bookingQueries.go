@@ -182,8 +182,8 @@ func (db *DB) GetServiceTypeByID(serviceTypeID int) (*models.ServiceType, error)
 	return &serviceType, nil
 }
 
-// GetServiceCost retrieves the cost of a service.
-func (db *DB) GetServiceCost(businessID, vehicleTypeID, serviceTypeID int) (*models.ServiceCost, error) {
+// GetServiceDetail retrieves the cost of a service.
+func (db *DB) GetServiceDetail(businessID, vehicleTypeID, serviceTypeID int) (*models.ServiceDetail, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbConnectTimeout*time.Second)
 	defer cancel()
 
@@ -192,6 +192,7 @@ func (db *DB) GetServiceCost(businessID, vehicleTypeID, serviceTypeID int) (*mod
 				vehicle_type_id,
 				service_type_id,
 				price,
+				duration_minutes,
 				created_at,
 				updated_at
 			FROM
@@ -203,21 +204,22 @@ func (db *DB) GetServiceCost(businessID, vehicleTypeID, serviceTypeID int) (*mod
 
 	row := db.QueryRowContext(ctx, query, businessID, vehicleTypeID, serviceTypeID)
 
-	var serviceCost models.ServiceCost
+	var serviceDetail models.ServiceDetail
 
 	err := row.Scan(
-		&serviceCost.BusinessID,
-		&serviceCost.VehicleTypeID,
-		&serviceCost.ServiceTypeID,
-		&serviceCost.Price,
-		&serviceCost.CreatedAt,
-		&serviceCost.UpdatedAt,
+		&serviceDetail.BusinessID,
+		&serviceDetail.VehicleTypeID,
+		&serviceDetail.ServiceTypeID,
+		&serviceDetail.Price,
+		&serviceDetail.DurationMinutes,
+		&serviceDetail.CreatedAt,
+		&serviceDetail.UpdatedAt,
 	)
 	if err != nil {
 		return nil, err
 	}
 
-	return &serviceCost, nil
+	return &serviceDetail, nil
 }
 
 // GetBookings retrieves all bookings.
@@ -432,8 +434,8 @@ func (db *DB) GetBookingTimeslots(businessID int, serviceTypeID int, vehicleType
 		return nil, err
 	}
 
-	// TODO: Rename GetServiceCost to GetServiceDetails
-	serviceDetails, err := db.GetServiceCost(businessID, vehicleTypeID, serviceTypeID)
+	// TODO: Rename GetServiceDetail to GetServiceDetails
+	serviceDetails, err := db.GetServiceDetail(businessID, vehicleTypeID, serviceTypeID)
 	if err != nil {
 		return nil, err
 	}

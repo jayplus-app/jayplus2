@@ -52,13 +52,34 @@ CREATE TABLE business_config (
   updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp
 );
 
+CREATE TABLE vehicle_types (
+  id BIGSERIAL PRIMARY KEY,
+  business_id BIGINT NOT NULL REFERENCES businesses(id),
+  name VARCHAR(250) NOT NULL,
+  icon VARCHAR(250) NOT NULL,
+  description TEXT NOT NULL,
+  position INTEGER NOT NULL DEFAULT 1,
+  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
+);
+
+CREATE TABLE service_types (
+  id BIGSERIAL PRIMARY KEY,
+  business_id BIGINT NOT NULL REFERENCES businesses(id),
+  name VARCHAR(250) NOT NULL,
+  icon VARCHAR(250) NOT NULL,
+  description TEXT NOT NULL,
+  position INTEGER NOT NULL DEFAULT 1,
+  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
+);
+
 CREATE TABLE bookings (
   id BIGSERIAL PRIMARY KEY,
   business_id BIGINT NOT NULL REFERENCES businesses(id),
   user_id BIGINT NOT NULL REFERENCES users(id),
-  vehicle_type_id BIGINT NOT NULL,
-  service_type_id BIGINT NOT NULL,
+  vehicle_type_id BIGINT NOT NULL REFERENCES vehicle_types(id),
+  service_type_id BIGINT NOT NULL REFERENCES service_types(id),
   datetime TIMESTAMP NOT NULL,
+  estimated_minutes INTEGER NOT NULL,
   cost INTEGER NOT NULL,
   discount INTEGER NOT NULL,
   deposit INTEGER NOT NULL,
@@ -113,31 +134,12 @@ CREATE TABLE contacts (
   email VARCHAR(250) NOT NULL
 );
 
-CREATE TABLE service_types (
-  id BIGSERIAL PRIMARY KEY,
-  business_id BIGINT NOT NULL REFERENCES businesses(id),
-  name VARCHAR(250) NOT NULL,
-  icon VARCHAR(250) NOT NULL,
-  description TEXT NOT NULL,
-  position INTEGER NOT NULL DEFAULT 1,
-  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
-);
-
-CREATE TABLE vehicle_types (
-  id BIGSERIAL PRIMARY KEY,
-  business_id BIGINT NOT NULL REFERENCES businesses(id),
-  name VARCHAR(250) NOT NULL,
-  icon VARCHAR(250) NOT NULL,
-  description TEXT NOT NULL,
-  position INTEGER NOT NULL DEFAULT 1,
-  created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
-);
-
-CREATE TABLE service_costs (
+CREATE TABLE service_details (
   business_id BIGINT NOT NULL REFERENCES businesses(id),
   vehicle_type_id BIGINT NOT NULL REFERENCES vehicle_types(id),
   service_type_id BIGINT NOT NULL REFERENCES service_types(id),
-  price INTEGER NOT NULL, -- Price in cents
+  price INTEGER NOT NULL,
+  duration_minutes INTEGER NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
   updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
 
