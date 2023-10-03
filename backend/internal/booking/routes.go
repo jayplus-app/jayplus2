@@ -19,7 +19,7 @@ func BookingRoutes(r *mux.Router, auth auth.AuthInterface, db db.DBInterface) {
 	}).Methods("GET")
 	bookingRouter.HandleFunc("/timeslots", func(w http.ResponseWriter, r *http.Request) {
 		TimeSlots(w, r, db)
-	}).Methods("GET")
+	}).Methods("POST")
 	bookingRouter.HandleFunc("/service-cost", func(w http.ResponseWriter, r *http.Request) {
 		ServiceCost(w, r, db)
 	}).Methods("POST")
