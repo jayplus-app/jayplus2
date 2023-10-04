@@ -37,15 +37,28 @@ export const formatDateToRelativeOrMMMDDForm = (
 	currentDate: string
 ) => {
 	if (date === currentDate) return 'Today'
-	const tomorrow = addDaysToDate(currentDate, +1)
+	const tomorrow = addDaysToDate(currentDate, 1)
 	if (date === tomorrow) return 'Tomorrow'
+	const dateObject = new Date(`${date}T12:00:00`)
 
-	const dateObject = new Date(date)
-	const options: Intl.DateTimeFormatOptions = {
-		month: 'short',
-		day: '2-digit',
-	}
-	return dateObject.toLocaleDateString(undefined, options)
+	const monthNames = [
+		'Jan',
+		'Feb',
+		'Mar',
+		'Apr',
+		'May',
+		'Jun',
+		'Jul',
+		'Aug',
+		'Sep',
+		'Oct',
+		'Nov',
+		'Dec',
+	]
+	const formattedDate = `${monthNames[dateObject.getMonth()]} ${String(
+		dateObject.getDate()
+	).padStart(2, '0')}`
+	return formattedDate
 }
 
 /**

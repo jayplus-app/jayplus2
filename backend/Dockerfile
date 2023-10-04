@@ -16,5 +16,7 @@ FROM alpine:latest
 # Copy the binary to the production image from the builder stage.
 COPY --from=builder /backend /backend
 
+RUN apk --no-cache add tzdata
+
 # Run the backend binary.
 CMD ["/backend"]
