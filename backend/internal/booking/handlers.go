@@ -7,7 +7,6 @@ import (
 	"backend/models"
 	"backend/utils"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -17,12 +16,6 @@ import (
 
 // VehicleTypes handler returns a list of vehicle types.
 func VehicleTypes(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
-
-	torontoTZ, err := time.LoadLocation("America/Toronto")
-	fmt.Printf("CreateBooking > time --- %s\n", time.Now().Format("2006-01-02 15:04:05.000000"))
-	fmt.Printf("CreateBooking > time UTC %s\n", time.Now().In(time.UTC).Format("2006-01-02 15:04:05.000000"))
-	fmt.Printf("CreateBooking > time TORONTO %s\n", time.Now().In(torontoTZ).Format("2006-01-02 15:04:05.000000"))
-
 	businessName := r.Header.Get("Business-Name")
 
 	business, err := db.GetBusinessByBusinessName(businessName)
@@ -183,6 +176,12 @@ func Bookings(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 		return
 	}
 
+	businessTZ, err := time.LoadLocation(business.Timezone)
+	if err != nil {
+		utils.ErrorJSON(w, err, http.StatusBadRequest)
+		return
+	}
+
 	date, err := time.Parse("2006-01-02", dateInput)
 	if err != nil {
 		utils.ErrorJSON(w, err, http.StatusBadRequest)
@@ -214,7 +213,7 @@ func Bookings(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 			ID:          booking.ID,
 			VehicleType: vehicleType.Name,
 			ServiceType: serviceType.Name,
-			Datetime:    booking.Datetime,
+			Datetime:    booking.Datetime.In(businessTZ),
 			Status:      booking.Status,
 		}
 
