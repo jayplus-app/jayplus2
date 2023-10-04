@@ -68,6 +68,7 @@ export const formatDateToRelativeOrMMMDDForm = (
  */
 export const extractDateFromISOString = (datetime: string) => {
 	const dateObj = new Date(datetime)
+	console.log('date: ', datetime, 'dateObj: ', dateObj)
 	const year = dateObj.getUTCFullYear()
 	const month = String(dateObj.getUTCMonth() + 1).padStart(2, '0') // Months are 0-based
 	const day = String(dateObj.getUTCDate()).padStart(2, '0')
@@ -81,7 +82,7 @@ export const extractDateFromISOString = (datetime: string) => {
  */
 export const extractTimeFromISOString = (datetime: string) => {
 	const dateObj = new Date(datetime)
-	const hours = String(dateObj.getUTCHours()).padStart(2, '0')
-	const minutes = String(dateObj.getUTCMinutes()).padStart(2, '0')
+	const hours = String(dateObj.getHours()).padStart(2, '0')
+	const minutes = String(dateObj.getMinutes()).padStart(2, '0')
 	return `${hours}:${minutes}`
 }
