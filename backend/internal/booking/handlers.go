@@ -400,7 +400,7 @@ func CreateBooking(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 		return
 	}
 
-	datetime, err := time.Parse("2006-01-02T15:04:05Z", requestBody.Datetime)
+	datetime, err := time.Parse(time.RFC3339, requestBody.Datetime)
 	if err != nil {
 		utils.ErrorJSON(w, err, http.StatusBadRequest)
 		return
@@ -545,7 +545,7 @@ func CreateBookingAdmin(w http.ResponseWriter, r *http.Request, db db.DBInterfac
 		return
 	}
 
-	datetime, err := time.Parse("2006-01-02T15:04:05Z", requestBody.Datetime)
+	datetime, err := time.Parse(time.RFC3339, requestBody.Datetime)
 	if err != nil {
 		utils.ErrorJSON(w, err, http.StatusBadRequest)
 		return

@@ -6,6 +6,7 @@ import (
 	"backend/internal/auth"
 	"backend/internal/db"
 	"log"
+	_ "time/tzdata"
 )
 
 func main() {
