@@ -7,14 +7,14 @@ import (
 )
 
 // GetBookingTimeslots retrieves all booking timeslots.
-func GetBookingTimeslots(db db.DBInterface, businessID int, serviceTypeID int, vehicleTypeID int, date time.Time) ([]*models.TimeSlot, error) {
-	dbTimezone, err := time.LoadLocation("UTC")
+func GetBookingTimeslots(db db.DBInterface, business *models.Business, serviceTypeID int, vehicleTypeID int, date time.Time) ([]*models.TimeSlot, error) {
+	businessTZ, err := time.LoadLocation(business.Timezone)
 	if err != nil {
 		return nil, err
 	}
 
 	// TODO: Rename GetServiceDetail to GetServiceDetails
-	serviceDetails, err := db.GetServiceDetail(businessID, vehicleTypeID, serviceTypeID)
+	serviceDetails, err := db.GetServiceDetail(business.ID, vehicleTypeID, serviceTypeID)
 	if err != nil {
 		return nil, err
 	}
@@ -27,13 +27,17 @@ func GetBookingTimeslots(db db.DBInterface, businessID int, serviceTypeID int, v
 	maxOverflow := int(float32(timeslotManminutes) * threshold)
 
 	// Set up the reception start and end times
-	receptionStart := date.Add(time.Hour * 9)                      // TODO: [THREAD:3] Read from config
-	receptionEnd := date.Add(time.Hour * 17).Add(time.Minute * 30) // TODO: [THREAD:3] Read from config
+	startHour := 9   // TODO: [THREAD:3] Read from config
+	startMinute := 0 // TODO: [THREAD:3] Read from config
+	endHour := 17    // TODO: [THREAD:3] Read from config
+	endMinute := 30  // TODO: [THREAD:3] Read from config
+	receptionStart := time.Date(date.Year(), date.Month(), date.Day(), startHour, startMinute, 0, 0, businessTZ)
+	receptionEnd := time.Date(date.Year(), date.Month(), date.Day(), endHour, endMinute, 0, 0, businessTZ)
 	start := receptionStart
 	end := start.Add(time.Duration(timeslotMinutes) * time.Minute)
 
 	// Retrieve booked timeslots within the day
-	bookings, err := db.GetBookingsByDate(businessID, date)
+	bookings, err := db.GetBookingsByDate(business.ID, date)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +49,7 @@ func GetBookingTimeslots(db db.DBInterface, businessID int, serviceTypeID int, v
 	lastOverflow := 0
 
 	for i := 0; i < timeslotCount; i++ {
-		isPast := time.Now().In(dbTimezone).After(start)
+		isPast := time.Now().After(start)
 		isLastTimeslot := receptionEnd.Before(end)
 
 		sum := 0
