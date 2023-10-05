@@ -88,6 +88,12 @@ func GetBookingTimeslots(db db.DBInterface, business *models.Business, serviceTy
 
 		start = end
 		end = start.Add(time.Duration(timeslotMinutes) * time.Minute)
+
+		// Update last overflow
+		lastOverflow = sum - timeslotManminutes - lastOverflow
+		if lastOverflow < 0 {
+			lastOverflow = 0
+		}
 	}
 
 	return timeslots, nil
