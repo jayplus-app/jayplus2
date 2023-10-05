@@ -264,6 +264,7 @@ func (db *DB) GetBookingsByDate(businessID int, date time.Time) ([]*models.Booki
 			&booking.VehicleTypeID,
 			&booking.ServiceTypeID,
 			&booking.Datetime,
+			&booking.EstimatedMinutes,
 			&booking.Cost,
 			&booking.Discount,
 			&booking.Deposit,
