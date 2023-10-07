@@ -63,12 +63,12 @@ func GetBookingTimeslots(db db.DBInterface, business *models.Business, serviceTy
 		}
 
 		nextOverflow := 0
-		if calcNextOverflow := sumNext - timeslotManminutes; calcNextOverflow > 0 {
-			nextOverflow = calcNextOverflow
+		if sumNext > timeslotManminutes {
+			nextOverflow = sumNext - timeslotManminutes
 		}
 
 		allowedOverflow := 0
-		if !isLastTimeslot {
+		if !isLastTimeslot && maxOverflow > nextOverflow {
 			allowedOverflow = maxOverflow - nextOverflow
 		}
 
