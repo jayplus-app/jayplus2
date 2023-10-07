@@ -68,13 +68,13 @@ func GetBookingTimeslots(db db.DBInterface, business *models.Business, serviceTy
 		}
 
 		allowedOverflow := 0
-		if isLastTimeslot {
+		if !isLastTimeslot {
 			allowedOverflow = maxOverflow - nextOverflow
 		}
 
 		maxCalc := timeslotManminutes + allowedOverflow - lastOverflow
 		remained := maxCalc - sum
-		available := !isPast && (remained-serviceDetails.DurationMinutes >= 0)
+		available := !isPast && (remained+allowedOverflow-serviceDetails.DurationMinutes >= 0)
 
 		timeslot := models.TimeSlot{
 			StartTime:   start,
