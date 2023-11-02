@@ -7,6 +7,7 @@ import (
 	"backend/models"
 	"backend/utils"
 	"errors"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -17,6 +18,8 @@ import (
 // VehicleTypes handler returns a list of vehicle types.
 func VehicleTypes(w http.ResponseWriter, r *http.Request, db db.DBInterface) {
 	businessName := r.Header.Get("Business-Name")
+
+	log.Println(businessName)
 
 	business, err := db.GetBusinessByBusinessName(businessName)
 	if err != nil {
