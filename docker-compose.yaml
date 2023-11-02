@@ -27,14 +27,14 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "90:90"
+      - "90:80"
 
   website:
     build:
       context: ./website
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "3000:80"
 
   nginx:
     build:
